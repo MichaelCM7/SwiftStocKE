@@ -1,14 +1,23 @@
 import express from "express";
 import { PORT } from "./config/env.js";
+// Database
 import connectDB from "./database/dbconnection.js";
+// Nodemailer
 import transporter from "./config/mailer.js";
+// External middlewares
+import cookieParser from "cookie-parser";
+import { urlencoded } from "express";
+// API Routes
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 // External Middlewares
 app.use(express.json());
+app.use(urlencoded({ extended: false }));
+app.use(cookieParser());
 
-app.use('/api/auth/', () => {});
-
+// API Routes
+app.use('/api/auth/', authRoutes);
 
 
 app.listen(PORT, async () => {
@@ -16,6 +25,7 @@ app.listen(PORT, async () => {
   await connectDB();
 });
 
+// Test Nodemailer transporter
 try {
   await transporter.verify();
   console.log("Server is ready to take our messages");
