@@ -25,10 +25,10 @@ app.listen(PORT, async () => {
   await connectDB();
 });
 
-// Test Nodemailer transporter
-try {
-  await transporter.verify();
-  console.log("Server is ready to take our messages");
-} catch (err) {
-  console.error("Verification failed:", err);
-}
+// Test Nodemailer transporter (Uncomment When Sending Emails)
+// try {
+//   await transporter.verify();
+//   console.log("Server is ready to take our messages");
+// } catch (err) {
+//   console.error("Verification failed:", err);
+// }
