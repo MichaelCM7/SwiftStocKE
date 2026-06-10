@@ -8,7 +8,7 @@ import transporter from "./config/mailer.js";
 import cookieParser from "cookie-parser";
 import { urlencoded } from "express";
 // API Routes
-import authRoutes from "./routes/authRoutes.js";
+import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
 // External Middlewares
