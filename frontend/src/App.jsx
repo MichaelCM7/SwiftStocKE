@@ -1,24 +1,24 @@
 import { Routes, Route } from 'react-router';
 import './App.css';
 // General
-import Home from "./pages/Home/Home"
+import { Home } from "./pages/Home/Home"
 // Main App Function Pages
-import Analytics from "./pages/Analytics/Analytics"
-import Sales from "./pages/Sales/Sales"
-import History from "./pages/History/History"
-import ManageStock from "./pages/ManageStock/ManageStock"
-import AddNewItem from "./pages/ManageStock/AddNewItem/AddNewItem"
-import EditItem from "./pages/ManageStock/EditItem/EditItem"
-import SaleID from "./pages/Sales/SaleID/SaleID"
-import RecordNewSale from "./pages/Sales/RecordNewSale/RecordNewSale"
+import { Analytics } from "./pages/Analytics/Analytics"
+import { Sales } from "./pages/Sales/Sales"
+import { History } from "./pages/History/History"
+import { ManageStock } from "./pages/ManageStock/ManageStock"
+import { AddNewItem } from "./pages/ManageStock/AddNewItem/AddNewItem"
+import { EditItem } from "./pages/ManageStock/EditItem/EditItem"
+import { SaleID } from "./pages/Sales/SaleID/SaleID"
+import { RecordNewSale } from "./pages/Sales/RecordNewSale/RecordNewSale"
 // Authentication pages
-import SignIn from "./pages/Authentication/SignIn/SignIn"
-import SignUp from "./pages/Authentication/SignUp/SignUp"
-import ForgotPassword from "./pages/Authentication/ForgotPassword/ForgotPassword"
-import VerifyOTP from "./pages/Authentication/VerifyOTP/VerifyOTP"
-import ResetPassword from "./pages/Authentication/ResetPassword/ResetPassword"
+import { SignIn } from "./pages/Authentication/SignIn/SignIn"
+import { SignUp } from "./pages/Authentication/SignUp/SignUp"
+import { ForgotPassword } from "./pages/Authentication/ForgotPassword/ForgotPassword"
+import { VerifyOTP } from "./pages/Authentication/VerifyOTP/VerifyOTP"
+import { ResetPassword } from "./pages/Authentication/ResetPassword/ResetPassword"
 // Error pages
-import PageNotFound from "./pages/Error/PageNotFound"
+import { PageNotFound } from "./pages/Error/PageNotFound"
 
 function App() {
   return (
