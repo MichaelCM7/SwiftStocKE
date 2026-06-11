@@ -11,6 +11,7 @@ import { AddNewItem } from "./pages/ManageStock/AddNewItem/AddNewItem"
 import { EditItem } from "./pages/ManageStock/EditItem/EditItem"
 import { SaleID } from "./pages/Sales/SaleID/SaleID"
 import { RecordNewSale } from "./pages/Sales/RecordNewSale/RecordNewSale"
+import { Restock } from "./pages/ManageStock/Restock/Restock"
 // Authentication pages
 import { SignIn } from "./pages/Authentication/SignIn/SignIn"
 import { SignUp } from "./pages/Authentication/SignUp/SignUp"
@@ -35,6 +36,7 @@ function App() {
       <Route path="/EditItem" element={<EditItem />} />
       <Route path="/Sales/:saleID" element={<SaleID />} />
       <Route path="/RecordNewSale" element={<RecordNewSale />} />
+      <Route path="/Restock" element={<Restock />} />
 
       {/* Authentication pages */}
       <Route path="/SignIn" element={<SignIn />} />
