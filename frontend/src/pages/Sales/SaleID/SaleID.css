@@ -1,0 +1,94 @@
+/* SaleID.css */
+@import '../Sales.css';
+
+/* Custom styling for SaleID specific components */
+.sales-title-bar-id {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.btn-back-sales {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-back-sales:hover {
+  background-color: #333333;
+  transform: translateX(-3px);
+}
+
+.btn-back-sales:active {
+  transform: translateX(0);
+}
+
+.btn-icon-back {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  transition: transform 0.2s ease;
+}
+
+.btn-back-sales:hover .btn-icon-back {
+  transform: translateX(-2px);
+}
+
+.sales-id-header {
+  margin-top: 8px;
+}
+
+.sales-quantity {
+  font-weight: 500;
+  color: #333333;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.table-row-animate {
+  opacity: 0;
+  animation: slideInRow 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.table-row-animate:nth-child(1) { animation-delay: 0.05s; }
+.table-row-animate:nth-child(2) { animation-delay: 0.1s; }
+.table-row-animate:nth-child(3) { animation-delay: 0.15s; }
+.table-row-animate:nth-child(4) { animation-delay: 0.2s; }
+.table-row-animate:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes slideInRow {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

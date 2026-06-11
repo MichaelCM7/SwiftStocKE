@@ -24,7 +24,7 @@ function App() {
   return (
     <Routes>
       {/* General */}
-      <Route path="/Home" element={<Home />} />
+      <Route path="/" element={<Home />} />
 
       {/* Main App Function Pages */}
       <Route path="/Analytics" element={<Analytics />} />
@@ -33,7 +33,7 @@ function App() {
       <Route path="/ManageStock" element={<ManageStock />} />
       <Route path="/AddNewItem" element={<AddNewItem />} />
       <Route path="/EditItem" element={<EditItem />} />
-      <Route path="/SaleID/:saleID" element={<SaleID />} />
+      <Route path="/Sales/:saleID" element={<SaleID />} />
       <Route path="/RecordNewSale" element={<RecordNewSale />} />
 
       {/* Authentication pages */}
