@@ -66,6 +66,7 @@ export function Home() {
       <section className="home-hero-section">
         <div className="hero-content">
           <h1 className="hero-title">Master Your Supply Chain</h1>
+
           <p className="hero-subtitle">Because Precision Matters</p>
           <Link to="/SignUp" className="btn-get-started">Get Started</Link>
         </div>
