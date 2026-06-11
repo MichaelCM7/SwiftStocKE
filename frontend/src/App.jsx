@@ -24,7 +24,7 @@ function App() {
   return (
     <Routes>
       {/* General */}
-      <Route path="/" element={<Home />} />
+      <Route path="/Home" element={<Home />} />
 
       {/* Main App Function Pages */}
       <Route path="/Analytics" element={<Analytics />} />
