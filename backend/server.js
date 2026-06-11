@@ -32,6 +32,3 @@ app.listen(PORT, async () => {
 // } catch (err) {
 //   console.error("Verification failed:", err);
 // }
-
-
-// hello
