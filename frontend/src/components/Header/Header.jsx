@@ -7,7 +7,7 @@ export function Header({ isAuthorized }) {
     <header className="header">
       <Link to={isAuthorized ? "/Analytics" : "/"} className="header-logo-container">
         <FiImage className="header-logo-icon" />
-        <span className="project-name">Project Name</span>
+        <span className="project-name">SwiftStock</span>
       </Link>
 
       {isAuthorized && (

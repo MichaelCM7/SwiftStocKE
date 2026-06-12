@@ -131,7 +131,7 @@ export function Restock({ isAuthorized, setIsAuthorized }) {
         <div className="footer-top">
           <div className="footer-brand">
             <ImageIcon className="footer-logo-icon" />
-            <span className="footer-website-name">&lt;Website Name&gt;</span>
+            <span className="footer-website-name">SwiftStock</span>
           </div>
           <div className="footer-links-container">
             <div className="footer-links-column">
@@ -149,7 +149,7 @@ export function Restock({ isAuthorized, setIsAuthorized }) {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>©2026 &lt;Website Name&gt;. All Rights Reserved.</p>
+          <p>©2026 SwiftStock. All Rights Reserved.</p>
         </div>
       </footer>
     </div>

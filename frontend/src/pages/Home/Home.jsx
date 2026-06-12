@@ -1,8 +1,11 @@
 import { Link } from 'react-router';
 import { Header } from '../../components/Header/Header';
+import { Footer } from '../../components/Footer/Footer';
 import './Home.css';
 
-export function Home({ isAuthorized }) {
+export function Home({ isAuthorized, setIsAuthorized }) {
+  setIsAuthorized(false);
+
   // SVG Icons for Feature Cards
   const MonitoringIcon = () => (
     <svg className="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -66,9 +69,9 @@ export function Home({ isAuthorized }) {
 
       {/* Intro Section */}
       <section className="home-intro-section">
-        <h2 className="section-title">What is &lt;Website Name&gt;?</h2>
+        <h2 className="section-title">What is SwiftStock?</h2>
         <p className="section-description">
-          Transform your daily operations with &lt;Website Name&gt;, a stock tracking system built specifically for the modern retailer. This platform empowers shop owners to move away from the guesswork of manual tracking that leads to capital wastage and business hindrances. By providing a centralized, web-based platform to monitor your goods, simplifies management and enhances your productivity, allowing you to focus on delivering better service to your customers. Experience the peace of mind that comes with total visibility over your stock.
+          Transform your daily operations with SwiftStock, a stock tracking system built specifically for the modern retailer. This platform empowers shop owners to move away from the guesswork of manual tracking that leads to capital wastage and business hindrances. By providing a centralized, web-based platform to monitor your goods, simplifies management and enhances your productivity, allowing you to focus on delivering better service to your customers. Experience the peace of mind that comes with total visibility over your stock.
         </p>
 
         {/* Feature Cards Grid */}
@@ -135,7 +138,7 @@ export function Home({ isAuthorized }) {
 
       {/* How it Works Section */}
       <section className="home-how-it-works-section">
-        <h2 className="section-title">How &lt;Website Name&gt; Works</h2>
+        <h2 className="section-title">How SwiftStock Works</h2>
         <p className="section-subtitle-small">Experience Total Control in 3 Simple Steps</p>
 
         <div className="steps-container">
@@ -169,7 +172,7 @@ export function Home({ isAuthorized }) {
       <footer className="home-footer">
         <div className="footer-top">
           <div className="footer-brand">
-            <span className="footer-website-name">&lt;Website Name&gt;</span>
+            <span className="footer-website-name">SwiftStock</span>
           </div>
           <div className="footer-links-container">
             <div className="footer-links-column">
@@ -184,7 +187,7 @@ export function Home({ isAuthorized }) {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>©2026 &lt;Website Name&gt;. All Rights Reserved.</p>
+          <p>©2026 SwiftStock. All Rights Reserved.</p>
         </div>
       </footer>
     </div>

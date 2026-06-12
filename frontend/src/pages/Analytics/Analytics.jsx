@@ -1,6 +1,8 @@
 import { Link } from 'react-router';
 import './Analytics.css';
 import { Header } from '../../components/Header/Header';
+import { Footer } from '../../components/Footer/Footer';
+import { useEffect, useState } from 'react';
 
 // --- Inline SVG Charts ---
 
@@ -125,7 +127,9 @@ function LineChart() {
 // --- Main Component ---
 
 export function Analytics({ isAuthorized, setIsAuthorized }) {
-  setIsAuthorized(true);
+  useEffect(() => {
+    setIsAuthorized(true);
+  }, [])
 
   const ImageIcon = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -227,31 +231,7 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
       </main>
 
       {/* ── Footer ── */}
-      <footer className="analytics-footer">
-        <div className="footer-top">
-          <div className="footer-brand">
-            <span className="footer-website-name">&lt;Website Name&gt;</span>
-          </div>
-          <div className="footer-links-container">
-            <div className="footer-links-column">
-              <Link to="/Analytics">Analytics</Link>
-              <Link to="/Sales">Sales</Link>
-              <Link to="/ManageStock">Manage Stock</Link>
-              <Link to="/History">History</Link>
-              <Link to="/SignIn">Log Out</Link>
-            </div>
-            <div className="footer-links-column">
-              <a href="#terms">Terms and Conditions</a>
-              <a href="#privacy">Privacy Policy</a>
-              <a href="#cookies">Manage Cookies</a>
-            </div>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <p>©2026 &lt;Website Name&gt;. All Rights Reserved.</p>
-        </div>
-      </footer>
-
+      <Footer isAuthorized={isAuthorized} />
     </div>
   );
 }

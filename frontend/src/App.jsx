@@ -28,7 +28,7 @@ function App() {
   return (
     <Routes>
       {/* General */}
-      <Route path="/" element={<Home isAuthorized={isAuthorized} />} />
+      <Route path="/" element={<Home isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
 
       {/* Main App Function Pages */}
       <Route path="/Analytics" element={<Analytics isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
