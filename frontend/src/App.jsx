@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router';
+import { useState } from 'react';
 import './App.css';
 // General
 import { Home } from "./pages/Home/Home"
@@ -22,28 +23,30 @@ import { ResetPassword } from "./pages/Authentication/ResetPassword/ResetPasswor
 import { PageNotFound } from "./pages/Error/PageNotFound"
 
 function App() {
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
   return (
     <Routes>
       {/* General */}
       <Route path="/" element={<Home />} />
 
       {/* Main App Function Pages */}
-      <Route path="/Analytics" element={<Analytics />} />
-      <Route path="/Sales" element={<Sales />} />
-      <Route path="/History" element={<History />} />
-      <Route path="/ManageStock" element={<ManageStock />} />
-      <Route path="/AddNewItem" element={<AddNewItem />} />
-      <Route path="/EditItem" element={<EditItem />} />
-      <Route path="/Sales/:saleID" element={<SaleID />} />
-      <Route path="/RecordNewSale" element={<RecordNewSale />} />
-      <Route path="/Restock" element={<Restock />} />
+      <Route path="/Analytics" element={<Analytics isAuthorized={isAuthorized} />} />
+      <Route path="/Sales" element={<Sales isAuthorized={isAuthorized} />} />
+      <Route path="/History" element={<History isAuthorized={isAuthorized} />} />
+      <Route path="/ManageStock" element={<ManageStock isAuthorized={isAuthorized} />} />
+      <Route path="/AddNewItem" element={<AddNewItem isAuthorized={isAuthorized} />} />
+      <Route path="/EditItem" element={<EditItem isAuthorized={isAuthorized} />} />
+      <Route path="/Sales/:saleID" element={<SaleID isAuthorized={isAuthorized} />} />
+      <Route path="/RecordNewSale" element={<RecordNewSale isAuthorized={isAuthorized} />} />
+      <Route path="/Restock" element={<Restock isAuthorized={isAuthorized} />} />
 
       {/* Authentication pages */}
-      <Route path="/SignIn" element={<SignIn />} />
-      <Route path="/SignUp" element={<SignUp />} />
-      <Route path="/ForgotPassword" element={<ForgotPassword />} />
-      <Route path="/VerifyOTP" element={<VerifyOTP />} />
-      <Route path="ResetPassword" element={<ResetPassword />} />
+      <Route path="/SignIn" element={<SignIn isAuthorized={isAuthorized} />} />
+      <Route path="/SignUp" element={<SignUp isAuthorized={isAuthorized} />} />
+      <Route path="/ForgotPassword" element={<ForgotPassword isAuthorized={isAuthorized} />} />
+      <Route path="/VerifyOTP" element={<VerifyOTP isAuthorized={isAuthorized} />} />
+      <Route path="ResetPassword" element={<ResetPassword isAuthorized={isAuthorized} />} />
 
       {/* Error pages */}
       <Route path="*" element={<PageNotFound />} />

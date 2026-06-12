@@ -1,9 +1,35 @@
+import { Link } from 'react-router';
 import './Header.css';
 
-export function Header() {
+export function Header({ isAuthorized }) {
   return (
-    <div className='header'>
-      <h1>Header</h1>
-    </div>
-  )
+    <header className="header">
+      <Link to="/" className="header-logo-container">
+        <ImageIcon className="header-logo-icon" />
+        <span className="project-name">Project Name</span>
+      </Link>
+
+      {isAuthorized && (
+        <nav className="header-nav">
+          <Link to="/Analytics" className="nav-item">Analytics</Link>
+          <Link to="/Sales" className="nav-item">Sales</Link>
+          <Link to="/ManageStock" className="nav-item">Manage Stock</Link>
+          <Link to="/History" className="nav-item">History</Link>
+        </nav>
+      )}
+
+      <div className="header-buttons">
+        {isAuthorized && (
+          <Link to="/SignIn" className="btn-logout">Log Out</Link>
+        )}
+
+        {!isAuthorized && (
+          <>
+            <Link to="/SignUp" className="btn-signup">Sign Up</Link>
+            <Link to="/SignIn" className="btn-signin">Sign In</Link>
+          </>
+        )}
+      </div>
+    </header>
+  );
 }
