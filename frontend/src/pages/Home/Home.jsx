@@ -1,7 +1,8 @@
 import { Link } from 'react-router';
+import { Header } from '../../components/Header/Header';
 import './Home.css';
 
-export function Home() {
+export function Home({ isAuthorized }) {
   // SVG Icons for Feature Cards
   const MonitoringIcon = () => (
     <svg className="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -51,16 +52,7 @@ export function Home() {
   return (
     <div className="home-page-container">
       {/* Header */}
-      <header className="home-header">
-        <div className="header-logo-container">
-          <ImageIcon className="header-logo-icon" />
-          <span className="project-name">Project Name</span>
-        </div>
-        <div className="header-buttons">
-          <Link to="/SignUp" className="btn-signup-link">Sign Up</Link>
-          <Link to="/SignIn" className="btn-signin-nav">Sign In</Link>
-        </div>
-      </header>
+      <Header isAuthorized={isAuthorized} />
 
       {/* Hero Section */}
       <section className="home-hero-section">

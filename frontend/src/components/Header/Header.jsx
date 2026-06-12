@@ -1,11 +1,12 @@
 import { Link } from 'react-router';
+import { FiImage } from "react-icons/fi";
 import './Header.css';
 
 export function Header({ isAuthorized }) {
   return (
     <header className="header">
       <Link to="/" className="header-logo-container">
-        <ImageIcon className="header-logo-icon" />
+        <FiImage className="header-logo-icon" />
         <span className="project-name">Project Name</span>
       </Link>
 
