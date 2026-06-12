@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import './ForgotPassword.css';
+import { Header } from '../../../components/Header/Header';
 
-export function ForgotPassword() {
+export function ForgotPassword({ isAuthorized, setIsAuthorized }) {
+  setIsAuthorized(false);
+
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -52,16 +55,7 @@ export function ForgotPassword() {
   return (
     <div className="forgotpassword-page-container">
       {/* Header */}
-      <header className="forgotpassword-header">
-        <div className="header-logo-container">
-          <ImageIcon className="header-logo-icon" />
-          <span className="project-name">Project Name</span>
-        </div>
-        <div className="header-buttons">
-          <Link to="/SignUp" className="btn-signup-link">Sign Up</Link>
-          <Link to="/SignIn" className="btn-signin-nav">Sign In</Link>
-        </div>
-      </header>
+      <Header isAuthorized={isAuthorized} />
 
       {/* Main Content */}
       <main className="forgotpassword-main-content">

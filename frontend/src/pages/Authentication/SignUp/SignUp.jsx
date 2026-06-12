@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import './SignUp.css';
+import { Header } from '../../../components/Header/Header';
 
-export function SignUp() {
+export function SignUp({ isAuthorized, setIsAuthorized }) {
+  setIsAuthorized(false);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -60,16 +63,7 @@ export function SignUp() {
   return (
     <div className="signup-page-container">
       {/* Header */}
-      <header className="signup-header">
-        <div className="header-logo-container">
-          <ImageIcon className="header-logo-icon" />
-          <span className="project-name">Project Name</span>
-        </div>
-        <div className="header-buttons">
-          <Link to="/SignUp" className="btn-signup-link">Sign Up</Link>
-          <Link to="/SignIn" className="btn-signin-nav">Sign In</Link>
-        </div>
-      </header>
+      <Header isAuthorized={isAuthorized} />
 
       {/* Main Content */}
       <main className="signup-main-content">

@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import './VerifyOTP.css';
+import { Header } from '../../../components/Header/Header';
 
-export function VerifyOTP() {
+export function VerifyOTP({ isAuthorized, setIsAuthorized }) {
+  setIsAuthorized(false);
+
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -22,7 +25,7 @@ export function VerifyOTP() {
       if (result.data.success) {
         setSuccess('OTP verified successfully! Redirecting...');
         setTimeout(() => {
-          navigate('/Home'); // Redirect as appropriate
+          navigate('/Analytics'); // Redirect as appropriate
         }, 1500);
       }
     } catch (error) {
@@ -64,16 +67,7 @@ export function VerifyOTP() {
   return (
     <div className="verifyotp-page-container">
       {/* Header */}
-      <header className="verifyotp-header">
-        <div className="header-logo-container">
-          <ImageIcon className="header-logo-icon" />
-          <span className="project-name">Project Name</span>
-        </div>
-        <div className="header-buttons">
-          <Link to="/SignUp" className="btn-signup-link">Sign Up</Link>
-          <Link to="/SignIn" className="btn-signin-nav">Sign In</Link>
-        </div>
-      </header>
+      <Header isAuthorized={isAuthorized} />
 
       {/* Main Content */}
       <main className="verifyotp-main-content">

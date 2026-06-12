@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import './ResetPassword.css';
+import { Header } from '../../../components/Header/Header';
 
-export function ResetPassword() {
+export function ResetPassword({ isAuthorized, setIsAuthorized }) {
+  setIsAuthorized(false);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -60,16 +63,7 @@ export function ResetPassword() {
   return (
     <div className="resetpassword-page-container">
       {/* Header */}
-      <header className="resetpassword-header">
-        <div className="header-logo-container">
-          <ImageIcon className="header-logo-icon" />
-          <span className="project-name">Project Name</span>
-        </div>
-        <div className="header-buttons">
-          <Link to="/SignUp" className="btn-signup-link">Sign Up</Link>
-          <Link to="/SignIn" className="btn-signin-nav">Sign In</Link>
-        </div>
-      </header>
+      <Header isAuthorized={isAuthorized} />
 
       {/* Main Content */}
       <main className="resetpassword-main-content">

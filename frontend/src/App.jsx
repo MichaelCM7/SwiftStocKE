@@ -31,22 +31,22 @@ function App() {
       <Route path="/" element={<Home isAuthorized={isAuthorized} />} />
 
       {/* Main App Function Pages */}
-      <Route path="/Analytics" element={<Analytics isAuthorized={isAuthorized} />} />
-      <Route path="/Sales" element={<Sales isAuthorized={isAuthorized} />} />
-      <Route path="/History" element={<History isAuthorized={isAuthorized} />} />
-      <Route path="/ManageStock" element={<ManageStock isAuthorized={isAuthorized} />} />
-      <Route path="/AddNewItem" element={<AddNewItem isAuthorized={isAuthorized} />} />
-      <Route path="/EditItem" element={<EditItem isAuthorized={isAuthorized} />} />
-      <Route path="/Sales/:saleID" element={<SaleID isAuthorized={isAuthorized} />} />
-      <Route path="/RecordNewSale" element={<RecordNewSale isAuthorized={isAuthorized} />} />
-      <Route path="/Restock" element={<Restock isAuthorized={isAuthorized} />} />
+      <Route path="/Analytics" element={<Analytics isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/Sales" element={<Sales isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/History" element={<History isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/ManageStock" element={<ManageStock isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/AddNewItem" element={<AddNewItem isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/EditItem" element={<EditItem isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/Sales/:saleID" element={<SaleID isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/RecordNewSale" element={<RecordNewSale isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/Restock" element={<Restock isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
 
       {/* Authentication pages */}
-      <Route path="/SignIn" element={<SignIn isAuthorized={isAuthorized} />} />
-      <Route path="/SignUp" element={<SignUp isAuthorized={isAuthorized} />} />
-      <Route path="/ForgotPassword" element={<ForgotPassword isAuthorized={isAuthorized} />} />
-      <Route path="/VerifyOTP" element={<VerifyOTP isAuthorized={isAuthorized} />} />
-      <Route path="ResetPassword" element={<ResetPassword isAuthorized={isAuthorized} />} />
+      <Route path="/SignIn" element={<SignIn isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/SignUp" element={<SignUp isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/ForgotPassword" element={<ForgotPassword isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/VerifyOTP" element={<VerifyOTP isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="ResetPassword" element={<ResetPassword isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
 
       {/* Error pages */}
       <Route path="*" element={<PageNotFound />} />

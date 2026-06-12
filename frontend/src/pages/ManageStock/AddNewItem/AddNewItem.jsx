@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import './AddNewItem.css';
+import { Header } from '../../../components/Header/Header';
 
-export function AddNewItem() {
+export function AddNewItem({ isAuthorized, setIsAuthorized }) {
+  setIsAuthorized(true);
   const navigate = useNavigate();
 
   const [itemName, setItemName] = useState('');
@@ -65,21 +67,7 @@ export function AddNewItem() {
   return (
     <div className="sales-page-container">
       {/* Header */}
-      <header className="sales-header">
-        <Link to="/" className="header-logo-container">
-          <ImageIcon className="header-logo-icon" />
-          <span className="project-name">Project Name</span>
-        </Link>
-        <nav className="sales-nav">
-          <Link to="/Analytics" className="nav-item">Analytics</Link>
-          <Link to="/Sales" className="nav-item">Sales</Link>
-          <Link to="/ManageStock" className="nav-item active">Manage Stock</Link>
-          <Link to="/History" className="nav-item">History</Link>
-        </nav>
-        <div className="header-buttons">
-          <Link to="/SignIn" className="btn-logout">Log Out</Link>
-        </div>
-      </header>
+      <Header isAuthorized={isAuthorized} />
 
       {/* Main Content Area */}
       <main className="sales-main">

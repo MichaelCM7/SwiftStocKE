@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import './ManageStock.css';
+import { Header } from '../../components/Header/Header';
 
-export function ManageStock() {
+export function ManageStock({ isAuthorized, setIsAuthorized }) {
+  setIsAuthorized(true);
   // Mock data of 10 stock items conforming to the Figma mockup
   const initialStock = Array.from({ length: 10 }, (_, i) => {
     const qty = [50, 15, 0, 8, 120, 2, 40, 90, 5, 200][i];
@@ -108,21 +110,7 @@ export function ManageStock() {
   return (
     <div className="sales-page-container">
       {/* Header */}
-      <header className="sales-header">
-        <Link to="/" className="header-logo-container">
-          <ImageIcon className="header-logo-icon" />
-          <span className="project-name">Project Name</span>
-        </Link>
-        <nav className="sales-nav">
-          <Link to="/Analytics" className="nav-item">Analytics</Link>
-          <Link to="/Sales" className="nav-item">Sales</Link>
-          <Link to="/ManageStock" className="nav-item active">Manage Stock</Link>
-          <Link to="/History" className="nav-item">History</Link>
-        </nav>
-        <div className="header-buttons">
-          <Link to="/SignIn" className="btn-logout">Log Out</Link>
-        </div>
-      </header>
+      <Header isAuthorized={isAuthorized} />
 
       {/* Main Content Area */}
       <main className="sales-main">

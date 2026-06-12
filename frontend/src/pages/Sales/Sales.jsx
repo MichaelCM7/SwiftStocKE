@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import './Sales.css';
+import { Header } from '../../components/Header/Header';
 
-export function Sales() {
+export function Sales({ isAuthorized, setIsAuthorized }) {
+  setIsAuthorized(true);
+
   // Sample data conforming to the Figma mockup (10 sales)
   const initialSales = Array.from({ length: 10 }, (_, i) => ({
     id: i + 1,
@@ -72,21 +75,7 @@ export function Sales() {
   return (
     <div className="sales-page-container">
       {/* Header */}
-      <header className="sales-header">
-        <Link to="/" className="header-logo-container">
-          <ImageIcon className="header-logo-icon" />
-          <span className="project-name">Project Name</span>
-        </Link>
-        <nav className="sales-nav">
-          <Link to="/Analytics" className="nav-item">Analytics</Link>
-          <Link to="/Sales" className="nav-item active">Sales</Link>
-          <Link to="/ManageStock" className="nav-item">Manage Stock</Link>
-          <Link to="/History" className="nav-item">History</Link>
-        </nav>
-        <div className="header-buttons">
-          <Link to="/SignIn" className="btn-logout">Log Out</Link>
-        </div>
-      </header>
+      <Header isAuthorized={isAuthorized} />
 
       {/* Main Content Area */}
       <main className="sales-main">

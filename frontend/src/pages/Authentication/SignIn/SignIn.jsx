@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import './SignIn.css';
+import { Header } from '../../../components/Header/Header';
 
-export function SignIn() {
+export function SignIn({ isAuthorized, setIsAuthorized }) {
+  setIsAuthorized(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -23,7 +25,7 @@ export function SignIn() {
       if (result.data.success) {
         setSuccess('Successfully signed in! Redirecting...');
         setTimeout(() => {
-          navigate('/Home'); // Or whichever default page is appropriate
+          navigate('/Analytics'); // Redirect to dashboard
         }, 1500);
       }
     } catch (error) {
@@ -53,16 +55,7 @@ export function SignIn() {
   return (
     <div className="signin-page-container">
       {/* Header */}
-      <header className="signin-header">
-        <div className="header-logo-container">
-          <ImageIcon className="header-logo-icon" />
-          <span className="project-name">Project Name</span>
-        </div>
-        <div className="header-buttons">
-          <Link to="/SignUp" className="btn-signup-link">Sign Up</Link>
-          <Link to="/SignIn" className="btn-signin-nav">Sign In</Link>
-        </div>
-      </header>
+      <Header isAuthorized={isAuthorized} />
 
       {/* Main Content */}
       <main className="signin-main-content">

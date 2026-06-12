@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import './History.css';
+import { Header } from '../../components/Header/Header';
 
-export function History() {
+export function History({ isAuthorized, setIsAuthorized }) {
+  setIsAuthorized(true);
   // 10 mock history items conforming to the Figma mockup layout
   const mockHistoryData = Array.from({ length: 10 }, (_, i) => ({
     id: i + 1,
@@ -40,21 +42,7 @@ export function History() {
   return (
     <div className="sales-page-container">
       {/* Header */}
-      <header className="sales-header">
-        <Link to="/" className="header-logo-container">
-          <ImageIcon className="header-logo-icon" />
-          <span className="project-name">Project Name</span>
-        </Link>
-        <nav className="sales-nav">
-          <Link to="/Analytics" className="nav-item">Analytics</Link>
-          <Link to="/Sales" className="nav-item">Sales</Link>
-          <Link to="/ManageStock" className="nav-item">Manage Stock</Link>
-          <Link to="/History" className="nav-item active">History</Link>
-        </nav>
-        <div className="header-buttons">
-          <Link to="/SignIn" className="btn-logout">Log Out</Link>
-        </div>
-      </header>
+      <Header isAuthorized={isAuthorized} />
 
       {/* Main Content */}
       <main className="sales-main">

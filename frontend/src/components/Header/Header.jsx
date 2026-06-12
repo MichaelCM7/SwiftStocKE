@@ -5,7 +5,7 @@ import './Header.css';
 export function Header({ isAuthorized }) {
   return (
     <header className="header">
-      <Link to="/" className="header-logo-container">
+      <Link to={isAuthorized ? "/Analytics" : "/"} className="header-logo-container">
         <FiImage className="header-logo-icon" />
         <span className="project-name">Project Name</span>
       </Link>
