@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import './ResetPassword.css';
 import { Header } from '../../../components/Header/Header';
+import { Footer } from '../../../components/Footer/Footer';
 
 export function ResetPassword({ isAuthorized, setIsAuthorized }) {
   setIsAuthorized(false);
@@ -125,27 +126,7 @@ export function ResetPassword({ isAuthorized, setIsAuthorized }) {
       </main>
 
       {/* Footer */}
-      <footer className="resetpassword-footer">
-        <div className="footer-top">
-          <div className="footer-brand">
-            <span className="footer-website-name">SwiftStock</span>
-          </div>
-          <div className="footer-links-container">
-            <div className="footer-links-column">
-              <Link to="/SignIn">Sign In</Link>
-              <Link to="/SignUp">Sign Up</Link>
-            </div>
-            <div className="footer-links-column">
-              <a href="#terms">Terms and Conditions</a>
-              <a href="#privacy">Privacy Policy</a>
-              <a href="#cookies">Manage Cookies</a>
-            </div>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <p>©2026 SwiftStock. All Rights Reserved.</p>
-        </div>
-      </footer>
+      <Footer isAuthorized={isAuthorized} />
     </div>
   );
 }

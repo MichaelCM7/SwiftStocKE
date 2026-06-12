@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import './RecordNewSale.css';
 import { Header } from '../../../components/Header/Header';
+import { Footer } from '../../../components/Footer/Footer';
 
 export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
   setIsAuthorized(true);
@@ -218,31 +219,7 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
       </main>
 
       {/* Footer */}
-      <footer className="sales-footer">
-        <div className="footer-top">
-          <div className="footer-brand">
-            <ImageIcon className="footer-logo-icon" />
-            <span className="footer-website-name">SwiftStock</span>
-          </div>
-          <div className="footer-links-container">
-            <div className="footer-links-column">
-              <Link to="/Analytics">Analytics</Link>
-              <Link to="/Sales">Sales</Link>
-              <Link to="/ManageStock">Manage Stock</Link>
-              <Link to="/History">History</Link>
-              <Link to="/SignIn">Log Out</Link>
-            </div>
-            <div className="footer-links-column">
-              <a href="#terms">Terms and Conditions</a>
-              <a href="#privacy">Privacy Policy</a>
-              <a href="#cookies">Manage Cookies</a>
-            </div>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <p>©2026 SwiftStock. All Rights Reserved.</p>
-        </div>
-      </footer>
+      <Footer isAuthorized={isAuthorized} />
     </div>
   );
 }
