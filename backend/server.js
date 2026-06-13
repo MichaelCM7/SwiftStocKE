@@ -1,4 +1,5 @@
 import express from "express";
+import dayjs from "dayjs";
 import { PORT } from "./config/env.js";
 // Database
 import connectDB from "./database/dbconnection.js";
@@ -19,11 +20,12 @@ app.use(cookieParser());
 // API Routes
 app.use('/api/auth/', authRoutes);
 
-
 app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
   await connectDB();
 });
+
+console.log(dayjs().format('DD-MM-YYYY HH:mm:ss'));
 
 // Test Nodemailer transporter (Uncomment When Sending Emails)
 // try {
