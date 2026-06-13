@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import './SignUp.css';
@@ -6,64 +6,47 @@ import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
 
 export function SignUp({ isAuthorized, setIsAuthorized }) {
-  setIsAuthorized(false);
+  useEffect(() => {
+    setIsAuthorized(false);
+  }, []);
+
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-    setSuccess('');
+  function handleEmailInput(event) {
+    setEmail(event.target.value)
+  }
+
+  function handlePasswordInput(event) {
+    setPassword(event.traget.value);
+  }
+
+  function handleConfirmPasswordInput(event) {
+    setConfirmPassword(event.target.value);
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
-      setIsLoading(false);
       return;
     }
 
     try {
-      const result = await axios.post('/api/auth/signup', { email, password });
-
-      if (result.data.success) {
-        setSuccess('Account created successfully! Redirecting to sign in...');
-        setTimeout(() => {
-          navigate('/SignIn');
-        }, 2000);
-      }
+      const result = await axios.post('/api/auth/signup', {
+        email: email,
+        password: password
+      });
     } catch (error) {
-      setError(error.response?.data?.message || 'Something went wrong');
-    } finally {
-      setIsLoading(false);
+      alert(error || 'Something went wrong');
     }
   };
 
-  // Modern mountain-image SVG Icon matching Figma placeholders
-  const ImageIcon = ({ className }) => (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-      <circle cx="8.5" cy="8.5" r="1.5" />
-      <polyline points="21 15 16 10 5 21" />
-    </svg>
-  );
-
   return (
     <div className="signup-page-container">
-      {/* Header */}
       <Header isAuthorized={isAuthorized} />
 
       {/* Main Content */}
@@ -87,9 +70,8 @@ export function SignUp({ isAuthorized, setIsAuthorized }) {
                 type="email"
                 placeholder="Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailInput}
                 required
-                disabled={isLoading}
               />
             </div>
 
@@ -100,9 +82,8 @@ export function SignUp({ isAuthorized, setIsAuthorized }) {
                 type="password"
                 placeholder="Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordInput}
                 required
-                disabled={isLoading}
               />
             </div>
 
@@ -113,9 +94,8 @@ export function SignUp({ isAuthorized, setIsAuthorized }) {
                 type="password"
                 placeholder="Confirm Password"
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={handleConfirmPasswordInput}
                 required
-                disabled={isLoading}
               />
             </div>
 
@@ -130,7 +110,6 @@ export function SignUp({ isAuthorized, setIsAuthorized }) {
         </div>
       </main>
 
-      {/* Footer */}
       <Footer isAuthorized={isAuthorized} />
     </div>
   );
