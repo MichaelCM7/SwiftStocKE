@@ -28,7 +28,7 @@ export const signup = async (req, res, next) => {
     }
 
     const existingRetailer = await Retailer.findOne({
-      email
+      email: email
     }).session(session);
 
     if (existingRetailer) {
@@ -41,13 +41,14 @@ export const signup = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const retailer = await Retailer.create({
-      email,
+      email: email,
       password: hashedPassword,
-    }).session(session);
+    });
 
     res.status(200).json({
       success: true,
       message: "Signed up successfully",
+      data: retailer
     });
     session.commitTransaction();
     session.endSession();

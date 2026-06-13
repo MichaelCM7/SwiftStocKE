@@ -10,18 +10,22 @@ export function SignUp({ isAuthorized, setIsAuthorized }) {
     setIsAuthorized(false);
   }, []);
 
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
+
+  console.log(email);
+  console.log(password);
+  console.log(confirmPassword);
+
 
   function handleEmailInput(event) {
     setEmail(event.target.value)
   }
 
   function handlePasswordInput(event) {
-    setPassword(event.traget.value);
+    setPassword(event.target.value);
   }
 
   function handleConfirmPasswordInput(event) {
@@ -103,8 +107,8 @@ export function SignUp({ isAuthorized, setIsAuthorized }) {
               Already have an account? <Link to="/SignIn" className="signin-inline-link">Sign In</Link>
             </div>
 
-            <button type="submit" className="btn-signup-submit" disabled={isLoading}>
-              {isLoading ? 'Signing Up...' : 'Sign Up'}
+            <button type="submit" className="btn-signup-submit" >
+              Sign Up
             </button>
           </form>
         </div>
