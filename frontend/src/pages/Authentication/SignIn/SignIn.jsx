@@ -61,9 +61,6 @@ export function SignIn({ isAuthorized, setIsAuthorized }) {
       {/* Main Content */}
       <main className="signin-main-content">
         <div className="signin-form-card">
-          <div className="website-brand">
-            <span className="website-name">Website Name</span>
-          </div>
 
           <h2 className="signin-title">Sign In</h2>
 
