@@ -266,7 +266,7 @@ export async function verifyOtp(req, res, next) {
   const session = await mongoose.startSession();
   session.startTransaction();
   try{
-    const {otpToken} = req.cookie;
+    const {otpToken} = req.cookies;
     const {otp} = req.body;
 
     if (!otpToken) {
