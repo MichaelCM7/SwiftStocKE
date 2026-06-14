@@ -94,6 +94,9 @@ export async function signup(req, res, next) {
       sameSite: "strict",
       maxAge: 1 * 60 * 1000, // 1 minute
     });
+
+    session.commitTransaction();
+    session.endSession();
     
     res.status(200).json({
       success: true,
@@ -101,8 +104,6 @@ export async function signup(req, res, next) {
       token: token,
       data: newRetailer
     });
-    session.commitTransaction();
-    session.endSession();
 
   } catch (error) {
     session.abortTransaction();
@@ -155,6 +156,9 @@ export async function signin(req, res, next) {
       sameSite: "strict",
       maxAge: 24 * 60 * 60 * 1000,
     });
+
+    session.commitTransaction();
+    session.endSession();
     
     res.status(200).json({
       success: true,
@@ -162,9 +166,7 @@ export async function signin(req, res, next) {
       token: token,
       data: retailer
     });
-
-    session.commitTransaction();
-    session.endSession();
+    
   } catch (error) {
     session.abortTransaction();
     session.endSession();
@@ -265,7 +267,7 @@ export async function forgotPassword(req, res, next) {
 export async function verifyOtp(req, res, next) {
   try{
     const {otpToken} = req.cookies;
-    const {otp} = req.body;
+    const {otp, purpose} = req.body;
 
     if (!otpToken) {
       const error = new Error("OTP Token is required. Unauthorized Action");
@@ -304,11 +306,21 @@ export async function verifyOtp(req, res, next) {
       secure: true,
       sameSite: "strict",
     });
+
+    const emailToken = jwt.sign({email: email}, OTP_SECRET, {expiresIn: "10m"});
     
-    req.email = email;
+    res.cookie("emailToken", emailToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 10 * 60 * 1000, // 10 minutes
+    });
+    
+    // req.email = email;
     
     res.status(200).json({
       success: true,
+      purpose: purpose,
       message: "OTP verified successfully",
     });
 
@@ -321,8 +333,14 @@ export async function resetPassword(req, res, next) {
   const session = await mongoose.startSession();
   session.startTransaction();
   try{
-    const email = req.email;
-    const {password} = req.body;
+    const emailToken = req.cookies.emailToken;
+    const password = req.body.password;
+
+    const decodedEmail = jwt.verify(emailToken, OTP_SECRET);
+    const email = decodedEmail.email;
+
+    console.log('Email: ', email);
+    console.log('Password: ', password);
     
     if (!email) {
       const error = new Error("Email is required. Unauthorized action");
@@ -350,9 +368,10 @@ export async function resetPassword(req, res, next) {
     const newHashedPassword = await bcrypt.hash(password, salt);
     
     const updatedRetailer = await Retailer.findOneAndUpdate({
-      email: email,
-      password: newHashedPassword
-    }, {new: true, runValidators: true}).session(session);
+      email: email
+    }, {
+      $set: {password: newHashedPassword}
+    }, {returnDocument: "after", runValidators: true}).session(session);
 
     if (!updatedRetailer) {
       const error = new Error("Failed to update password");
@@ -360,14 +379,21 @@ export async function resetPassword(req, res, next) {
       throw error;
     }
 
+    res.clearCookie("emailToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+
+    session.commitTransaction();
+    session.endSession();
+
     res.status(200).json({
       success: true,
       message: "Password reset successfully",
       data: updatedRetailer
     });
-
-    session.commitTransaction();
-    session.endSession();
+    
   } catch (error) {
     session.abortTransaction();
     session.endSession();
