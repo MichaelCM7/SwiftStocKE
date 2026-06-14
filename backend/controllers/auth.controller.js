@@ -84,7 +84,17 @@ export const signup = async (req, res, next) => {
     
     await transporter.sendMail(mailOptions);
 
+    const combinedKey = OTP_SECRET + otp;
+    const otpToken = jwt.sign({email: email}, combinedKey, {expiresIn: "1m"});
+
     req.otp = otp;
+
+    res.cookie("otpToken", otpToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 1 * 60 * 1000, // 1 minute
+    });
     
     res.status(200).json({
       success: true,
@@ -229,7 +239,7 @@ export const forgotPassword = async (req, res) => {
 
     const combinedKey = OTP_SECRET + otp;
 
-    const otpToken = jwt.sign({email: email, otp: otp}, combinedKey, {expiresIn: "1m"});
+    const otpToken = jwt.sign({email: email}, combinedKey, {expiresIn: "1m"});
 
     res.cookie("otpToken", otpToken, {
       httpOnly: true,
@@ -253,10 +263,121 @@ export const forgotPassword = async (req, res) => {
   }
 }
 
-export const resetPassword = async (req, res) => {
-  res.json({message: "Reset Password"})
+export const verifyOtp = async (req, res, next) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try{
+    const {otpToken} = req.cookie;
+    const {otp} = req.body;
+
+    if (!otpToken) {
+      const error = new Error("OTP Token is required. Unauthorized Action");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    if (!otp) {
+      const error = new Error("OTP is required");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const decodedOTP = jwt.verify(otpToken, OTP_SECRET + otp);
+
+    if (!decodedOTP) {
+      const error = new Error("Invalid OTP");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const email = decodedOTP.email;
+
+    const retailer = await Retailer.findOne({
+      email: email
+    });
+
+    if (!retailer) {
+      const error = new Error("Retailer Account Doesn't exist");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    res.clearCookie("otpToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+    
+    req.email = email;
+    
+    res.status(200).json({
+      success: true,
+      message: "OTP verified successfully",
+    });
+
+    session.commitTransaction();
+    session.endSession(); 
+  } catch (error) {
+    session.abortTransaction();
+    session.endSession();
+    next(error);
+  }
 }
 
-export const verifyOtp = async (req, res) => {
-  res.json({message: "Verify OTP"})
+export const resetPassword = async (req, res, next) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try{
+    const email = req.email;
+    const {password} = req.body;
+    
+    if (!email) {
+      const error = new Error("Email is required. Unauthorized action");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    if (!password) {
+      const error = new Error("Password is required");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const retailer = await Retailer.findOne({
+      email: email
+    }).session(session);
+
+    if (!retailer) {
+      const error = new Error("Retailer Account Doesn't exist");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const newHashedPassword = await bcrypt.hash(password, salt);
+    
+    const updatedRetailer = await Retailer.findOneAndUpdate({
+      email: email,
+      password: newHashedPassword
+    }, {new: true, runValidators: true}).session(session);
+
+    if (!updatedRetailer) {
+      const error = new Error("Failed to update password");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successfully",
+      data: updatedRetailer
+    });
+
+    session.commitTransaction();
+    session.endSession();
+  } catch (error) {
+    session.abortTransaction();
+    session.endSession();
+    next(error);
+  }
 }
