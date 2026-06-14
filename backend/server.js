@@ -14,16 +14,18 @@ import authRoutes from "./routes/auth.routes.js";
 import authorize from "./middlewares/authorization.middleware.js";
 import errorHandler from "./middlewares/error.middleware.js";
 
-
-
 const app = express();
+
 // External Middlewares
 app.use(express.json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // API Routes
-app.use('/api/auth/', authorize, authRoutes, errorHandler);
+app.use('/api/auth/', authRoutes);
+
+// API Middlewares
+app.use(errorHandler);
 
 app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
