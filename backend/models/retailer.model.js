@@ -5,6 +5,7 @@ const retailerSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+        index: true,
         unique: true,
         match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email address']
     },
