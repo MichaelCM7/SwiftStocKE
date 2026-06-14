@@ -263,8 +263,6 @@ export async function forgotPassword(req, res, next) {
 }
 
 export async function verifyOtp(req, res, next) {
-  const session = await mongoose.startSession();
-  session.startTransaction();
   try{
     const {otpToken} = req.cookies;
     const {otp} = req.body;
@@ -314,11 +312,7 @@ export async function verifyOtp(req, res, next) {
       message: "OTP verified successfully",
     });
 
-    session.commitTransaction();
-    session.endSession(); 
   } catch (error) {
-    session.abortTransaction();
-    session.endSession();
     next(error);
   }
 }
