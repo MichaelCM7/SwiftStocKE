@@ -101,7 +101,7 @@ export const signup = async (req, res, next) => {
   }
 }
 
-export const signin = async (req, res) => {
+export const signin = async (req, res, next) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try{
@@ -152,7 +152,7 @@ export const signin = async (req, res) => {
       token: token,
       data: retailer
     });
-    
+
     session.commitTransaction();
     session.endSession();
   } catch (error) {
@@ -162,8 +162,22 @@ export const signin = async (req, res) => {
   }
 }
 
-export const signout = async (req, res) => {
-  res.json({message: "Signout"})
+export const signout = async (req, res, next) => {
+  try{
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Signed out successfully"
+    });
+  }
+  catch(error) {
+    next(error)
+  }
 }
 
 export const forgotPassword = async (req, res) => {
