@@ -10,5 +10,6 @@ export const {
   JWT_SECRET,
   JWT_EXPIRES_IN,
   OTP_SECRET,
-  OTP_EXPIRES_IN
+  OTP_EXPIRES_IN,
+  EMAIL_TOKEN_SECRET
 } = process.env;

@@ -2,7 +2,7 @@ import Retailer from "../models/retailer.model.js";
 import mongoose from "mongoose";
 import bcrypt, { genSalt } from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET, JWT_EXPIRES_IN, OTP_SECRET, OTP_EXPIRES_IN } from "../config/env.js";
+import { JWT_SECRET, JWT_EXPIRES_IN, OTP_SECRET, OTP_EXPIRES_IN, EMAIL_TOKEN_SECRET } from "../config/env.js";
 import transporter from "../config/mailer.js";
 import { otpGenerator } from "../utils/otpGenerator.js";
 
@@ -43,13 +43,13 @@ export async function signup(req, res, next) {
     const salt = await genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newRetailer = await Retailer.create({
+    const newRetailer = await Retailer.create([{
       email: email,
       password: hashedPassword,
-    });
+    }], {session});
 
     // Creating JWT token
-    const token = jwt.sign({retailerId: newRetailer._id}, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN});
+    const token = jwt.sign({retailerId: newRetailer[0]._id}, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN});
 
     // Setting JWT token in Cookie
     res.cookie("token", token, {
@@ -68,14 +68,14 @@ export async function signup(req, res, next) {
       text: `Hello ${email},
       Your verification code is: 
       ${otp}
-      This code will expire in 15 minutes.
+      This code will expire in 10 minutes.
       If you did not request this verification code, please ignore this email.
       Thank you`,
       html: `
       <p>Hello ${email},</p>
       <p>Your verification code is:</p>
       <p><b>${otp}</b></p>
-      <p>This code will expire in 15 minutes.</p>
+      <p>This code will expire in 10 minutes.</p>
       <p>If you did not request this verification code, please ignore this email.</p>
       <p>Thank you</p>
       `,
@@ -92,11 +92,11 @@ export async function signup(req, res, next) {
       httpOnly: true,
       secure: true,
       sameSite: "strict",
-      maxAge: 1 * 60 * 1000, // 1 minute
+      maxAge: 10 * 60 * 1000, // 10 minutes
     });
 
-    session.commitTransaction();
-    session.endSession();
+    await session.commitTransaction();
+    await session.endSession();
     
     res.status(200).json({
       success: true,
@@ -106,15 +106,13 @@ export async function signup(req, res, next) {
     });
 
   } catch (error) {
-    session.abortTransaction();
-    session.endSession();
+    await session.abortTransaction();
+    await session.endSession();
     next(error);
   }
 }
 
 export async function signin(req, res, next) {
-  const session = await mongoose.startSession();
-  session.startTransaction();
   try{
     const {email, password} = req.body;
 
@@ -132,7 +130,7 @@ export async function signin(req, res, next) {
 
     const retailer = await Retailer.findOne({
       email: email
-    }).session(session);
+    });
 
     if (!retailer) {
       const error = new Error("Retailer Account Doesn't exist");
@@ -156,9 +154,6 @@ export async function signin(req, res, next) {
       sameSite: "strict",
       maxAge: 24 * 60 * 60 * 1000,
     });
-
-    session.commitTransaction();
-    session.endSession();
     
     res.status(200).json({
       success: true,
@@ -168,8 +163,6 @@ export async function signin(req, res, next) {
     });
     
   } catch (error) {
-    session.abortTransaction();
-    session.endSession();
     next(error);
   }
 }
@@ -223,14 +216,14 @@ export async function forgotPassword(req, res, next) {
       text: `Hello ${email},
       Your verification code is: 
       ${otp}
-      This code will expire in 1 minute.
+      This code will expire in 10 minutes.
       If you did not request this verification code, please ignore this email.
       Thank you`,
       html: `
       <p>Hello ${email},</p>
       <p>Your verification code is:</p>
       <p><b>${otp}</b></p>
-      <p>This code will expire in 1 minute.</p>
+      <p>This code will expire in 10 minutes.</p>
       <p>If you did not request this verification code, please ignore this email.</p>
       <p>Thank you</p>
       `,
@@ -246,11 +239,11 @@ export async function forgotPassword(req, res, next) {
       httpOnly: true,
       secure: true,
       sameSite: "strict",
-      maxAge: 1 * 60 * 1000, // 1 minute
+      maxAge: 10 * 60 * 1000, // 10 minute
     });
 
-    session.commitTransaction();
-    session.endSession();
+    await session.commitTransaction();
+    await session.endSession();
 
     res.status(200).json({
       success: true,
@@ -258,8 +251,8 @@ export async function forgotPassword(req, res, next) {
     }); 
   }
   catch(error) {
-    session.abortTransaction();
-    session.endSession();
+    await session.abortTransaction();
+    await session.endSession();
     next(error);
   }
 }
@@ -282,13 +275,6 @@ export async function verifyOtp(req, res, next) {
     }
 
     const decodedOTP = jwt.verify(otpToken, OTP_SECRET + otp);
-
-    if (!decodedOTP) {
-      const error = new Error("Invalid OTP");
-      error.statusCode = 400;
-      throw error;
-    }
-
     const email = decodedOTP.email;
 
     const retailer = await Retailer.findOne({
@@ -307,14 +293,16 @@ export async function verifyOtp(req, res, next) {
       sameSite: "strict",
     });
 
-    const emailToken = jwt.sign({email: email}, OTP_SECRET, {expiresIn: "10m"});
-    
-    res.cookie("emailToken", emailToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
-      maxAge: 10 * 60 * 1000, // 10 minutes
-    });
+    if (purpose === "forgotpassword") {
+      const emailToken = jwt.sign({email: email}, EMAIL_TOKEN_SECRET, {expiresIn: "10m"});
+
+      res.cookie("emailToken", emailToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 10 * 60 * 1000, // 10 minutes
+      });
+    }
     
     // req.email = email;
     
@@ -325,6 +313,12 @@ export async function verifyOtp(req, res, next) {
     });
 
   } catch (error) {
+    // Special handler for easier readability of JWT Error
+    if (error.name === 'JsonWebTokenError' || error.name === 'TokenExpiredError') {
+      error.statusCode = 400; 
+      error.message = "The code provided is invalid or has expired.";
+    }
+
     next(error);
   }
 }
@@ -336,12 +330,18 @@ export async function resetPassword(req, res, next) {
     const emailToken = req.cookies.emailToken;
     const password = req.body.password;
 
-    const decodedEmail = jwt.verify(emailToken, OTP_SECRET);
+    // console.log('Email: ', email);
+    // console.log('Password: ', password);
+
+    if (!emailToken) {
+      const error = new Error("Email Token is required. Unauthorized action");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const decodedEmail = jwt.verify(emailToken, EMAIL_TOKEN_SECRET);
     const email = decodedEmail.email;
 
-    console.log('Email: ', email);
-    console.log('Password: ', password);
-    
     if (!email) {
       const error = new Error("Email is required. Unauthorized action");
       error.statusCode = 400;
@@ -385,8 +385,8 @@ export async function resetPassword(req, res, next) {
       sameSite: "strict",
     });
 
-    session.commitTransaction();
-    session.endSession();
+    await session.commitTransaction();
+    await session.endSession();
 
     res.status(200).json({
       success: true,
@@ -395,8 +395,15 @@ export async function resetPassword(req, res, next) {
     });
     
   } catch (error) {
-    session.abortTransaction();
-    session.endSession();
+    await session.abortTransaction();
+    await session.endSession();
+
+    // Special handler for easier readability of JWT Error
+    if (error.name === 'JsonWebTokenError' || error.name === 'TokenExpiredError') {
+      error.statusCode = 401; 
+      error.message = "Your password reset session has expired. Please try again.";
+    }
+
     next(error);
   }
 }
