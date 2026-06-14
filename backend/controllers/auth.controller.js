@@ -6,7 +6,7 @@ import { JWT_SECRET, JWT_EXPIRES_IN, OTP_SECRET, OTP_EXPIRES_IN } from "../confi
 import transporter from "../config/mailer.js";
 import { otpGenerator } from "../utils/otpGenerator.js";
 
-export const signup = async (req, res, next) => {
+export async function signup(req, res, next) {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
@@ -111,7 +111,7 @@ export const signup = async (req, res, next) => {
   }
 }
 
-export const signin = async (req, res, next) => {
+export async function signin(req, res, next) {
   const session = await mongoose.startSession();
   session.startTransaction();
   try{
@@ -172,7 +172,7 @@ export const signin = async (req, res, next) => {
   }
 }
 
-export const signout = async (req, res, next) => {
+export async function signout(req, res, next) {
   try{
     res.clearCookie("token", {
       httpOnly: true,
@@ -190,7 +190,7 @@ export const signout = async (req, res, next) => {
   }
 }
 
-export const forgotPassword = async (req, res) => {
+export async function forgotPassword(req, res, next) {
   const session = await mongoose.startSession();
   session.startTransaction();
   try{
@@ -262,7 +262,7 @@ export const forgotPassword = async (req, res) => {
   }
 }
 
-export const verifyOtp = async (req, res, next) => {
+export async function verifyOtp(req, res, next) {
   const session = await mongoose.startSession();
   session.startTransaction();
   try{
@@ -323,7 +323,7 @@ export const verifyOtp = async (req, res, next) => {
   }
 }
 
-export const resetPassword = async (req, res, next) => {
+export async function resetPassword(req, res, next) {
   const session = await mongoose.startSession();
   session.startTransaction();
   try{
