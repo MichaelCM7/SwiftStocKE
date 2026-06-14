@@ -2,10 +2,9 @@ import Retailer from "../models/retailer.model.js";
 import mongoose from "mongoose";
 import bcrypt, { genSalt } from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET, JWT_EXPIRES_IN } from "../utils/config.js";
+import { JWT_SECRET, JWT_EXPIRES_IN, OTP_SECRET, OTP_EXPIRES_IN } from "../config/env.js";
 import transporter from "../config/mailer.js";
 import { otpGenerator } from "../utils/otpGenerator.js";
-import { OTP_SECRET } from "../config/env.js";
 
 export const signup = async (req, res, next) => {
   const session = await mongoose.startSession();
