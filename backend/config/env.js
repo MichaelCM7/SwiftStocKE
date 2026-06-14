@@ -9,4 +9,6 @@ export const {
   SMTP_PASS,
   JWT_SECRET,
   JWT_EXPIRES_IN,
+  OTP_SECRET,
+  OTP_EXPIRES_IN
 } = process.env;

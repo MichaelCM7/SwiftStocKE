@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET, JWT_EXPIRES_IN } from "../utils/config.js";
 import transporter from "../config/mailer.js";
 import { otpGenerator } from "../utils/otpGenerator.js";
+import { OTP_SECRET } from "../config/env.js";
 
 export const signup = async (req, res, next) => {
   const session = await mongoose.startSession();
@@ -181,7 +182,75 @@ export const signout = async (req, res, next) => {
 }
 
 export const forgotPassword = async (req, res) => {
-  res.json({message: "Forgot Password"})
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try{
+    const {email} = req.body;
+
+    if (!email) {
+      const error = new Error("Email is required");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const retailer = await Retailer.findOne({
+      email: email
+    }).session(session);
+
+    if (!retailer) {
+      const error = new Error("Retailer Account Doesn't exist");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const otp = otpGenerator();
+
+    const mailOptions = {
+      from: 'SwiftStock@noreply.com',
+      to: email,
+      subject: "Account Password Reset Verification",
+      text: `Hello ${email},
+      Your verification code is: 
+      ${otp}
+      This code will expire in 1 minute.
+      If you did not request this verification code, please ignore this email.
+      Thank you`,
+      html: `
+      <p>Hello ${email},</p>
+      <p>Your verification code is:</p>
+      <p><b>${otp}</b></p>
+      <p>This code will expire in 1 minute.</p>
+      <p>If you did not request this verification code, please ignore this email.</p>
+      <p>Thank you</p>
+      `,
+    }
+    
+    await transporter.sendMail(mailOptions);
+
+    const combinedKey = OTP_SECRET + otp;
+
+    const otpToken = jwt.sign({email: email, otp: otp}, combinedKey, {expiresIn: "1m"});
+
+    res.cookie("otpToken", otpToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 1 * 60 * 1000, // 1 minute
+    });
+
+    session.commitTransaction();
+    session.endSession();
+
+    res.status(200).json({
+      success: true,
+      message: `OTP sent successfully to ${email}. OTP: ${otp}`
+    }); 
+  }
+  catch(error) {
+    session.abortTransaction();
+    session.endSession();
+    next(error);
+  }
 }
 
 export const resetPassword = async (req, res) => {
