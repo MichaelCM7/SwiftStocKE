@@ -84,7 +84,7 @@ export async function signup(req, res, next) {
     await transporter.sendMail(mailOptions);
 
     const combinedKey = OTP_SECRET + otp;
-    const otpToken = jwt.sign({email: email}, combinedKey, {expiresIn: "1m"});
+    const otpToken = jwt.sign({email: email}, combinedKey, {expiresIn: OTP_EXPIRES_IN});
 
     req.otp = otp;
 
@@ -240,7 +240,7 @@ export async function forgotPassword(req, res, next) {
 
     const combinedKey = OTP_SECRET + otp;
 
-    const otpToken = jwt.sign({email: email}, combinedKey, {expiresIn: "1m"});
+    const otpToken = jwt.sign({email: email}, combinedKey, {expiresIn: OTP_EXPIRES_IN});
 
     res.cookie("otpToken", otpToken, {
       httpOnly: true,
