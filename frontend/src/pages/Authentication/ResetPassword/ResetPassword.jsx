@@ -80,19 +80,6 @@ export function ResetPassword({ isAuthorized, setIsAuthorized }) {
             {success && <div className="alert-message success-message">{success}</div>}
 
             <div className="input-group">
-              <label htmlFor="email">Email</label>
-              <input
-                id="email"
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={isLoading}
-              />
-            </div>
-
-            <div className="input-group">
               <label htmlFor="password">New Password</label>
               <input
                 id="password"
