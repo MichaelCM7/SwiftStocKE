@@ -7,7 +7,7 @@ productRoutes.post("/add-item",addItem);
 
 productRoutes.get("/get-items",getItemsByRetailerID);
 
-productRoutes.put("/edit-item/:productID",editItem);
+productRoutes.put("/edit-items/:productID",editItem);
 
 productRoutes.put("/restock-item/:productID",restockItem);
 

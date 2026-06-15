@@ -90,10 +90,81 @@ export async function getItemsByRetailerID(req, res, next) {
 }
 
 export async function editItem(req, res, next) {
+  const session = await mongoose.startSession();
+  session.startTransaction();
   try {
+    const { productID } = req.params;
+    const { itemName, quantity, lowStockThreshold } = req.body;
+    const retailerID = req.retailer._id;
+
+    if (!productID) {
+      const error = new Error("No item selected.");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    if (!retailerID) {
+      const error = new Error("Unauthorized.")
+      error.statusCode = 401;
+      throw error;
+    }
+
+    if (!itemName) {
+      const error = new Error("Item name is required");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    if (!quantity) {
+      const error = new Error("Quantity is required");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    if (!lowStockThreshold) {
+      const error = new Error("Low stock threshold is required");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const existingProduct = await Product.findOne({
+      _id: productID,
+      retailer: retailerID
+    });
+
+    if (!existingProduct) {
+      const error = new Error("Item not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    await existingProduct.save();
+
+    const updatedProduct = await Product.findOneAndUpdate(
+      {_id: productID},
+      {itemName, quantity, lowStockThreshold},
+      {returnDocument: "after", runValidators: true, session}
+    );
+
+    if (!updatedProduct) {
+      const error = new Error("Failed to update item.");
+      error.statusCode = 500;
+      throw error;
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    res.status(200).json({
+      success: true,
+      message: "Item updated successfully",
+      product: updatedProduct
+    });
 
   }
   catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
     next(error);
   }
 }
