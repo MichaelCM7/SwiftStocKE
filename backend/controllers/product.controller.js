@@ -227,10 +227,63 @@ export async function deleteItem(req, res, next) {
 }
 
 export async function restockItem(req, res, next) {
+  const session = await mongoose.startSession();
+  session.startTransaction();
   try {
+    const retailerID = req.retailer._id;
+    const { itemName, quantity } = req.body;
 
+    if (!itemName) {
+      const error = new Error("Item name is required");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    if (!quantity) {
+      const error = new Error("Quantity is required");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const existingProduct = await Product.findOne({
+      itemName: itemName,
+      retailer: retailerID
+    });
+
+    if (!existingProduct) {
+      const error = new Error("Item not found.");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const newQuantity = existingProduct.quantity + quantity;
+
+    const updatedProduct = await Product.findOneAndUpdate(
+      {_id: existingProduct._id,
+      retailer: retailerID},
+      {quantity: newQuantity}, 
+      {returnDocument: "after", runValidators: true});
+
+    if (!updatedProduct) {
+      const error = new Error("Failed to restock item");
+      error.statusCode = 500;
+      throw error;
+    }
+
+    await updatedProduct.save();
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    res.status(200).json({
+      success: true,
+      message: "Item restocked successfully",
+      product: updatedProduct
+    });
   }
   catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
     next(error);
   }
 }

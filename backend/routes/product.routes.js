@@ -9,7 +9,7 @@ productRoutes.get("/get-items",getItemsByRetailerID);
 
 productRoutes.put("/edit-items/:productID",editItem);
 
-productRoutes.put("/restock-item/:productID",restockItem);
+productRoutes.put("/restock-item",restockItem);
 
 productRoutes.delete("/delete-items/:productID",deleteItem);
 
