@@ -3,6 +3,10 @@ import { FiImage } from "react-icons/fi";
 import './Header.css';
 
 export function Header({ isAuthorized }) {
+  function handleLogOut() {
+    axios.post('/api/auth/signout');
+  }
+
   return (
     <header className="header">
       <Link to={isAuthorized ? "/Analytics" : "/"} className="header-logo-container">
@@ -21,7 +25,7 @@ export function Header({ isAuthorized }) {
 
       <div className="header-buttons">
         {isAuthorized && (
-          <Link to="/SignIn" className="btn-logout">Log Out</Link>
+          <Link to="/SignIn" className="btn-logout" onClick={handleLogOut}>Log Out</Link>
         )}
 
         {!isAuthorized && (
