@@ -411,3 +411,12 @@ export async function resetPassword(req, res, next) {
     next(error);
   }
 }
+
+export async function resendOTP(req, res, next) {
+  try{
+    
+  }
+  catch(error) {
+    next(error);
+  }
+}

@@ -20,7 +20,7 @@ export default async function authorize(req, res, next) {
       throw error;
     }
 
-    const retailer = await Retailer.findById(decodedToken);
+    const retailer = await Retailer.findById(decodedToken.retailerId);
 
     if (!retailer) {
       const error = new Error("Unauthorized");
@@ -28,7 +28,7 @@ export default async function authorize(req, res, next) {
       throw error;
     }
 
-    req.user = retailer;
+    req.retailer = retailer;
 
     next();
 

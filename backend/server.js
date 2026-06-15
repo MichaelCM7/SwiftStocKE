@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 import { urlencoded } from "express";
 // API Routes
 import authRoutes from "./routes/auth.routes.js";
+import productRoutes from "./routes/product.routes.js";
 // API Middlewares
 import authorize from "./middlewares/authorization.middleware.js";
 import errorHandler from "./middlewares/error.middleware.js";
@@ -23,6 +24,7 @@ app.use(cookieParser());
 
 // API Routes
 app.use('/api/auth/', authRoutes);
+app.use('/api/products/', authorize ,productRoutes);
 
 // API Middlewares
 app.use(errorHandler);
