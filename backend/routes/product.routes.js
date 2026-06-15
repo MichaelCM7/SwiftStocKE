@@ -5,7 +5,7 @@ const productRoutes = express.Router();
 
 productRoutes.post("/add-item",addItem);
 
-productRoutes.get("/get-items/:retailerID",getItemsByRetailerID);
+productRoutes.get("/get-items",getItemsByRetailerID);
 
 productRoutes.put("/edit-item/:productID",editItem);
 

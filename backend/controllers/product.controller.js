@@ -62,7 +62,27 @@ export async function addItem(req, res, next) {
 
 export async function getItemsByRetailerID(req, res, next) {
   try {
+    const retailerId = req.retailer._id;
 
+    if (!retailerId) {
+      const error = new Error('Unauthorized.');
+      error.status = 401;
+      throw error;
+    }
+
+    const products = await Product.find({ retailer: retailerId });
+
+    if (!products) {
+      const error = new Error('No products found.');
+      error.status = 404;
+      throw error;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Products fetched successfully',
+      products: products
+    })
   }
   catch (error) {
     next(error);
