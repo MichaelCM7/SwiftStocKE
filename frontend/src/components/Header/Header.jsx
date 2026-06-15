@@ -10,7 +10,6 @@ export function Header({ isAuthorized }) {
   return (
     <header className="header">
       <Link to={isAuthorized ? "/Analytics" : "/"} className="header-logo-container">
-        <FiImage className="header-logo-icon" />
         <span className="project-name">SwiftStock</span>
       </Link>
 

@@ -16,16 +16,10 @@
   gap: 10px;
 }
 
-.header-logo-icon {
-  width: 24px;
-  height: 24px;
-  color: #333333;
-}
-
-.project-name {
+.header-logo-container .project-name {
   font-weight: 600;
-  font-size: 16px;
-  color: #1a1a1a;
+  font-size: 20px;
+  color: #2563eb;
 }
 
 .header-nav {
@@ -34,7 +28,7 @@
   gap: 28px;
 }
 
-.nav-link {
+.nav-item {
   color: #555555;
   text-decoration: none;
   font-size: 14px;
@@ -44,18 +38,18 @@
   border-bottom: 2px solid transparent;
 }
 
-.nav-link:hover {
+.nav-item:hover {
   color: #1a1a1a;
 }
 
-.nav-link--active {
+.nav-item--active {
   color: #1a1a1a;
   font-weight: 600;
   border-bottom: 2px solid #1a1a1a;
 }
 
 .btn-logout {
-  background-color: #1a1a1a;
+  background-color: #2563eb;
   color: #ffffff;
   text-decoration: none;
   font-size: 14px;
@@ -66,7 +60,7 @@
 }
 
 .btn-logout:hover {
-  background-color: #404040;
+  background-color: #1d4ed8;
 }
 
 .header-buttons {
@@ -76,7 +70,7 @@
 }
 
 .btn-signin {
-  background-color: #1a1a1a;
+  background-color: #2563eb;
   color: #ffffff;
   text-decoration: none;
   font-size: 14px;
@@ -87,22 +81,22 @@
 }
 
 .btn-signin:hover {
-  background-color: #404040;
+  background-color: #1d4ed8;
 }
 
 .btn-signup {
   background-color: transparent;
-  color: #1a1a1a;
+  color: #2563eb;
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
   padding: 8px 16px;
-  border: 1px solid #1a1a1a;
+  border: 1px solid #2563eb;
   border-radius: 6px;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .btn-signup:hover {
-  background-color: #1a1a1a;
+  background-color: #2563eb;
   color: #ffffff;
 }
