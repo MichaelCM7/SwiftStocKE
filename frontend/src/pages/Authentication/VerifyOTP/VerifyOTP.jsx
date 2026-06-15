@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import './VerifyOTP.css';
@@ -6,8 +6,9 @@ import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
 
 export function VerifyOTP({ isAuthorized, setIsAuthorized, purpose }) {
-  setIsAuthorized(false);
-
+  useEffect(() => {
+    setIsAuthorized(false);
+  }, []);
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');

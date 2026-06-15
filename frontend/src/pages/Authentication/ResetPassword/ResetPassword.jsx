@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import './ResetPassword.css';
@@ -6,7 +6,9 @@ import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
 
 export function ResetPassword({ isAuthorized, setIsAuthorized }) {
-  setIsAuthorized(false);
+  useEffect(() => {
+    setIsAuthorized(false);
+  }, []);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
