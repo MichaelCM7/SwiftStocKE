@@ -29,18 +29,15 @@ export function ResetPassword({ isAuthorized, setIsAuthorized }) {
     }
 
     try {
-      const result = await axios.post('/api/auth/resetpassword', { email, password });
+      const result = await axios.post('/api/auth/reset-password', { email, password });
+      const data = result.data;
 
-      if (result.data.success) {
+      if (data.success) {
         setSuccess('Password reset successfully! Redirecting to sign in...');
-        setTimeout(() => {
-          navigate('/SignIn');
-        }, 2000);
+        navigate('/SignIn');
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Something went wrong. Please try again.');
-    } finally {
-      setIsLoading(false);
     }
   };
 

@@ -22,17 +22,14 @@ export function VerifyOTP({ isAuthorized, setIsAuthorized }) {
 
     try {
       const result = await axios.post('/api/auth/verify-otp', { otp });
+      const data = result.data;
 
-      if (result.data.success) {
+      if (data.success) {
         setSuccess('OTP verified successfully! Redirecting...');
-        setTimeout(() => {
-          navigate('/Analytics'); // Redirect as appropriate
-        }, 1500);
+        navigate('/Analytics');
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Invalid OTP code. Please try again.');
-    } finally {
-      setIsLoading(false);
     }
   };
 

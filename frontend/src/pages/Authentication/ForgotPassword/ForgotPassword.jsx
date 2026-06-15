@@ -21,13 +21,12 @@ export function ForgotPassword({ isAuthorized, setIsAuthorized }) {
     setSuccess('');
 
     try {
-      const result = await axios.post('/api/auth/forgotpassword', { email });
+      const result = await axios.post('/api/auth/forgot-password', { email });
+      const data = result.data;
 
-      if (result.data.success) {
+      if (data.success) {
         setSuccess('Password reset link sent to your email. Redirecting...');
-        setTimeout(() => {
-          navigate('/VerifyOTP'); // Redirect to verify otp or sign in depending on backend flow
-        }, 2000);
+        navigate('/VerifyOTP');
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Something went wrong. Please try again.');

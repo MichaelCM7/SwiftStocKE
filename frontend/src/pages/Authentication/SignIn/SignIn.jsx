@@ -22,17 +22,14 @@ export function SignIn({ isAuthorized, setIsAuthorized }) {
 
     try {
       const result = await axios.post('/api/auth/signin', { email, password });
+      const data = result.data;
 
-      if (result.data.success) {
+      if (data.success) {
         setSuccess('Successfully signed in! Redirecting...');
-        setTimeout(() => {
-          navigate('/Analytics'); // Redirect to dashboard
-        }, 1500);
+        navigate('/Analytics');
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Invalid email or password');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -61,7 +58,7 @@ export function SignIn({ isAuthorized, setIsAuthorized }) {
       {/* Main Content */}
       <main className="signin-main-content">
         <div className="signin-form-card">
-
+          {/* Add Image Icon */}
           <h2 className="signin-title">Sign In</h2>
 
           <form onSubmit={handleSubmit} className="signin-form">
