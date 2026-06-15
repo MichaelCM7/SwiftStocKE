@@ -170,10 +170,58 @@ export async function editItem(req, res, next) {
 }
 
 export async function deleteItem(req, res, next) {
+  const session = await mongoose.startSession();
+  session.startTransaction();
   try {
+    const { productID } = req.params;
+    const retailerID = req.retailer._id;
 
+    if (!productID) {
+      const error = new Error("No item selected.");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    if (!retailerID) {
+      const error = new Error("Unauthorized.")
+      error.statusCode = 401;
+      throw error;
+    }
+
+    const existingProduct = await Product.findOne({
+      _id: productID,
+      retailer: retailerID
+    });
+
+    if (!existingProduct) {
+      const error = new Error("Item not found.");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const deletedProduct = await Product.findOneAndDelete({
+      _id: productID,
+      retailer: retailerID
+    }, {session});
+
+    if (!deletedProduct) {
+      const error = new Error("Failed to delete product.");
+      error.statusCode = 500;
+      throw error;
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    res.status(200).json({
+      success: true,
+      message: "Item deleted successfully",
+      deletedProduct: deletedProduct
+    });
   }
   catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
     next(error);
   }
 }

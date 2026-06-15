@@ -11,6 +11,6 @@ productRoutes.put("/edit-items/:productID",editItem);
 
 productRoutes.put("/restock-item/:productID",restockItem);
 
-productRoutes.delete("/delete-item/:productID",deleteItem);
+productRoutes.delete("/delete-items/:productID",deleteItem);
 
 export default productRoutes;
