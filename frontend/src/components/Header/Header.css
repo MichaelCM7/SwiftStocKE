@@ -16,15 +16,9 @@
   gap: 10px;
 }
 
-.header-logo-icon {
-  width: 24px;
-  height: 24px;
-  color: #333333;
-}
-
 .header-logo-container .project-name {
   font-weight: 600;
-  font-size: 16px;
+  font-size: 20px;
   color: #2563eb;
 }
 
