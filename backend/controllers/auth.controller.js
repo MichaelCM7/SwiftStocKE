@@ -60,6 +60,8 @@ export async function signup(req, res, next) {
     });
 
     const otp = otpGenerator();
+
+    console.log('OTP: ', otp);
     
     const mailOptions = {
       from: 'SwiftStock@noreply.com',
@@ -208,6 +210,8 @@ export async function forgotPassword(req, res, next) {
     }
 
     const otp = otpGenerator();
+
+    console.log('OTP: ', otp);
 
     const mailOptions = {
       from: 'SwiftStock@noreply.com',

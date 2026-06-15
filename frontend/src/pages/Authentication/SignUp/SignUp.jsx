@@ -15,11 +15,6 @@ export function SignUp({ isAuthorized, setIsAuthorized }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
 
-  console.log(email);
-  console.log(password);
-  console.log(confirmPassword);
-
-
   function handleEmailInput(event) {
     setEmail(event.target.value)
   }
@@ -44,8 +39,17 @@ export function SignUp({ isAuthorized, setIsAuthorized }) {
         email: email,
         password: password
       });
+
+      const data = result.data;
+
+      if (data.success) {
+        navigate("/VerifyOTP");
+      }
+
+      // console.log(data);
     } catch (error) {
-      alert(error || 'Something went wrong');
+      console.log(error);
+      alert(error.message || 'Something went wrong');
     }
   };
 
