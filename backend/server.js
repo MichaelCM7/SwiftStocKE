@@ -14,6 +14,8 @@ import productRoutes from "./routes/product.routes.js";
 // API Middlewares
 import authorize from "./middlewares/authorization.middleware.js";
 import errorHandler from "./middlewares/error.middleware.js";
+import salesRoutes from "./routes/sale.routes.js";
+import historyRoutes from "./routes/history.routes.js";
 
 const app = express();
 
