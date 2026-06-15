@@ -25,6 +25,8 @@ app.use(cookieParser());
 // API Routes
 app.use('/api/auth/', authRoutes);
 app.use('/api/products/', authorize ,productRoutes);
+app.use('/api/sales/', authorize ,salesRoutes);
+app.use('/api/history/', authorize ,historyRoutes);
 
 // API Middlewares
 app.use(errorHandler);
