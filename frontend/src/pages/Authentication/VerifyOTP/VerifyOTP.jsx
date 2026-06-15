@@ -5,7 +5,7 @@ import './VerifyOTP.css';
 import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
 
-export function VerifyOTP({ isAuthorized, setIsAuthorized }) {
+export function VerifyOTP({ isAuthorized, setIsAuthorized, purpose }) {
   setIsAuthorized(false);
 
   const [otp, setOtp] = useState('');
@@ -21,12 +21,26 @@ export function VerifyOTP({ isAuthorized, setIsAuthorized }) {
     setSuccess('');
 
     try {
-      const result = await axios.post('/api/auth/verify-otp', { otp });
+      let result;
+      if (purpose === 'signup') {
+        result = await axios.post('/api/auth/verify-otp', {
+          otp: otp,
+          purpose: 'signup'
+        });
+      } else if (purpose === 'forgotpassword') {
+        result = await axios.post('/api/auth/verify-otp', {
+          otp: otp,
+          purpose: 'forgotpassword'
+        });
+      }
       const data = result.data;
 
-      if (data.success) {
-        setSuccess('OTP verified successfully! Redirecting...');
+      setSuccess('OTP verified successfully! Redirecting...');
+
+      if (purpose === 'signup') {
         navigate('/Analytics');
+      } else if (purpose === 'forgotpassword') {
+        navigate('/ResetPassword');
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Invalid OTP code. Please try again.');

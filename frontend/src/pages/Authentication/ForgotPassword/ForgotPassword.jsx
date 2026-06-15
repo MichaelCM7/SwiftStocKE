@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import './ForgotPassword.css';
 import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
 
-export function ForgotPassword({ isAuthorized, setIsAuthorized }) {
-  setIsAuthorized(false);
+export function ForgotPassword({ isAuthorized, setIsAuthorized, setPurpose }) {
+  useEffect(() => {
+    setIsAuthorized(false);
+    setPurpose('forgotpassword');
+  }, []);
 
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');

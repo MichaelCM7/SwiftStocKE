@@ -24,6 +24,7 @@ import { PageNotFound } from "./pages/Error/PageNotFound"
 
 function App() {
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const [purpose, setPurpose] = useState(null);
 
   return (
     <Routes>
@@ -43,9 +44,9 @@ function App() {
 
       {/* Authentication pages */}
       <Route path="/SignIn" element={<SignIn isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
-      <Route path="/SignUp" element={<SignUp isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
-      <Route path="/ForgotPassword" element={<ForgotPassword isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
-      <Route path="/VerifyOTP" element={<VerifyOTP isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/SignUp" element={<SignUp isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} setPurpose={setPurpose} />} />
+      <Route path="/ForgotPassword" element={<ForgotPassword isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} setPurpose={setPurpose} />} />
+      <Route path="/VerifyOTP" element={<VerifyOTP isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} purpose={purpose} />} />
       <Route path="ResetPassword" element={<ResetPassword isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
 
       {/* Error pages */}

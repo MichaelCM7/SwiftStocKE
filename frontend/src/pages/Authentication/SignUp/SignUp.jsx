@@ -5,9 +5,10 @@ import './SignUp.css';
 import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
 
-export function SignUp({ isAuthorized, setIsAuthorized }) {
+export function SignUp({ isAuthorized, setIsAuthorized, purpose, setPurpose }) {
   useEffect(() => {
     setIsAuthorized(false);
+    setPurpose('signup');
   }, []);
 
   const [email, setEmail] = useState('');
