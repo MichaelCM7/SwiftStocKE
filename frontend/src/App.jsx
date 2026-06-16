@@ -37,7 +37,7 @@ function App() {
       <Route path="/History" element={<History isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
       <Route path="/ManageStock" element={<ManageStock isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
       <Route path="/AddNewItem" element={<AddNewItem isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
-      <Route path="/EditItem" element={<EditItem isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/EditItem/:id" element={<EditItem isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
       <Route path="/Sales/:saleID" element={<SaleID isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
       <Route path="/RecordNewSale" element={<RecordNewSale isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
       <Route path="/Restock" element={<Restock isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />

@@ -1,71 +1,52 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useParams } from 'react-router';
+import axios from 'axios';
 import './EditItem.css';
 import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
+import { IoMdArrowBack } from "react-icons/io";
+import { IoSaveOutline } from "react-icons/io5";
 
 export function EditItem({ isAuthorized, setIsAuthorized }) {
-  setIsAuthorized(true);
+  useEffect(() => {
+    setIsAuthorized(true);
+  }, []);
+
   const navigate = useNavigate();
+  const { id } = useParams();
+  const [itemName, setItemName] = useState('');
+  const [quantity, setQuantity] = useState(0);
+  const [threshold, setThreshold] = useState(0);
 
-  // Mock initial values for edit state
-  const [itemName, setItemName] = useState('Wireless Mouse');
-  const [quantity, setQuantity] = useState('50');
-  const [threshold, setThreshold] = useState('10');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // In real app, we would update the item stock
-    navigate('/ManageStock');
+  const fetchItemById = async () => {
+    try {
+      const response = await axios.get(`api/products/get-items-by-id/${id}`);
+      const data = response.data;
+      setItemName(data.products.itemName);
+      setQuantity(data.products.quantity);
+      setThreshold(data.products.threshold);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  // SVG Icons
-  const ImageIcon = ({ className }) => (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-      <circle cx="8.5" cy="8.5" r="1.5" />
-      <polyline points="21 15 16 10 5 21" />
-    </svg>
-  );
+  useEffect(() => {
+    fetchItemById();
+  }, []);
 
-  const ArrowLeftIcon = () => (
-    <svg
-      className="btn-icon-back"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="19" y1="12" x2="5" y2="12" />
-      <polyline points="12 19 5 12 12 5" />
-    </svg>
-  );
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const SaveIcon = () => (
-    <svg
-      className="btn-icon-save"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
-      <polyline points="17 21 17 13 7 13 7 21" />
-      <polyline points="7 3 7 8 15 8" />
-    </svg>
-  );
+    try {
+      const response = await axios.put(`api/products/edit-items/${id}`);
+      const data = response.data;
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    navigate('/ManageStock');
+  };
 
   return (
     <div className="sales-page-container">
@@ -76,7 +57,7 @@ export function EditItem({ isAuthorized, setIsAuthorized }) {
       <main className="sales-main">
         <div className="sales-title-bar-id">
           <Link to="/ManageStock" className="btn-back-sales">
-            <ArrowLeftIcon /> Back To Manage Stock
+            <IoMdArrowBack /> Back To Manage Stock
           </Link>
         </div>
 
@@ -140,7 +121,7 @@ export function EditItem({ isAuthorized, setIsAuthorized }) {
               </div>
 
               <button type="submit" className="btn-submit-item">
-                <SaveIcon /> Save Changes
+                <IoSaveOutline /> Save Changes
               </button>
             </form>
           </div>

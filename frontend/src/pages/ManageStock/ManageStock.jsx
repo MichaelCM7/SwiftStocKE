@@ -14,23 +14,6 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
     setIsAuthorized(true);
   }, []);
 
-  // Mock data of 10 stock items conforming to the Figma mockup
-  // const initialStock = Array.from({ length: 10 }, (_, i) => {
-  //   const qty = [50, 15, 0, 8, 120, 2, 40, 90, 5, 200][i];
-  //   let status = 'In Stock';
-  //   if (qty === 0) {
-  //     status = 'Out of Stock';
-  //   } else if (qty <= 10) {
-  //     status = 'Low Stock';
-  //   }
-  //   return {
-  //     id: i + 1,
-  //     name: `Item #${i + 1}`,
-  //     quantity: qty,
-  //     status: status,
-  //   };
-  // });
-
   const [stock, setStock] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -38,8 +21,8 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
     try {
       const response = await axios.get('/api/products/get-items');
       const data = response.data;
-      // console.log(data.products);
       setStock(data.products);
+      // console.log(data.products);
     } catch (error) {
       console.log(error);
     }
@@ -49,14 +32,11 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
     stockItems();
   }, []);
 
-  const handleDelete = async (key, id) => {
-    console.log(key, id);
+  const handleDelete = async (id) => {
     try {
       const response = await axios.delete(`/api/products/delete-items/${id}`);
       const data = response.data;
-      // setStock(stock.filter(item => item.id !== id));
-      // console.log(data.products);
-      // setStock(data.products);
+      setStock(stock.filter(item => item._id !== id));
     } catch (error) {
       console.log(error);
     }
@@ -107,11 +87,11 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
                       </span>
                     </td>
                     <td className="stock-actions">
-                      <Link to="/EditItem" className="btn-stock-action btn-edit">
+                      <Link to={`/EditItem/${item._id}`} className="btn-stock-action btn-edit">
                         <FaRegEdit /> Edit
                       </Link>
                       <button
-                        onClick={() => handleDelete(item.id)}
+                        onClick={() => handleDelete(item._id)}
                         className="btn-stock-action btn-delete"
                       >
                         <FaRegTrashAlt /> Delete
