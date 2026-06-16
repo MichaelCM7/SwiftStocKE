@@ -49,11 +49,12 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
     stockItems();
   }, []);
 
-  const handleDelete = async (id) => {
-    //setStock(stock.filter(item => item.id !== id));
+  const handleDelete = async (key, id) => {
+    console.log(key, id);
     try {
-      const response = await axios.delete(`/api/products/delete-item/${id}`);
+      const response = await axios.delete(`/api/products/delete-items/${id}`);
       const data = response.data;
+      // setStock(stock.filter(item => item.id !== id));
       // console.log(data.products);
       // setStock(data.products);
     } catch (error) {

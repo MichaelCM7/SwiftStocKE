@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
+import axios from 'axios';
 import './AddNewItem.css';
 import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
@@ -12,8 +13,21 @@ export function AddNewItem({ isAuthorized, setIsAuthorized }) {
   const [quantity, setQuantity] = useState('1');
   const [threshold, setThreshold] = useState('1');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post("api/products/add-item", {
+        itemName: itemName,
+        quantity: quantity,
+        lowStockThreshold: threshold
+      });
+
+
+    } catch (error) {
+      console.error("Error adding item:", error);
+    }
+
     // In real app, we would dispatch API call or save stock
     navigate('/ManageStock');
   };
@@ -84,57 +98,38 @@ export function AddNewItem({ isAuthorized, setIsAuthorized }) {
             <form onSubmit={handleSubmit} className="add-item-form">
               <div className="form-group">
                 <label htmlFor="itemName" className="form-label">Item Name*</label>
-                <div className="select-wrapper">
-                  <select
-                    id="itemName"
-                    value={itemName}
-                    onChange={(e) => setItemName(e.target.value)}
-                    className="form-select"
-                    required
-                  >
-                    <option value="" disabled>Item Name</option>
-                    <option value="Wireless Mouse">Wireless Mouse</option>
-                    <option value="Mechanical Keyboard">Mechanical Keyboard</option>
-                    <option value="USB-C Hub">USB-C Hub</option>
-                    <option value='27" LED Monitor'>27" LED Monitor</option>
-                    <option value="Noise Cancelling Headphones">Noise Cancelling Headphones</option>
-                  </select>
-                </div>
+                <input
+                  type='text'
+                  value={itemName}
+                  onChange={(e) => setItemName(e.target.value)}
+                  placeholder='Item Name'
+                  className='form-select'
+                  required
+                />
               </div>
 
               <div className="form-group">
                 <label htmlFor="quantity" className="form-label">Quantity*</label>
-                <div className="select-wrapper">
-                  <select
-                    id="quantity"
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
-                    className="form-select"
-                    required
-                  >
-                    <option value="" disabled>Quantity</option>
-                    {Array.from({ length: 200 }, (_, i) => i + 1).map((num) => (
-                      <option key={num} value={num}>{num}</option>
-                    ))}
-                  </select>
-                </div>
+                <input
+                  type='number'
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  placeholder='Quantity'
+                  className='form-select'
+                  required
+                />
               </div>
 
               <div className="form-group">
                 <label htmlFor="threshold" className="form-label">Low Stock Threshold</label>
-                <div className="select-wrapper">
-                  <select
-                    id="threshold"
-                    value={threshold}
-                    onChange={(e) => setThreshold(e.target.value)}
-                    className="form-select"
-                  >
-                    <option value="" disabled>Quantity</option>
-                    {Array.from({ length: 50 }, (_, i) => i + 1).map((num) => (
-                      <option key={num} value={num}>{num}</option>
-                    ))}
-                  </select>
-                </div>
+                <input
+                  type='number'
+                  value={threshold}
+                  onChange={(e) => setThreshold(e.target.value)}
+                  placeholder='Low Stock Threshold'
+                  className='form-select'
+                  required
+                />
               </div>
 
               <button type="submit" className="btn-submit-item">
