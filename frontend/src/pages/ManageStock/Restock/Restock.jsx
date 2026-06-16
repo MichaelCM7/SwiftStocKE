@@ -101,7 +101,7 @@ export function Restock({ isAuthorized, setIsAuthorized }) {
                 </div>
 
                 <button type="submit" className="btn-submit-item">
-                  <ImLoop2 size={14} /> Restock Item
+                  Restock Item
                 </button>
               </form>
             </div>

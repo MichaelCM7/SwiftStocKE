@@ -9,10 +9,10 @@ import { useEffect, useState } from 'react';
 // Donut Chart for Stock Distribution
 function DonutChart() {
   const segments = [
-    { value: 40, color: '#1a1a1a' },
-    { value: 25, color: '#555555' },
-    { value: 20, color: '#888888' },
-    { value: 15, color: '#bbbbbb' },
+    { value: 40, color: '#2563eb' }, // Synced chart accents to branding blue
+    { value: 25, color: '#475569' },
+    { value: 20, color: '#94a3b8' },
+    { value: 15, color: '#cbd5e1' },
   ];
 
   const total = segments.reduce((s, seg) => s + seg.value, 0);
@@ -89,9 +89,9 @@ function LineChart() {
           <line
             x1={padL} y1={yPos(y)}
             x2={width - padR} y2={yPos(y)}
-            stroke="#e5e5e5" strokeWidth="1"
+            stroke="#e2e8f0" strokeWidth="1"
           />
-          <text x={padL - 6} y={yPos(y) + 4} textAnchor="end" fontSize="9" fill="#999">
+          <text x={padL - 6} y={yPos(y) + 4} textAnchor="end" fontSize="9" fill="#94a3b8">
             {y}
           </text>
         </g>
@@ -99,7 +99,7 @@ function LineChart() {
       {labels.map((label, i) => {
         const xi = Math.round((i / (labels.length - 1)) * (data.length - 1));
         return (
-          <text key={label} x={xPos(xi)} y={height - 6} textAnchor="middle" fontSize="9" fill="#999">
+          <text key={label} x={xPos(xi)} y={height - 6} textAnchor="middle" fontSize="9" fill="#94a3b8">
             {label}
           </text>
         );
@@ -107,20 +107,19 @@ function LineChart() {
       <polyline
         points={points}
         fill="none"
-        stroke="#1a1a1a"
+        stroke="#2563eb"
         strokeWidth="1.8"
         strokeLinejoin="round"
         strokeLinecap="round"
       />
       {data.map((v, i) => (
-        <circle key={i} cx={xPos(i)} cy={yPos(v)} r="2.5" fill="#1a1a1a" />
+        <circle key={i} cx={xPos(i)} cy={yPos(v)} r="2.5" fill="#2563eb" />
       ))}
     </svg>
   );
 }
 
 // --- Main Component ---
-
 export function Analytics({ isAuthorized, setIsAuthorized }) {
   useEffect(() => {
     setIsAuthorized(true);
@@ -144,10 +143,8 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
 
   return (
     <div className="analytics-page-container">
-      {/* Header */}
       <Header isAuthorized={isAuthorized} />
 
-      {/* Main Content Area */}
       <main className="analytics-main">
         <div className="analytics-page-title">
           <h1 className="analytics-title">Analytics</h1>
@@ -211,7 +208,7 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
                       <td>{item.name}</td>
                       <td>{item.quantity}</td>
                       <td>
-                        <span className={`analytics-status-badge ${statusClass[item.status]}`}>
+                        <span className={`analytics-status-badge ${statusClass[item.status] || 'analytics-status-badge--good'}`}>
                           {item.status}
                         </span>
                       </td>
@@ -224,7 +221,6 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
         </section>
       </main>
 
-      {/* Footer */}
       <Footer isAuthorized={isAuthorized} />
     </div>
   );

@@ -125,3 +125,34 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* ── Global Status Level Badges ── */
+.analytics-status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* Using accessible colors that contrast beautifully on both themes */
+.analytics-status-badge--low {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.analytics-status-badge--out {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.analytics-status-badge--moderate {
+  background-color: #fef9c3;
+  color: #a16207;
+}
+
+.analytics-status-badge--good {
+  background-color: #dcfce7;
+  color: #15803d;
+}

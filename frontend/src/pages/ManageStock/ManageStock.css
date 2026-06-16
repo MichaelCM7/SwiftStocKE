@@ -177,36 +177,6 @@
   background-color: #fef2f2;
 }
 
-/* ── Status Level Badges ── */
-.analytics-status-badge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 9999px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.analytics-status-badge--low {
-  background-color: #fef3c7;
-  color: #d97706;
-}
-
-.analytics-status-badge--out {
-  background-color: #fee2e2;
-  color: #dc2626;
-}
-
-.analytics-status-badge--moderate {
-  background-color: #fef9c3;
-  color: #ca8a04;
-}
-
-.analytics-status-badge--good {
-  background-color: #dcfce7;
-  color: #16a34a;
-}
-
 /* Responsive Overrides */
 @media (max-width: 768px) {
   .manage-stock-title-bar {
