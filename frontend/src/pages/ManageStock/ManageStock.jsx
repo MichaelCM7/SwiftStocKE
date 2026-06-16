@@ -16,31 +16,32 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
   const [stock, setStock] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const stockItems = async () => {
+  const fetchStockItems = async () => {
     try {
       const response = await axios.get('/api/products/get-items');
-      const data = response.data;
-      setStock(data.products);
+      if (response.data?.products) {
+        setStock(response.data.products);
+      }
     } catch (error) {
-      console.log(error);
+      console.error("Error loading stock registry database records:", error);
     }
   };
 
   useEffect(() => {
-    stockItems();
+    fetchStockItems();
   }, []);
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`/api/products/delete-items/${id}`);
-      setStock(stock.filter(item => item._id !== id));
+      setStock(prevStock => prevStock.filter(item => item._id !== id));
     } catch (error) {
-      console.log(error);
+      console.error("Error purging selected stock tracking node:", error);
     }
   };
 
   const getBadgeModifier = (status) => {
-    const cleanStatus = status.toLowerCase().trim();
+    const cleanStatus = (status || '').toLowerCase().trim();
     if (cleanStatus.includes('low')) return 'analytics-status-badge--low';
     if (cleanStatus.includes('out')) return 'analytics-status-badge--out';
     if (cleanStatus.includes('moderate')) return 'analytics-status-badge--moderate';
@@ -49,83 +50,82 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
 
   return (
     <div className="manage-stock-page-container">
-      {/* Header */}
       <Header isAuthorized={isAuthorized} />
 
-      {/* Main Content Area */}
-      <main className="manage-stock-main">
-        <div className="manage-stock-title-bar">
-          <div className="manage-stock-title-text">
-            <h1 className="manage-stock-heading">Manage Stock</h1>
+      <div className="manage-stock-main-wrapper">
+        <main className="manage-stock-main">
+          <div className="manage-stock-title-bar">
+            <div className="manage-stock-title-text">
+              <h1 className="manage-stock-heading">Manage Stock</h1>
+            </div>
+            <div className="manage-stock-actions">
+              <Link to="/Restock" className="btn-manage-stock-action">
+                <ImLoop2 size={13} /> Restock
+              </Link>
+              <Link to="/AddNewItem" className="btn-manage-stock-action">
+                <FaPlus size={12} /> Add New Item
+              </Link>
+            </div>
           </div>
-          <div className="manage-stock-actions">
-            <Link to="/Restock" className="btn-manage-stock-action btn-restock">
-              <ImLoop2 /> Restock
-            </Link>
-            <Link to="/AddNewItem" className="btn-manage-stock-action btn-add-new">
-              <FaPlus /> Add New Item
-            </Link>
-          </div>
-        </div>
 
-        {/* ONE SINGLE WRAPPER FOR THE WHOLE TABLE BLOCK */}
-        <div className="analytics-table-wrapper">
-          <div className="table-responsive">
-            <table className="analytics-table">
-              <thead>
-                <tr>
-                  <th>Item Name</th>
-                  <th>Quantity</th>
-                  <th>Status</th>
-                  <th className="actions-header-stock">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {stock.length > 0 ? (
-                  stock.map((item) => (
-                    <tr key={item._id}>
-                      <td className="manage-stock-item-name">{item.itemName}</td>
-                      <td className="manage-stock-qty">{item.quantity}</td>
-                      <td>
-                        <span className={`analytics-status-badge ${getBadgeModifier(item.status)}`}>
-                          {item.status}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="stock-actions">
-                          <Link to={`/EditItem/${item._id}`} className="btn-stock-action btn-edit">
-                            <FaRegEdit /> Edit
-                          </Link>
-                          <button
-                            onClick={() => handleDelete(item._id)}
-                            className="btn-stock-action btn-delete"
-                          >
-                            <FaRegTrashAlt /> Delete
-                          </button>
-                        </div>
+          <div className="analytics-table-wrapper">
+            <div className="table-responsive">
+              <table className="analytics-table">
+                <thead>
+                  <tr>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th className="actions-header-stock">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stock.length > 0 ? (
+                    stock.map((item) => (
+                      <tr key={item._id}>
+                        <td className="manage-stock-item-name">{item.itemName}</td>
+                        <td className="manage-stock-qty">{item.quantity}</td>
+                        <td>
+                          <span className={`analytics-status-badge ${getBadgeModifier(item.status)}`}>
+                            {item.status}
+                          </span>
+                        </td>
+                        <td>
+                          <div className="stock-actions">
+                            <Link to={`/EditItem/${item._id}`} className="btn-stock-action btn-edit">
+                              <FaRegEdit size={14} /> Edit
+                            </Link>
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(item._id)}
+                              className="btn-stock-action btn-delete"
+                            >
+                              <FaRegTrashAlt size={13} /> Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="4" style={{ textAlign: 'center', padding: '32px', color: '#666666', fontWeight: 500 }}>
+                        No stock items found in database registry.
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="4" style={{ textAlign: 'center', padding: '24px', color: '#666' }}>
-                      No stock items found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <Pagination
+              currentPage={currentPage}
+              totalPages={5}
+              onPageChange={setCurrentPage}
+            />
           </div>
+        </main>
+      </div>
 
-          <Pagination
-            currentPage={currentPage}
-            totalPages={5}
-            onPageChange={setCurrentPage}
-          />
-        </div>
-      </main>
-
-      {/* Footer */}
       <Footer isAuthorized={isAuthorized} />
     </div>
   );

@@ -4,15 +4,18 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #fafafa;
-  color: #1a1a1a;
-  font-family: var(--sans);
   box-sizing: border-box;
 }
 
-/* Main Content Area */
-.manage-stock-main {
+/* Neutral structure wrapper with NO forced background colors */
+.manage-stock-main-wrapper {
   flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Main Content Area Layout Canvas */
+.manage-stock-main {
   max-width: 1120px;
   width: 100%;
   margin: 0 auto;
@@ -34,11 +37,10 @@
 .manage-stock-heading {
   font-size: 28px;
   font-weight: 700;
-  color: #1a1a1a;
   margin: 0;
 }
 
-/* Actions in Title Bar */
+/* Header Navigation Links */
 .manage-stock-actions {
   display: flex;
   gap: 12px;
@@ -54,24 +56,23 @@
   text-decoration: none;
   border-radius: 6px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease;
-}
-
-.btn-restock,
-.btn-add-new {
   background-color: #2563eb;
   color: #ffffff;
+
+  /* Animation block killers */
+  transition: none !important;
+  transform: none !important;
 }
 
-.btn-restock:hover,
-.btn-add-new:hover {
+.btn-manage-stock-action:hover {
   background-color: #1d4ed8;
+  transform: none !important;
 }
 
-/* ── Integrated Analytics Table Core Layout ── */
+/* ── Integrated Table Core Wrapper ── */
 .analytics-table-wrapper {
   border: 1px solid #e5e5e5;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
   background-color: #ffffff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
@@ -106,32 +107,27 @@
 
 .analytics-table-wrapper .analytics-table td {
   padding: 16px 24px;
-  color: #333333;
   border-bottom: 1px solid #f0f0f0;
   vertical-align: middle;
   background-color: #ffffff;
 }
 
-/* Removes double border lines on the bottom edge row elements */
-.analytics-table-wrapper .analytics-table tbody tr:last-child td,
-.analytics-table-wrapper .analytics-table tr:last-child td {
+.analytics-table-wrapper .analytics-table tbody tr:last-child td {
   border-bottom: none;
 }
 
 .manage-stock-item-name {
   font-weight: 500;
-  color: #1a1a1a;
 }
 
 .manage-stock-qty {
   font-weight: 500;
-  color: #333333;
 }
 
-/* Action alignment structure definitions */
+/* Row Action Buttons Columns mapping */
 .actions-header-stock {
   text-align: right !important;
-  width: 180px;
+  width: 200px;
 }
 
 .stock-actions {
@@ -140,67 +136,75 @@
   gap: 8px;
 }
 
+/* Modern low-profile border structural action components */
 .btn-stock-action {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   text-decoration: none;
-  border-radius: 4px;
-  border: none;
+  border-radius: 6px;
+  border: 1px solid #e5e5e5;
   cursor: pointer;
-  transition: all 0.2s ease;
+  background-color: #ffffff;
+  box-sizing: border-box;
+
+  /* Animation block killers */
+  transition: none !important;
+  transform: none !important;
 }
 
+/* Subtle accent states without shaking layout properties */
 .btn-edit {
-  background-color: #1a1a1a;
-  color: #ffffff;
+  color: #666666;
 }
 
 .btn-edit:hover {
-  background-color: #333333;
+  color: #2563eb;
+  border-color: #2563eb;
+  background-color: #f0f5ff;
 }
 
 .btn-delete {
-  background-color: #1a1a1a;
-  color: #ffffff;
+  color: #666666;
 }
 
 .btn-delete:hover {
-  background-color: #333333;
-  color: #ff3b30;
+  color: #ef4444;
+  border-color: #fca5a5;
+  background-color: #fef2f2;
 }
 
-/* ── Analytics Badges ── */
+/* ── Status Level Badges ── */
 .analytics-status-badge {
   display: inline-block;
-  padding: 3px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
   text-transform: capitalize;
 }
 
 .analytics-status-badge--low {
-  background-color: #f59e0b;
-  color: #ffffff;
+  background-color: #fef3c7;
+  color: #d97706;
 }
 
 .analytics-status-badge--out {
-  background-color: #ef4444;
-  color: #ffffff;
+  background-color: #fee2e2;
+  color: #dc2626;
 }
 
 .analytics-status-badge--moderate {
-  background-color: #eab308;
-  color: #ffffff;
+  background-color: #fef9c3;
+  color: #ca8a04;
 }
 
 .analytics-status-badge--good {
-  background-color: #0bd404;
-  color: #ffffff;
+  background-color: #dcfce7;
+  color: #16a34a;
 }
 
 /* Responsive Overrides */

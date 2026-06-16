@@ -4,15 +4,22 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #fafafa;
-  color: #1a1a1a;
+  background-color: #ffffff;
+  /* FIXED and forced to solid white background */
+  color: #1e293b;
   font-family: var(--sans);
+  box-sizing: border-box;
+}
+
+/* Structural page layer canvas shell */
+.history-main-wrapper {
+  flex: 1;
+  width: 100%;
   box-sizing: border-box;
 }
 
 /* Main Content Area */
 .history-main {
-  flex: 1;
   max-width: 1120px;
   width: 100%;
   margin: 0 auto;
@@ -34,14 +41,14 @@
 .history-heading {
   font-size: 28px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #000000;
   margin: 0 0 6px 0;
 }
 
 /* ── Integrated Table Card Wrapper ── */
 .history-main .history-content-wrapper {
-  border: 1px solid #e5e5e5;
-  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
   overflow: hidden;
   background-color: #ffffff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
@@ -71,37 +78,36 @@
   color: #2563eb !important;
   font-size: 14px;
   letter-spacing: 0.02em;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e2e8f0;
   background-color: #f0f5ff !important;
 }
 
 .history-main .history-content-wrapper .history-table td {
   padding: 16px 24px;
-  color: #333333;
-  border-bottom: 1px solid #f0f0f0;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
   vertical-align: middle;
   background-color: #ffffff;
 }
 
 /* Clean up bottom table edge border artifacts */
-.history-main .history-table tbody tr:last-child td,
-.history-main .history-table tr:last-child td {
+.history-main .history-content-wrapper .history-table tbody tr:last-child td {
   border-bottom: none;
 }
 
 /* Text Formatting Classes */
 .history-item-name {
   font-weight: 500;
-  color: #1a1a1a;
+  color: #0f172a;
 }
 
 .history-change-type {
   font-weight: 500;
-  color: #1a1a1a;
+  color: #0f172a;
 }
 
 .history-time {
-  color: #555555;
+  color: #64748b;
 }
 
 /* Responsive Overrides */
