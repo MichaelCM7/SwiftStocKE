@@ -88,11 +88,6 @@
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.input-group input:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
 .signup-redirect {
     font-size: 13px;
     color: #64748b;

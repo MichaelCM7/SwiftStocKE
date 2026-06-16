@@ -63,9 +63,6 @@ export function ForgotPassword({ isAuthorized, setIsAuthorized, setPurpose }) {
       {/* Main Content */}
       <main className="forgotpassword-main-content">
         <div className="forgotpassword-form-card">
-          <div className="website-brand">
-            <span className="website-name">Website Name</span>
-          </div>
 
           <h2 className="forgotpassword-title">Forgot Password</h2>
 
