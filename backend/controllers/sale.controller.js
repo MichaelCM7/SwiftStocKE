@@ -1,7 +1,7 @@
 import Sale from "../models/sale.model.js";
 import dayjs from "dayjs";
 
-export async function recordNewSale() {
+export async function recordNewSale(req, res, next) {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
@@ -52,7 +52,7 @@ export async function recordNewSale() {
   }
 }
 
-export async function getSalesByRetailerID() {
+export async function getSalesByRetailerID(req, res, next) {
   try {
     const retailerID = req.retailer._id;
 
@@ -84,7 +84,7 @@ export async function getSalesByRetailerID() {
   }
 }
 
-export async function getSaleBySaleID() {
+export async function getSaleBySaleID(req, res, next) {
   try {
     const retailerID = req.retailer._id;
     const { saleID } = req.params;
