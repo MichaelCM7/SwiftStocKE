@@ -39,7 +39,11 @@ export function EditItem({ isAuthorized, setIsAuthorized }) {
     event.preventDefault();
 
     try {
-      const response = await axios.put(`api/products/edit-items/${id}`);
+      const response = await axios.put(`/api/products/edit-items/${id}`, {
+        itemName: itemName,
+        quantity: quantity,
+        lowStockThreshold: threshold
+      });
       const data = response.data;
       console.log(data);
     } catch (error) {
