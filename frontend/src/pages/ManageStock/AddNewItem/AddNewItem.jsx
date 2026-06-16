@@ -53,6 +53,7 @@ export function AddNewItem({ isAuthorized, setIsAuthorized }) {
               <div className="form-group">
                 <label htmlFor="itemName" className="form-label">Item Name*</label>
                 <input
+                  id='itemName'
                   type='text'
                   value={itemName}
                   onChange={(e) => setItemName(e.target.value)}
@@ -65,6 +66,7 @@ export function AddNewItem({ isAuthorized, setIsAuthorized }) {
               <div className="form-group">
                 <label htmlFor="quantity" className="form-label">Quantity*</label>
                 <input
+                  id='quantity'
                   type='number'
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
@@ -77,6 +79,7 @@ export function AddNewItem({ isAuthorized, setIsAuthorized }) {
               <div className="form-group">
                 <label htmlFor="threshold" className="form-label">Low Stock Threshold</label>
                 <input
+                  id='threshold'
                   type='number'
                   value={threshold}
                   onChange={(e) => setThreshold(e.target.value)}
