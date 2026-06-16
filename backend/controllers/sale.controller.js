@@ -53,16 +53,16 @@ export async function recordNewSale() {
 
 export async function getSalesByRetailerID() {
   try {
-    const retailerId = req.retailer._id;
+    const retailerID = req.retailer._id;
 
-    if (!retailerId) {
+    if (!retailerID) {
       const error = new Error("Unauthorized");
       error.statusCode = 401;
       throw error;
     }
 
     const sales = await Sale.find({
-      retailer: retailerId
+      retailer: retailerID
     });
 
     if (!sales && sales.length === 0) {
@@ -85,6 +85,37 @@ export async function getSalesByRetailerID() {
 
 export async function getSaleBySaleID() {
   try {
+    const retailerID = req.retailer._id;
+    const { saleID } = req.params;
+
+    if (!retailerID) {
+      const error = new Error("Unauthorized");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    if (!saleID) {
+      const error = new Error("No Sale ID");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const sale = await Sale.findOne({
+      retailer: retailerID,
+      _id: saleID
+    });
+
+    if (!sale) {
+      const error = new Error("No Sale Found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Sale Fetched Successfully",
+      sale: sale
+    });
 
   }
   catch (error) {
