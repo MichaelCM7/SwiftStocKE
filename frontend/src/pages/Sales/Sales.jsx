@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import './Sales.css';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
 
+
 export function Sales({ isAuthorized, setIsAuthorized }) {
-  setIsAuthorized(true);
+  useEffect(() => {
+    setIsAuthorized(true);
+  }, [setIsAuthorized]);
 
   // Sample data conforming to the Figma mockup (10 sales)
   const initialSales = Array.from({ length: 10 }, (_, i) => ({
@@ -83,7 +86,6 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
         <div className="sales-title-bar">
           <div className="sales-title-text">
             <h1 className="sales-heading">Sales</h1>
-            <p className="sales-subheading">Record Your Sales Here</p>
           </div>
           <Link to="/RecordNewSale" className="btn-record-sale">
             <PlusIcon /> Record New Sale
@@ -92,14 +94,13 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
 
         {sales.length > 0 ? (
           <div className="sales-content-wrapper">
-            {/* Sales Table */}
             <div className="table-responsive">
               <table className="sales-table">
                 <thead>
                   <tr>
                     <th>Sale Name</th>
                     <th>Sale Date and Time</th>
-                    <th className="actions-header">Actions</th>
+                    <th className="actions-header"  >Actions</th>
                   </tr>
                 </thead>
                 <tbody>

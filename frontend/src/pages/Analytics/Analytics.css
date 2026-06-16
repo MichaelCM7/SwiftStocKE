@@ -53,7 +53,7 @@
 .analytics-card-title {
     font-size: 16px;
     font-weight: 600;
-    color: #111111;
+    color: #2563eb;
     margin: 0 0 18px 0;
 }
 
@@ -90,7 +90,6 @@
 
 .analytics-demand-list li {
     font-size: 14px;
-    color: #2563eb;
     padding: 4px 0;
 }
 
@@ -102,7 +101,7 @@
 .analytics-restock-title {
     font-size: 20px;
     font-weight: 700;
-    color: #111111;
+    color: black;
     margin: 0 0 16px 0;
     text-align: center;
     margin-bottom: 30px;
@@ -138,18 +137,6 @@
     padding: 14px 20px;
     color: #333333;
     border-bottom: 1px solid #f0f0f0;
-}
-
-.analytics-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.analytics-table tbody tr {
-    transition: background-color 0.15s ease;
-}
-
-.analytics-table tbody tr:hover {
-    background-color: #fafafa;
 }
 
 /* Stock Status Badge */
