@@ -29,10 +29,11 @@
   color: #333333;
 }
 
-.footer-website-name {
-  font-weight: 700;
-  font-size: 16px;
-  color: #1a1a1a;
+.footer-brand .footer-website-name {
+  font-weight: bold;
+  font-size: 18px;
+  color: #2563eb;
+  text-align: left;
 }
 
 .footer-links-container {

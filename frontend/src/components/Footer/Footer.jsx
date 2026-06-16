@@ -34,7 +34,7 @@ export function Footer({ isAuthorized }) {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>©2026 SwiftStock. All Rights Reserved.</p>
+        <p>© 2026 SwiftStock. All Rights Reserved.</p>
       </div>
     </footer>
   )

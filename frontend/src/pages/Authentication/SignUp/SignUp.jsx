@@ -61,10 +61,6 @@ export function SignUp({ isAuthorized, setIsAuthorized, purpose, setPurpose }) {
       {/* Main Content */}
       <main className="signup-main-content">
         <div className="signup-form-card">
-          <div className="website-brand">
-            {/* <ImageIcon className="website-logo-icon" /> */}
-            <span className="website-name">Website Name</span>
-          </div>
 
           <h2 className="signup-title">Sign Up</h2>
 
