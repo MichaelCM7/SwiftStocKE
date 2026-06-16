@@ -154,7 +154,7 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
                 </div>
 
                 <button type="submit" className="btn-add-item">
-                  <PlusIcon /> Add Item
+                  Add Item
                 </button>
               </form>
             </div>
