@@ -5,6 +5,7 @@ import './Restock.css';
 import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
 import { ImLoop2 } from "react-icons/im";
+import { IoMdArrowBack } from "react-icons/io";
 
 export function Restock({ isAuthorized, setIsAuthorized }) {
   useEffect(() => {
@@ -31,9 +32,6 @@ export function Restock({ isAuthorized, setIsAuthorized }) {
     getAllItems();
   }, []);
 
-
-  console.log(items);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -51,53 +49,6 @@ export function Restock({ isAuthorized, setIsAuthorized }) {
     navigate('/ManageStock');
   };
 
-  // SVG Icons
-  const ImageIcon = ({ className }) => (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-      <circle cx="8.5" cy="8.5" r="1.5" />
-      <polyline points="21 15 16 10 5 21" />
-    </svg>
-  );
-
-  const ArrowLeftIcon = () => (
-    <svg
-      className="btn-icon-back"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="19" y1="12" x2="5" y2="12" />
-      <polyline points="12 19 5 12 12 5" />
-    </svg>
-  );
-
-  const PlusIcon = () => (
-    <svg
-      className="btn-icon-plus"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="12" y1="5" x2="12" y2="19" />
-      <line x1="5" y1="12" x2="19" y2="12" />
-    </svg>
-  );
-
   return (
     <div className="sales-page-container">
       {/* Header */}
@@ -107,7 +58,7 @@ export function Restock({ isAuthorized, setIsAuthorized }) {
       <main className="sales-main">
         <div className="sales-title-bar-id">
           <Link to="/ManageStock" className="btn-back-sales">
-            <ArrowLeftIcon /> Back To Manage Stock
+            <IoMdArrowBack /> Back To Manage Stock
           </Link>
         </div>
 
