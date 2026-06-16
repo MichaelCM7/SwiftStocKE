@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 
 // Donut Chart for Stock Distribution
 function DonutChart() {
-  // Segments: [value, color]
   const segments = [
     { value: 40, color: '#1a1a1a' },
     { value: 25, color: '#555555' },
@@ -39,7 +38,7 @@ function DonutChart() {
       `A ${r} ${r} 0 ${largeArc} 1 ${p2.x} ${p2.y}`,
       `L ${p3.x} ${p3.y}`,
       `A ${innerR} ${innerR} 0 ${largeArc} 0 ${p4.x} ${p4.y}`,
-      'Z',
+      `Z`,
     ].join(' ');
   }
 
@@ -85,7 +84,6 @@ function LineChart() {
 
   return (
     <svg viewBox={`0 0 ${width} ${height}`} className="line-chart-svg">
-      {/* Y grid lines */}
       {yLabels.map((y) => (
         <g key={y}>
           <line
@@ -98,7 +96,6 @@ function LineChart() {
           </text>
         </g>
       ))}
-      {/* X axis labels */}
       {labels.map((label, i) => {
         const xi = Math.round((i / (labels.length - 1)) * (data.length - 1));
         return (
@@ -107,7 +104,6 @@ function LineChart() {
           </text>
         );
       })}
-      {/* Line */}
       <polyline
         points={points}
         fill="none"
@@ -116,7 +112,6 @@ function LineChart() {
         strokeLinejoin="round"
         strokeLinecap="round"
       />
-      {/* Dots */}
       {data.map((v, i) => (
         <circle key={i} cx={xPos(i)} cy={yPos(v)} r="2.5" fill="#1a1a1a" />
       ))}
@@ -129,15 +124,7 @@ function LineChart() {
 export function Analytics({ isAuthorized, setIsAuthorized }) {
   useEffect(() => {
     setIsAuthorized(true);
-  }, [])
-
-  const ImageIcon = ({ className }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-      <circle cx="8.5" cy="8.5" r="1.5" />
-      <polyline points="21 15 16 10 5 21" />
-    </svg>
-  );
+  }, [setIsAuthorized]);
 
   const highDemandGoods = ['Item 1', 'Item 2', 'Item 3'];
   const lowDemandGoods = ['Item 1', 'Item 2', 'Item 3'];
@@ -157,17 +144,16 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
 
   return (
     <div className="analytics-page-container">
-
-      {/* ── Header ── */}
+      {/* Header */}
       <Header isAuthorized={isAuthorized} />
 
-      {/* ── Page Title ── */}
+      {/* Main Content Area */}
       <main className="analytics-main">
         <div className="analytics-page-title">
           <h1 className="analytics-title">Analytics</h1>
         </div>
 
-        {/* ── Charts Row ── */}
+        {/* Charts Row */}
         <div className="analytics-charts-row">
           <div className="analytics-card">
             <h2 className="analytics-card-title">Stock Distribution</h2>
@@ -184,7 +170,7 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
           </div>
         </div>
 
-        {/* ── Demand Goods Row ── */}
+        {/* Demand Goods Row */}
         <div className="analytics-demand-row">
           <div className="analytics-card">
             <h2 className="analytics-card-title">High Demand Goods</h2>
@@ -205,38 +191,40 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
           </div>
         </div>
 
-        {/* ── Restocking Table ── */}
+        {/* Restocking Table */}
         <section className="analytics-restock-section">
           <h2 className="analytics-restock-title">Goods That Need Restocking</h2>
 
           <div className="analytics-table-wrapper">
-            <table className="analytics-table">
-              <thead>
-                <tr>
-                  <th>Item Name</th>
-                  <th>Item Quantity</th>
-                  <th>Stock Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {restockingItems.map((item, i) => (
-                  <tr key={i}>
-                    <td>{item.name}</td>
-                    <td>{item.quantity}</td>
-                    <td>
-                      <span className={`analytics-status-badge ${statusClass[item.status]}`}>
-                        {item.status}
-                      </span>
-                    </td>
+            <div className="table-responsive">
+              <table className="analytics-table">
+                <thead>
+                  <tr>
+                    <th>Item Name</th>
+                    <th>Item Quantity</th>
+                    <th>Stock Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {restockingItems.map((item, i) => (
+                    <tr key={i}>
+                      <td>{item.name}</td>
+                      <td>{item.quantity}</td>
+                      <td>
+                        <span className={`analytics-status-badge ${statusClass[item.status]}`}>
+                          {item.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
       </main>
 
-      {/* ── Footer ── */}
+      {/* Footer */}
       <Footer isAuthorized={isAuthorized} />
     </div>
   );

@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import './Sales.css';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
-
+import { Pagination } from '../../components/Pagination/Pagination';
 
 export function Sales({ isAuthorized, setIsAuthorized }) {
   useEffect(() => {
@@ -14,7 +14,7 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
   const initialSales = Array.from({ length: 10 }, (_, i) => ({
     id: i + 1,
     name: `Sale #${i + 1}`,
-    dateTime: 'Sale Date and Time', // Literal as in Figma, but looks clean
+    dateTime: 'Sale Date and Time',
   }));
 
   const [sales, setSales] = useState(initialSales);
@@ -30,22 +30,6 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
   };
 
   // SVG Icons
-  const ImageIcon = ({ className }) => (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-      <circle cx="8.5" cy="8.5" r="1.5" />
-      <polyline points="21 15 16 10 5 21" />
-    </svg>
-  );
-
   const EyeIcon = () => (
     <svg
       className="btn-icon"
@@ -100,12 +84,12 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
                   <tr>
                     <th>Sale Name</th>
                     <th>Sale Date and Time</th>
-                    <th className="actions-header"  >Actions</th>
+                    <th className="actions-header">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {sales.map((sale) => (
-                    <tr key={sale.id}>
+                    <tr key={sale.id}> {/* <-- Confirmed no row animation classes here */}
                       <td className="sale-name">{sale.name}</td>
                       <td className="sale-time">{sale.dateTime}</td>
                       <td className="sale-actions">
@@ -119,20 +103,11 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
               </table>
             </div>
 
-            {/* Pagination */}
-            <div className="pagination-container">
-              <button className="pagination-btn arrow" disabled>&lt;</button>
-              {[1, 2, 3, 4, 5].map((page) => (
-                <button
-                  key={page}
-                  className={`pagination-btn ${page === currentPage ? 'active' : ''}`}
-                  onClick={() => setCurrentPage(page)}
-                >
-                  {page}
-                </button>
-              ))}
-              <button className="pagination-btn arrow">&gt;</button>
-            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={5}
+              onPageChange={setCurrentPage}
+            />
           </div>
         ) : (
           /* Empty State */

@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import './ManageStock.css';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
+import { Pagination } from '../../components/Pagination/Pagination';
 import axios from 'axios';
 import { FaRegTrashAlt, FaRegEdit, FaPlus } from "react-icons/fa";
 import { ImLoop2 } from "react-icons/im";
@@ -38,7 +39,6 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
     }
   };
 
-  // Helper mapping to translate standard text into the correct analytics CSS modifier classes
   const getBadgeModifier = (status) => {
     const cleanStatus = status.toLowerCase().trim();
     if (cleanStatus.includes('low')) return 'analytics-status-badge--low';
@@ -48,15 +48,15 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
   };
 
   return (
-    <div className="sales-page-container">
+    <div className="manage-stock-page-container">
       {/* Header */}
       <Header isAuthorized={isAuthorized} />
 
       {/* Main Content Area */}
-      <main className="sales-main">
-        <div className="sales-title-bar">
-          <div className="sales-title-text">
-            <h1 className="sales-heading">Manage Stock</h1>
+      <main className="manage-stock-main">
+        <div className="manage-stock-title-bar">
+          <div className="manage-stock-title-text">
+            <h1 className="manage-stock-heading">Manage Stock</h1>
           </div>
           <div className="manage-stock-actions">
             <Link to="/Restock" className="btn-manage-stock-action btn-restock">
@@ -117,20 +117,11 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
             </table>
           </div>
 
-          {/* Keeping Pagination inside the wrapper if you want it unified, OR move it completely out */}
-          <div className="pagination-container">
-            <button className="pagination-btn arrow" disabled>&lt;</button>
-            {[1, 2, 3, 4, 5].map((page) => (
-              <button
-                key={page}
-                className={`pagination-btn ${page === currentPage ? 'active' : ''}`}
-                onClick={() => setCurrentPage(page)}
-              >
-                {page}
-              </button>
-            ))}
-            <button className="pagination-btn arrow">&gt;</button>
-          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={5}
+            onPageChange={setCurrentPage}
+          />
         </div>
       </main>
 

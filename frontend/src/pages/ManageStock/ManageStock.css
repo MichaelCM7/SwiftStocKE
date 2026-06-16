@@ -1,4 +1,6 @@
-.sales-page-container {
+/* ManageStock.css */
+
+.manage-stock-page-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -9,7 +11,7 @@
 }
 
 /* Main Content Area */
-.sales-main {
+.manage-stock-main {
   flex: 1;
   max-width: 1120px;
   width: 100%;
@@ -18,14 +20,18 @@
   box-sizing: border-box;
 }
 
-.sales-title-bar {
+.manage-stock-title-bar {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 32px;
 }
 
-.sales-heading {
+.manage-stock-title-text {
+  text-align: left;
+}
+
+.manage-stock-heading {
   font-size: 28px;
   font-weight: 700;
   color: #1a1a1a;
@@ -76,7 +82,7 @@
   overflow-x: auto;
 }
 
-.analytics-table {
+.analytics-table-wrapper .analytics-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
@@ -84,28 +90,31 @@
   margin: 0;
 }
 
-.analytics-table thead tr {
-  background-color: #f0f5ff;
+.analytics-table-wrapper .analytics-table thead tr {
+  background-color: #f0f5ff !important;
 }
 
-.analytics-table th {
+.analytics-table-wrapper .analytics-table th {
   padding: 16px 24px;
   font-weight: 600;
-  color: #2563eb;
+  color: #2563eb !important;
   font-size: 14px;
   letter-spacing: 0.02em;
   border-bottom: 1px solid #e5e5e5;
+  background-color: #f0f5ff !important;
 }
 
-.analytics-table td {
+.analytics-table-wrapper .analytics-table td {
   padding: 16px 24px;
   color: #333333;
   border-bottom: 1px solid #f0f0f0;
   vertical-align: middle;
+  background-color: #ffffff;
 }
 
 /* Removes double border lines on the bottom edge row elements */
-.analytics-table tbody tr:last-child td {
+.analytics-table-wrapper .analytics-table tbody tr:last-child td,
+.analytics-table-wrapper .analytics-table tr:last-child td {
   border-bottom: none;
 }
 
@@ -194,62 +203,9 @@
   color: #ffffff;
 }
 
-/* Pagination Container Design (Attached cleanly inside the unified block wrapper) */
-.pagination-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 24px;
-  background-color: #ffffff;
-  border-top: 1px solid #e5e5e5;
-  margin-top: 0;
-}
-
-.pagination-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: none;
-  background-color: #1a1a1a;
-  /* Dark default gray for inactive sibling items */
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.pagination-btn:hover:not(:disabled) {
-  background-color: #1d4ed8;
-  /* Darker blue response state on hover */
-  transform: scale(1.05);
-}
-
-/* Blue Active Page State Override */
-.pagination-btn.active {
-  background-color: #2563eb;
-  /* Brand blue matching table elements */
-  font-weight: 700;
-}
-
-.pagination-btn:disabled {
-  opacity: 0.3;
-  background-color: #1a1a1a;
-  cursor: not-allowed;
-}
-
-.pagination-btn.arrow {
-  font-size: 14px;
-  font-family: monospace;
-}
-
 /* Responsive Overrides */
 @media (max-width: 768px) {
-  .sales-title-bar {
+  .manage-stock-title-bar {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;

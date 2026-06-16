@@ -1,3 +1,5 @@
+/* Analytics.css */
+
 .analytics-page-container {
     position: absolute;
     top: 0;
@@ -23,7 +25,6 @@
 }
 
 /* ── Page Title ── */
-
 .analytics-title {
     font-size: 28px;
     font-weight: 700;
@@ -111,6 +112,12 @@
     border: 1px solid #e5e5e5;
     border-radius: 10px;
     overflow: hidden;
+    background-color: #ffffff;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
 }
 
 .analytics-table {
@@ -124,7 +131,7 @@
 }
 
 .analytics-table th {
-    padding: 12px 20px;
+    padding: 16px 20px;
     text-align: left;
     font-weight: 600;
     color: #2563eb;
@@ -139,6 +146,10 @@
     border-bottom: 1px solid #f0f0f0;
 }
 
+.analytics-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
 /* Stock Status Badge */
 .analytics-status-badge {
     display: inline-block;
@@ -151,77 +162,47 @@
 /* LOW STOCK */
 .analytics-status-badge--low {
     background-color: #f59e0b;
-    /* amber */
     color: #ffffff;
 }
 
 /* OUT OF STOCK */
 .analytics-status-badge--out {
     background-color: #ef4444;
-    /* red */
     color: #ffffff;
 }
 
 /* MODERATE STOCK */
 .analytics-status-badge--moderate {
     background-color: #eab308;
-    /* yellow */
     color: #ffffff;
 }
 
 /* GOOD STOCK */
 .analytics-status-badge--good {
     background-color: #0bd404;
-    /* your main blue */
     color: #ffffff;
 }
 
-/* ── Responsive ── */
+/* ── Responsive Mobile Styles ── */
 @media (max-width: 768px) {
-    .analytics-header {
-        padding: 14px 20px;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .analytics-header-nav {
-        gap: 16px;
-        order: 3;
-        width: 100%;
-        justify-content: center;
-    }
 
     .analytics-charts-row,
     .analytics-demand-row {
         grid-template-columns: 1fr;
+        /* Switch to single column view */
+        gap: 16px;
     }
 
     .analytics-main {
         padding: 24px 16px 40px;
     }
 
-    .analytics-footer {
-        padding: 30px 20px 20px;
+    .analytics-card {
+        padding: 16px 20px;
     }
 
-    .analytics-footer .footer-top {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 30px;
-    }
-
-    .analytics-footer .footer-brand {
-        align-items: center;
-    }
-
-    .analytics-footer .footer-links-container {
-        gap: 40px;
-        justify-content: center;
-    }
-
-    .analytics-footer .footer-links-column {
-        align-items: center;
-        text-align: center;
+    .analytics-restock-title {
+        font-size: 18px;
+        margin-bottom: 20px;
     }
 }

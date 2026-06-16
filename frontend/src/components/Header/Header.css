@@ -1,3 +1,5 @@
+/* Header.css */
+
 .header {
   display: flex;
   align-items: center;
@@ -48,6 +50,12 @@
   border-bottom: 2px solid #1a1a1a;
 }
 
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .header-buttons .btn-logout {
   background-color: #2563eb;
   color: #ffffff;
@@ -61,12 +69,6 @@
 
 .header-buttons .btn-logout:hover {
   background-color: #1d4ed8;
-}
-
-.header-buttons {
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
 .btn-signin {
@@ -99,4 +101,36 @@
 .btn-signup:hover {
   background-color: #2563eb;
   color: #ffffff;
+}
+
+/* ── Responsive Mobile/Tablet Styles ── */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .header-nav {
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .header-buttons {
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  /* Expand full-width button targets cleanly for fingers on mobile screens */
+  .header-buttons .btn-logout,
+  .btn-signin,
+  .btn-signup {
+    flex: 1;
+    text-align: center;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
 }
