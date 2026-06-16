@@ -71,7 +71,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
       <section className="home-intro-section">
         <h2 className="section-title">What is SwiftStock?</h2>
         <p className="section-description">
-          Transform your daily operations with SwiftStock, a stock tracking system built specifically for the modern retailer. This platform empowers shop owners to move away from the guesswork of manual tracking that leads to capital wastage and business hindrances. By providing a centralized, web-based platform to monitor your goods, simplifies management and enhances your productivity, allowing you to focus on delivering better service to your customers. Experience the peace of mind that comes with total visibility over your stock
+          Transform your daily operations with SwiftStock, a stock tracking system built specifically for the modern retailer. This platform empowers shop owners to move away from the guesswork of manual tracking that leads to capital wastage and business hindrances. By providing a centralised, web-based platform to monitor your goods, simplifies management and enhances your productivity, allowing you to focus on delivering better service to your customers. Experience the peace of mind that comes with total visibility over your stock
         </p>
 
         {/* Feature Cards Grid */}
@@ -119,7 +119,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
             alt="Inventory dashboard"
           />
           <div className="details-text-content">
-            <h2 className="details-title">Track. Analyze. Replenish.</h2>
+            <h2 className="details-title">Track. Analyse. Replenish.</h2>
             <p className="details-lead">Manage inventory that matches your demand</p>
             <p className="details-desc">
               Transform your daily operations with a stock tracking system built specifically for the modern retailer. Move away from the guesswork of manual tracking that leads to capital wastage and business hindrances. Whether you are monitoring stock levels or tracking costs, we make managing your retail business effortless
@@ -131,7 +131,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
       {/* CTA Highlight Banner Card */}
       <section className="home-cta-banner-section">
         <div className="cta-banner-card">
-          <h2 className="cta-banner-title">Your Optimized Stock Awaits</h2>
+          <h2 className="cta-banner-title">Your Optimised Stock Awaits</h2>
           <p className="cta-banner-subtitle">Track stock levels, gain demand insights, and simplify your business management</p>
           <Link to="/SignUp" className="btn-banner-get-started">Get Started</Link>
         </div>
@@ -155,7 +155,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
 
           <div className="step-card">
             <div className="step-number">3</div>
-            <h3 className="step-card-title">Monitor and <br />Optimize</h3>
+            <h3 className="step-card-title">Monitor and <br />Optimise</h3>
           </div>
         </div>
       </section>
@@ -164,7 +164,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
       <section className="home-bottom-cta-section">
         <h2 className="bottom-cta-title">Get Your Inventory on Point</h2>
         <p className="bottom-cta-desc">
-          Stop wrestling with manual tracking. Monitor your stock, analyze demand, and optimize your replenishment in seconds
+          Stop wrestling with manual tracking. Monitor your stock, analyse demand, and optimise your replenishment in seconds
         </p>
         <Link to="/SignUp" className="btn-bottom-track">Start Tracking Now</Link>
       </section>
