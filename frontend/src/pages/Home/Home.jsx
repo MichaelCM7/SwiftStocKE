@@ -71,7 +71,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
       <section className="home-intro-section">
         <h2 className="section-title">What is SwiftStock?</h2>
         <p className="section-description">
-          Transform your daily operations with SwiftStock, a stock tracking system built specifically for the modern retailer. This platform empowers shop owners to move away from the guesswork of manual tracking that leads to capital wastage and business hindrances. By providing a centralized, web-based platform to monitor your goods, simplifies management and enhances your productivity, allowing you to focus on delivering better service to your customers. Experience the peace of mind that comes with total visibility over your stock.
+          Transform your daily operations with SwiftStock, a stock tracking system built specifically for the modern retailer. This platform empowers shop owners to move away from the guesswork of manual tracking that leads to capital wastage and business hindrances. By providing a centralized, web-based platform to monitor your goods, simplifies management and enhances your productivity, allowing you to focus on delivering better service to your customers. Experience the peace of mind that comes with total visibility over your stock
         </p>
 
         {/* Feature Cards Grid */}
@@ -80,8 +80,8 @@ export function Home({ isAuthorized, setIsAuthorized }) {
             <div className="feature-icon-wrapper">
               <MonitoringIcon />
             </div>
-            <h3 className="feature-card-title">Real-Time Monitoring</h3>
-            <p className="feature-card-desc">Monitor exact quantities of goods to maintain total inventory visibility.</p>
+            <h3 className="feature-card-title">Real Time Monitoring</h3>
+            <p className="feature-card-desc">Monitor exact quantities of goods to maintain total inventory visibility</p>
           </div>
 
           <div className="feature-card">
@@ -89,7 +89,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
               <AnalyticsIcon />
             </div>
             <h3 className="feature-card-title">Performance Analytics</h3>
-            <p className="feature-card-desc">Identify high and low demand goods to prevent dead stock.</p>
+            <p className="feature-card-desc">Identify high and low demand goods to prevent dead stock</p>
           </div>
 
           <div className="feature-card">
@@ -97,7 +97,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
               <NotificationsIcon />
             </div>
             <h3 className="feature-card-title">Restock Notifications</h3>
-            <p className="feature-card-desc">Receive alerts when stock is low to ensure timely replenishment.</p>
+            <p className="feature-card-desc">Receive alerts when stock is low to ensure timely replenishment</p>
           </div>
 
           <div className="feature-card">
@@ -105,7 +105,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
               <HistoryIcon />
             </div>
             <h3 className="feature-card-title">Stock History</h3>
-            <p className="feature-card-desc">Track all items sold or taken up throughout the day.</p>
+            <p className="feature-card-desc">Track all items sold or taken up throughout the day</p>
           </div>
         </div>
       </section>
@@ -113,15 +113,16 @@ export function Home({ isAuthorized, setIsAuthorized }) {
       {/* Track. Analyze. Replenish. Details Section */}
       <section className="home-details-section">
         <div className="details-container">
-          <div className="details-image-placeholder">
-            {/* Visual Grid Checkerboard matching mockup */}
-            <div className="checkerboard-grid"></div>
-          </div>
+          <img
+            className="details-image"
+            src="/images/inventory-dashboard.jpg"
+            alt="Inventory dashboard"
+          />
           <div className="details-text-content">
             <h2 className="details-title">Track. Analyze. Replenish.</h2>
             <p className="details-lead">Manage inventory that matches your demand</p>
             <p className="details-desc">
-              Transform your daily operations with a stock tracking system built specifically for the modern retailer. Move away from the guesswork of manual tracking that leads to capital wastage and business hindrances. Whether you are monitoring stock levels or tracking costs, we make managing your retail business effortless.
+              Transform your daily operations with a stock tracking system built specifically for the modern retailer. Move away from the guesswork of manual tracking that leads to capital wastage and business hindrances. Whether you are monitoring stock levels or tracking costs, we make managing your retail business effortless
             </p>
           </div>
         </div>
@@ -154,7 +155,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
 
           <div className="step-card">
             <div className="step-number">3</div>
-            <h3 className="step-card-title">Monitor &amp;<br />Optimise</h3>
+            <h3 className="step-card-title">Monitor and <br />Optimize</h3>
           </div>
         </div>
       </section>
@@ -163,7 +164,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
       <section className="home-bottom-cta-section">
         <h2 className="bottom-cta-title">Get Your Inventory on Point</h2>
         <p className="bottom-cta-desc">
-          Stop wrestling with manual tracking. Monitor your stock, analyze demand, and optimize your replenishment in seconds.
+          Stop wrestling with manual tracking. Monitor your stock, analyze demand, and optimize your replenishment in seconds
         </p>
         <Link to="/SignUp" className="btn-bottom-track">Start Tracking Now</Link>
       </section>
