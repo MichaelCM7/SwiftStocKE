@@ -15,7 +15,7 @@ export function Restock({ isAuthorized, setIsAuthorized }) {
   const navigate = useNavigate();
 
   const [itemName, setItemName] = useState('');
-  const [quantity, setQuantity] = useState('1');
+  const [quantity, setQuantity] = useState(1);
   const [items, setItems] = useState([]);
 
   const getAllItems = async () => {
@@ -88,6 +88,7 @@ export function Restock({ isAuthorized, setIsAuthorized }) {
               <div className="form-group">
                 <label htmlFor="quantity" className="form-label">Quantity*</label>
                 <input
+                  id="quantity"
                   type='number'
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}

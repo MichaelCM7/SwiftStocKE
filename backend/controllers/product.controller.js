@@ -256,7 +256,7 @@ export async function restockItem(req, res, next) {
       throw error;
     }
 
-    const newQuantity = existingProduct.quantity + quantity;
+    const newQuantity = Number(existingProduct.quantity) + Number(quantity);
 
     const updatedProduct = await Product.findOneAndUpdate(
       {_id: existingProduct._id,
