@@ -8,9 +8,10 @@ import { IoMdArrowBack } from "react-icons/io";
 import { IoSaveOutline } from "react-icons/io5";
 
 export function EditItem({ isAuthorized, setIsAuthorized }) {
+  // Lock down state verification access rights on component lifecycle mount
   useEffect(() => {
     setIsAuthorized(true);
-  }, []);
+  }, [setIsAuthorized]);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -18,36 +19,39 @@ export function EditItem({ isAuthorized, setIsAuthorized }) {
   const [quantity, setQuantity] = useState(0);
   const [threshold, setThreshold] = useState(0);
 
-  const fetchItemById = async () => {
-    try {
-      const response = await axios.get(`/api/products/get-item/${id}`);
-      const data = response.data.product;
-      setItemName(data.itemName);
-      setQuantity(data.quantity);
-      setThreshold(data.lowStockThreshold);
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+  // Download specific targeted item object properties via incoming param ID string
   useEffect(() => {
-    fetchItemById();
-  }, []);
+    const fetchItemDetails = async () => {
+      try {
+        const response = await axios.get(`/api/products/get-item/${id}`);
+        const productData = response.data?.product;
+        if (productData) {
+          setItemName(productData.itemName || '');
+          setQuantity(productData.quantity || 0);
+          setThreshold(productData.lowStockThreshold || 0);
+        }
+      } catch (error) {
+        console.error("Error fetching product details:", error);
+      }
+    };
 
-  const handleSubmit = async (event) => {
+    if (id) {
+      fetchItemDetails();
+    }
+  }, [id]);
+
+  const handleEditFormSubmit = async (event) => {
     event.preventDefault();
+    if (!itemName.trim()) return;
 
     try {
-      const response = await axios.put(`/api/products/edit-items/${id}`, {
-        itemName: itemName,
-        quantity: quantity,
-        lowStockThreshold: threshold
+      await axios.put(`/api/products/edit-items/${id}`, {
+        itemName: itemName.trim(),
+        quantity: Number(quantity),
+        lowStockThreshold: Number(threshold)
       });
-      const data = response.data;
-      console.log(data);
     } catch (error) {
-      console.error(error);
+      console.error("Error updating inventory product attributes:", error);
     }
 
     navigate('/ManageStock');
@@ -55,66 +59,68 @@ export function EditItem({ isAuthorized, setIsAuthorized }) {
 
   return (
     <div className="sales-page-container">
-      {/* Header */}
       <Header isAuthorized={isAuthorized} />
 
-      {/* Main Content Area */}
-      <main className="sales-main">
-        <div className="sales-title-bar-id">
-          <Link to="/ManageStock" className="btn-back-sales">
-            <IoMdArrowBack /> Back To Manage Stock
-          </Link>
-        </div>
-
-        <div className="centered-form-wrapper fade-in">
-          <div className="form-card">
-            <h1 className="form-title">Edit Item</h1>
-            <form onSubmit={handleSubmit} className="edit-item-form">
-              <div className="form-group">
-                <label htmlFor="itemName" className="form-label">Item Name*</label>
-                <input
-                  id="itemName"
-                  type="text"
-                  value={itemName}
-                  onChange={(e) => setItemName(e.target.value)}
-                  className="form-select"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="quantity" className="form-label">Quantity*</label>
-                <input
-                  id="quantity"
-                  type="number"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  className="form-select"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="threshold" className="form-label">Low Stock Threshold</label>
-                <input
-                  id="threshold"
-                  type="number"
-                  value={threshold}
-                  onChange={(e) => setThreshold(e.target.value)}
-                  className="form-select"
-                  required
-                />
-              </div>
-
-              <button type="submit" className="btn-submit-item">
-                <IoSaveOutline /> Save Changes
-              </button>
-            </form>
+      <div className="sales-main-wrapper">
+        <main className="sales-main">
+          <div className="sales-title-bar-id">
+            <Link to="/ManageStock" className="btn-back-sales">
+              <IoMdArrowBack size={16} /> Back To Manage Stock
+            </Link>
           </div>
-        </div>
-      </main>
 
-      {/* Footer */}
+          <div className="centered-form-wrapper">
+            <div className="form-card">
+              <h1 className="form-title">Edit Item</h1>
+
+              <form onSubmit={handleEditFormSubmit} className="edit-item-form">
+                <div className="form-group">
+                  <label htmlFor="itemName" className="form-label">Item Name*</label>
+                  <input
+                    id="itemName"
+                    type="text"
+                    value={itemName}
+                    onChange={(e) => setItemName(e.target.value)}
+                    className="form-input-field"
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="quantity" className="form-label">Quantity*</label>
+                  <input
+                    id="quantity"
+                    type="number"
+                    min="0"
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                    className="form-input-field"
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="threshold" className="form-label">Low Stock Threshold</label>
+                  <input
+                    id="threshold"
+                    type="number"
+                    min="0"
+                    value={threshold}
+                    onChange={(e) => setThreshold(e.target.value)}
+                    className="form-input-field"
+                    required
+                  />
+                </div>
+
+                <button type="submit" className="btn-submit-item">
+                  Save Changes
+                </button>
+              </form>
+            </div>
+          </div>
+        </main>
+      </div>
+
       <Footer isAuthorized={isAuthorized} />
     </div>
   );
