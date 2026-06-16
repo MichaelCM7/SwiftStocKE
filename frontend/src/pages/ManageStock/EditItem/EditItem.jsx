@@ -20,11 +20,12 @@ export function EditItem({ isAuthorized, setIsAuthorized }) {
 
   const fetchItemById = async () => {
     try {
-      const response = await axios.get(`api/products/get-items-by-id/${id}`);
-      const data = response.data;
-      setItemName(data.products.itemName);
-      setQuantity(data.products.quantity);
-      setThreshold(data.products.threshold);
+      const response = await axios.get(`/api/products/get-item/${id}`);
+      const data = response.data.product;
+      setItemName(data.itemName);
+      setQuantity(data.quantity);
+      setThreshold(data.lowStockThreshold);
+      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -67,57 +68,38 @@ export function EditItem({ isAuthorized, setIsAuthorized }) {
             <form onSubmit={handleSubmit} className="edit-item-form">
               <div className="form-group">
                 <label htmlFor="itemName" className="form-label">Item Name*</label>
-                <div className="select-wrapper">
-                  <select
-                    id="itemName"
-                    value={itemName}
-                    onChange={(e) => setItemName(e.target.value)}
-                    className="form-select"
-                    required
-                  >
-                    <option value="" disabled>Item Name</option>
-                    <option value="Wireless Mouse">Wireless Mouse</option>
-                    <option value="Mechanical Keyboard">Mechanical Keyboard</option>
-                    <option value="USB-C Hub">USB-C Hub</option>
-                    <option value='27" LED Monitor'>27" LED Monitor</option>
-                    <option value="Noise Cancelling Headphones">Noise Cancelling Headphones</option>
-                  </select>
-                </div>
+                <input
+                  id="itemName"
+                  type="text"
+                  value={itemName}
+                  onChange={(e) => setItemName(e.target.value)}
+                  className="form-select"
+                  required
+                />
               </div>
 
               <div className="form-group">
                 <label htmlFor="quantity" className="form-label">Quantity*</label>
-                <div className="select-wrapper">
-                  <select
-                    id="quantity"
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
-                    className="form-select"
-                    required
-                  >
-                    <option value="" disabled>Quantity</option>
-                    {Array.from({ length: 200 }, (_, i) => i + 1).map((num) => (
-                      <option key={num} value={num}>{num}</option>
-                    ))}
-                  </select>
-                </div>
+                <input
+                  id="quantity"
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  className="form-select"
+                  required
+                />
               </div>
 
               <div className="form-group">
                 <label htmlFor="threshold" className="form-label">Low Stock Threshold</label>
-                <div className="select-wrapper">
-                  <select
-                    id="threshold"
-                    value={threshold}
-                    onChange={(e) => setThreshold(e.target.value)}
-                    className="form-select"
-                  >
-                    <option value="" disabled>Quantity</option>
-                    {Array.from({ length: 50 }, (_, i) => i + 1).map((num) => (
-                      <option key={num} value={num}>{num}</option>
-                    ))}
-                  </select>
-                </div>
+                <input
+                  id="threshold"
+                  type="number"
+                  value={threshold}
+                  onChange={(e) => setThreshold(e.target.value)}
+                  className="form-select"
+                  required
+                />
               </div>
 
               <button type="submit" className="btn-submit-item">

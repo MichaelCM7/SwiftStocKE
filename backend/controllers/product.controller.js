@@ -89,6 +89,42 @@ export async function getItemsByRetailerID(req, res, next) {
   }
 }
 
+export async function getItemByProductID (req, res, next) {
+  try {
+    const retailerID = req.retailer._id;
+    const productID = req.params.productID;
+
+    if (!retailerID) {
+      const error = new Error('Unauthorized');
+      error.statusCode = 401;
+      throw error;
+    }
+
+    if (!productID) {
+      const error = new Error('No item selected');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const product = await Product.findOne({_id: productID, retailer: retailerID})
+
+    if (!product) {
+      const error = new Error('Item not found.');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Item fetched successfully',
+      product: product
+    })
+
+  } catch (error) {
+    next(error)
+  }
+}
+
 export async function editItem(req, res, next) {
   const session = await mongoose.startSession();
   session.startTransaction();
