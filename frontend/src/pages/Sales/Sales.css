@@ -1,14 +1,16 @@
-/* UPDATED: Structured exactly like your working Analytics container */
+/* 1. Base Structural Page Layout (Cloned from your working Analytics setup) */
 .sales-page-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   box-sizing: border-box;
   background-color: #f8fafc;
-  /* This will now apply properly */
+  /* Your beautiful cool gray background canvas */
+  color: #1a1a1a;
+  font-family: var(--sans);
 }
 
-/* Main Content Area */
+/* Main Content Area Layout Canvas */
 .sales-main {
   flex: 1;
   max-width: 1120px;
@@ -33,6 +35,7 @@
   margin: 0;
 }
 
+/* Primary Dynamic Action Button Configuration */
 .btn-record-sale {
   display: inline-flex;
   align-items: center;
@@ -58,23 +61,24 @@
   stroke: currentColor;
 }
 
-/* Sales Content Wrapper */
-.sales-main .sales-content-wrapper {
+/* 2. Content Wrappers (Floating Canvas Cards) */
+.sales-content-wrapper {
   background: #ffffff;
-  /* KEPT: Crisp white card to pop over the gray canvas */
+  /* Explicit card baseline */
   border: 1px solid #e5e5e5;
-  border-radius: 10px;
+  border-radius: 12px;
+  /* Match the 12px rounding from Analytics */
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
-/* Table Design */
+/* Table Design Grid Layout */
 .table-responsive {
   width: 100%;
   overflow-x: auto;
 }
 
-.sales-main .sales-content-wrapper .sales-table {
+.sales-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
@@ -82,11 +86,11 @@
   margin: 0;
 }
 
-.sales-main .sales-content-wrapper .sales-table thead tr {
+.sales-table thead tr {
   background-color: #f0f5ff !important;
 }
 
-.sales-main .sales-content-wrapper .sales-table th {
+.sales-table th {
   color: #2563eb !important;
   font-weight: 600;
   font-size: 14px;
@@ -96,18 +100,17 @@
   background-color: #f0f5ff !important;
 }
 
-.sales-main .sales-content-wrapper .sales-table td {
+.sales-table td {
   padding: 16px 24px;
   border-bottom: 1px solid #f0f0f0;
   color: #333333;
   vertical-align: middle;
-  background-color: #ffffff;
-  /* KEPT: Keeps row backgrounds white */
+  background-color: transparent;
+  /* Changed to transparent so card wrapper background works naturally */
 }
 
 /* Removes double border lines on the bottom edge row elements */
-.sales-main .sales-table tbody tr:last-child td,
-.sales-main .sales-table tr:last-child td {
+.sales-table tbody tr:last-child td {
   border-bottom: none;
 }
 
@@ -128,7 +131,7 @@
   text-align: right;
 }
 
-/* Modern low-profile border structural action components (Matching Manage Stock) */
+/* 3. Operational Action Components (Matches Manage Stock Button Structural Blueprints) */
 .btn-view-details {
   display: inline-flex;
   align-items: center;
@@ -143,9 +146,12 @@
   background-color: #ffffff;
   box-sizing: border-box;
   color: #666666;
+
+  /* Prevent animation snapping */
+  transition: none !important;
+  transform: none !important;
 }
 
-/* Blue subtle accent state on hover */
 .btn-view-details:hover {
   color: #2563eb;
   border-color: #2563eb;
@@ -157,7 +163,7 @@
   height: 14px;
 }
 
-/* Empty State Layout */
+/* Empty State Layout Canvas */
 .sales-empty-state {
   display: flex;
   flex-direction: column;
@@ -165,10 +171,10 @@
   justify-content: center;
   padding: 120px 40px;
   background: #ffffff;
-  /* KEPT: Empty state card will now contrast beautifully */
   border: 1px solid #e5e5e5;
-  border-radius: 10px;
+  border-radius: 12px;
   text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
 .empty-state-title {
@@ -186,7 +192,7 @@
   font-weight: 500;
 }
 
-/* Responsive Styles */
+/* Responsive Structural Overrides */
 @media (max-width: 768px) {
   .sales-title-bar {
     flex-direction: column;

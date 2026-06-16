@@ -89,7 +89,7 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
                 </thead>
                 <tbody>
                   {sales.map((sale) => (
-                    <tr key={sale.id}> {/* <-- Confirmed no row animation classes here */}
+                    <tr key={sale.id}>
                       <td className="sale-name">{sale.name}</td>
                       <td className="sale-time">{sale.dateTime}</td>
                       <td className="sale-actions">
