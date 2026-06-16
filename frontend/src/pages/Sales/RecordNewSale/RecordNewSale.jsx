@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
 import './RecordNewSale.css';
 import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
 
 export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
-  setIsAuthorized(true);
+  useEffect(() => {
+    setIsAuthorized(true);
+  }, [setIsAuthorized]);
+
   const navigate = useNavigate();
 
-  // Stock items dropdown list
   const stockItems = [
     { id: 'item-1', name: 'Wireless Mouse', price: 25 },
     { id: 'item-2', name: 'Mechanical Keyboard', price: 75 },
@@ -17,7 +19,6 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
     { id: 'item-5', name: 'Noise Cancelling Headphones', price: 150 },
   ];
 
-  // State
   const [selectedItemName, setSelectedItemName] = useState('');
   const [selectedQuantity, setSelectedQuantity] = useState('1');
   const [soldItems, setSoldItems] = useState([
@@ -25,7 +26,6 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
     { id: 'init-2', name: 'Item #2', quantity: 'Quantity' },
   ]);
 
-  // Handlers
   const handleAddItem = (e) => {
     e.preventDefault();
     if (!selectedItemName) return;
@@ -37,7 +37,6 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
     };
 
     setSoldItems([...soldItems, newItem]);
-    // Reset selection inputs
     setSelectedItemName('');
     setSelectedQuantity('1');
   };
@@ -47,26 +46,8 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
   };
 
   const handleFinishSale = () => {
-    // Navigate back to sales dashboard
     navigate('/Sales');
   };
-
-  // SVG Icons
-  const ImageIcon = ({ className }) => (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-      <circle cx="8.5" cy="8.5" r="1.5" />
-      <polyline points="21 15 16 10 5 21" />
-    </svg>
-  );
 
   const ArrowLeftIcon = () => (
     <svg
@@ -117,108 +98,107 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
 
   return (
     <div className="sales-page-container">
-      {/* Header */}
       <Header isAuthorized={isAuthorized} />
 
-      {/* Main Content Area */}
-      <main className="sales-main">
-        <div className="sales-title-bar-id">
-          <Link to="/Sales" className="btn-back-sales">
-            <ArrowLeftIcon /> Back To Sales
-          </Link>
-        </div>
-
-        <div className="record-sale-layout fade-in">
-          {/* Left Panel: Record New Sale Form */}
-          <div className="record-panel form-panel">
-            <h2 className="panel-title">Record New Sale</h2>
-            <form onSubmit={handleAddItem} className="record-form">
-              <div className="form-group">
-                <label htmlFor="itemName" className="form-label">Item Name</label>
-                <div className="select-wrapper">
-                  <select
-                    id="itemName"
-                    value={selectedItemName}
-                    onChange={(e) => setSelectedItemName(e.target.value)}
-                    className="form-select"
-                    required
-                  >
-                    <option value="" disabled>Item Name</option>
-                    {stockItems.map((item) => (
-                      <option key={item.id} value={item.name}>
-                        {item.name} (${item.price})
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="quantity" className="form-label">Quantity</label>
-                <div className="select-wrapper">
-                  <select
-                    id="quantity"
-                    value={selectedQuantity}
-                    onChange={(e) => setSelectedQuantity(e.target.value)}
-                    className="form-select"
-                    required
-                  >
-                    <option value="" disabled>Quantity</option>
-                    {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
-                      <option key={num} value={num}>
-                        {num}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <button type="submit" className="btn-add-item">
-                <PlusIcon /> Add Item
-              </button>
-            </form>
+      <div className="sales-main-wrapper">
+        <main className="sales-main">
+          <div className="sales-title-bar-id">
+            <Link to="/Sales" className="btn-back-sales">
+              <ArrowLeftIcon /> Back To Sales
+            </Link>
           </div>
 
-          {/* Right Panel: Sold Items List */}
-          <div className="record-panel items-panel">
-            <h2 className="panel-title">Sold Items</h2>
-            <div className="sold-items-list-container">
-              {soldItems.length > 0 ? (
-                <div className="sold-items-list">
-                  {soldItems.map((item) => (
-                    <div key={item.id} className="sold-item-row table-row-animate">
-                      <span className="sold-item-name">{item.name}</span>
-                      <span className="sold-item-quantity">{item.quantity}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveItem(item.id)}
-                        className="btn-delete-item"
-                        title="Remove item"
-                      >
-                        <TrashIcon />
-                      </button>
-                    </div>
-                  ))}
+          <div className="record-sale-layout">
+            {/* Left Form Panel */}
+            <div className="record-panel">
+              <h2 className="panel-title">Record New Sale</h2>
+              <form onSubmit={handleAddItem} className="record-form">
+                <div className="form-group">
+                  <label htmlFor="itemName" className="form-label">Item Name</label>
+                  <div className="select-wrapper">
+                    <select
+                      id="itemName"
+                      value={selectedItemName}
+                      onChange={(e) => setSelectedItemName(e.target.value)}
+                      className="form-select"
+                      required
+                    >
+                      <option value="" disabled>Item Name</option>
+                      {stockItems.map((item) => (
+                        <option key={item.id} value={item.name}>
+                          {item.name} (${item.price})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              ) : (
-                <div className="empty-sold-items">
-                  <p>No items added yet</p>
+
+                <div className="form-group">
+                  <label htmlFor="quantity" className="form-label">Quantity</label>
+                  <div className="select-wrapper">
+                    <select
+                      id="quantity"
+                      value={selectedQuantity}
+                      onChange={(e) => setSelectedQuantity(e.target.value)}
+                      className="form-select"
+                      required
+                    >
+                      <option value="" disabled>Quantity</option>
+                      {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+                        <option key={num} value={num}>
+                          {num}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              )}
+
+                <button type="submit" className="btn-add-item">
+                  <PlusIcon /> Add Item
+                </button>
+              </form>
             </div>
-            <button
-              type="button"
-              onClick={handleFinishSale}
-              className="btn-finish-sale"
-              disabled={soldItems.length === 0}
-            >
-              Finish
-            </button>
-          </div>
-        </div>
-      </main>
 
-      {/* Footer */}
+            {/* Right Items Panel */}
+            <div className="record-panel">
+              <h2 className="panel-title">Sold Items</h2>
+              <div className="sold-items-list-container">
+                {soldItems.length > 0 ? (
+                  <div className="sold-items-list">
+                    {soldItems.map((item) => (
+                      <div key={item.id} className="sold-item-row">
+                        <span className="sold-item-name">{item.name}</span>
+                        <span className="sold-item-quantity">{item.quantity}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveItem(item.id)}
+                          className="btn-delete-item"
+                          title="Remove item"
+                        >
+                          <TrashIcon />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="empty-sold-items">
+                    <p>No items added yet</p>
+                  </div>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={handleFinishSale}
+                className="btn-finish-sale"
+                disabled={soldItems.length === 0}
+              >
+                Finish
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+
       <Footer isAuthorized={isAuthorized} />
     </div>
   );
