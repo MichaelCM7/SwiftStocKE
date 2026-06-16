@@ -1,5 +1,3 @@
-/* Analytics.css */
-
 .analytics-page-container {
     position: absolute;
     top: 0;
@@ -14,78 +12,6 @@
     box-sizing: border-box;
 }
 
-/* ── Header ── */
-.analytics-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 40px;
-    border-bottom: 1px solid #e5e5e5;
-    background-color: #ffffff;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.analytics-header-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.analytics-header-logo-icon {
-    width: 24px;
-    height: 24px;
-    color: #333333;
-}
-
-.analytics-project-name {
-    font-weight: 600;
-    font-size: 16px;
-    color: #1a1a1a;
-}
-
-.analytics-header-nav {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-}
-
-.analytics-nav-link {
-    color: #555555;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: color 0.2s ease;
-    padding-bottom: 2px;
-    border-bottom: 2px solid transparent;
-}
-
-.analytics-nav-link:hover {
-    color: #1a1a1a;
-}
-
-.analytics-nav-link--active {
-    color: #1a1a1a;
-    font-weight: 600;
-    border-bottom: 2px solid #1a1a1a;
-}
-
-.analytics-btn-logout {
-    background-color: #1a1a1a;
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 8px 20px;
-    border-radius: 6px;
-    transition: background-color 0.2s ease;
-}
-
-.analytics-btn-logout:hover {
-    background-color: #404040;
-}
-
 /* ── Main Content ── */
 .analytics-main {
     flex: 1;
@@ -97,23 +23,13 @@
 }
 
 /* ── Page Title ── */
-.analytics-page-title {
-    margin-bottom: 28px;
-    text-align: left;
-}
 
 .analytics-title {
     font-size: 28px;
     font-weight: 700;
-    color: #111111;
-    margin: 0 0 10px 0;
-}
-
-.analytics-subtitle {
-    font-size: 14px;
-    color: #888888;
-    margin: 0;
-    font-weight: 400;
+    color: black;
+    text-align: left;
+    letter-spacing: 0.1px;
 }
 
 /* ── Two-Column Grid (Charts & Demand) ── */
@@ -132,10 +48,6 @@
     padding: 22px 24px;
     background-color: #ffffff;
     transition: box-shadow 0.2s ease;
-}
-
-.analytics-card:hover {
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
 }
 
 .analytics-card-title {
@@ -178,7 +90,7 @@
 
 .analytics-demand-list li {
     font-size: 14px;
-    color: #333333;
+    color: #2563eb;
     padding: 4px 0;
 }
 
@@ -192,6 +104,8 @@
     font-weight: 700;
     color: #111111;
     margin: 0 0 16px 0;
+    text-align: center;
+    margin-bottom: 30px;
 }
 
 .analytics-table-wrapper {
@@ -207,14 +121,14 @@
 }
 
 .analytics-table thead tr {
-    background-color: #f5f5f5;
+    background-color: #f0f5ff;
 }
 
 .analytics-table th {
     padding: 12px 20px;
     text-align: left;
     font-weight: 600;
-    color: #555555;
+    color: #2563eb;
     font-size: 13px;
     letter-spacing: 0.02em;
     border-bottom: 1px solid #e5e5e5;
@@ -247,85 +161,32 @@
     font-weight: 500;
 }
 
+/* LOW STOCK */
 .analytics-status-badge--low {
-    background-color: #f5f5f5;
-    color: #555555;
+    background-color: #f59e0b;
+    /* amber */
+    color: #ffffff;
 }
 
-/* ── Footer ── */
-.analytics-footer {
-    background-color: #e5e5e5;
-    color: #4a4a4a;
-    padding: 40px 40px 24px;
-    font-size: 14px;
+/* OUT OF STOCK */
+.analytics-status-badge--out {
+    background-color: #ef4444;
+    /* red */
+    color: #ffffff;
 }
 
-/* Reuse shared footer classes from Home.css via local override if needed */
-.analytics-footer .footer-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 40px;
-    max-width: 1040px;
-    margin: 0 auto;
-    padding-bottom: 30px;
+/* MODERATE STOCK */
+.analytics-status-badge--moderate {
+    background-color: #eab308;
+    /* yellow */
+    color: #ffffff;
 }
 
-.analytics-footer .footer-brand {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-.analytics-footer .footer-logo-icon {
-    width: 44px;
-    height: 44px;
-    color: #333333;
-}
-
-.analytics-footer .footer-website-name {
-    font-weight: 700;
-    font-size: 16px;
-    color: #1a1a1a;
-}
-
-.analytics-footer .footer-links-container {
-    display: flex;
-    gap: 80px;
-}
-
-.analytics-footer .footer-links-column {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    text-align: left;
-}
-
-.analytics-footer .footer-links-column a {
-    color: #4a4a4a;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s;
-}
-
-.analytics-footer .footer-links-column a:hover {
-    color: #1a1a1a;
-}
-
-.analytics-footer .footer-bottom {
-    border-top: 1px solid #d1d1d1;
-    padding-top: 20px;
-    text-align: center;
-    max-width: 1040px;
-    margin: 0 auto;
-}
-
-.analytics-footer .footer-bottom p {
-    font-size: 12px;
-    color: #666666;
-    font-weight: 600;
+/* GOOD STOCK */
+.analytics-status-badge--good {
+    background-color: #2563eb;
+    /* your main blue */
+    color: #ffffff;
 }
 
 /* ── Responsive ── */

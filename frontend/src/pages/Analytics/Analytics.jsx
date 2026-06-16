@@ -143,10 +143,17 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
   const lowDemandGoods = ['Item 1', 'Item 2', 'Item 3'];
 
   const restockingItems = [
-    { name: 'Soap Bar', quantity: 18, status: 'Low' },
-    { name: 'Toothbrush', quantity: 12, status: 'Low' },
-    { name: 'Hair Brush', quantity: 5, status: 'Low' },
+    { name: 'Soap Bar', quantity: 18, status: 'Low Stock' },
+    { name: 'Toothbrush', quantity: 12, status: 'Moderate Stock' },
+    { name: 'Hair Brush', quantity: 5, status: 'Low Stock' },
   ];
+
+  const statusClass = {
+    "Low Stock": "analytics-status-badge--low",
+    "Out of Stock": "analytics-status-badge--out",
+    "Moderate Stock": "analytics-status-badge--moderate",
+    "Good Stock": "analytics-status-badge--good",
+  };
 
   return (
     <div className="analytics-page-container">
@@ -158,7 +165,6 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
       <main className="analytics-main">
         <div className="analytics-page-title">
           <h1 className="analytics-title">Analytics</h1>
-          <p className="analytics-subtitle">Your Data Reimagined</p>
         </div>
 
         {/* ── Charts Row ── */}
@@ -218,7 +224,7 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
                     <td>{item.name}</td>
                     <td>{item.quantity}</td>
                     <td>
-                      <span className="analytics-status-badge analytics-status-badge--low">
+                      <span className={`analytics-status-badge ${statusClass[item.status]}`}>
                         {item.status}
                       </span>
                     </td>

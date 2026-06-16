@@ -48,7 +48,7 @@
   border-bottom: 2px solid #1a1a1a;
 }
 
-.btn-logout {
+.header-buttons .btn-logout {
   background-color: #2563eb;
   color: #ffffff;
   text-decoration: none;
@@ -59,7 +59,7 @@
   transition: background-color 0.2s ease;
 }
 
-.btn-logout:hover {
+.header-buttons .btn-logout:hover {
   background-color: #1d4ed8;
 }
 
