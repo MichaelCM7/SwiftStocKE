@@ -30,6 +30,7 @@ export async function recordNewSale() {
       return `Sale #${counter}`;
     }
 
+    // fix items if it breaks
     const sale = await Sale.create({
       retailer: retailerID,
       saleName: saleNameCounter(),
