@@ -1,19 +1,53 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
+import axios from 'axios';
 import './Restock.css';
 import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
+import { ImLoop2 } from "react-icons/im";
 
 export function Restock({ isAuthorized, setIsAuthorized }) {
-  setIsAuthorized(true);
+  useEffect(() => {
+    setIsAuthorized(true);
+  }, []);
+
   const navigate = useNavigate();
 
   const [itemName, setItemName] = useState('');
   const [quantity, setQuantity] = useState('1');
+  const [items, setItems] = useState([]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // In real app, we would perform stock restock
+  const getAllItems = async () => {
+    try {
+      const response = await axios.get("api/products/get-items");
+      const data = response.data;
+      setItems(data.products);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
+  };
+
+  useEffect(() => {
+    getAllItems();
+  }, []);
+
+
+  console.log(items);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.put("api/products/restock-item", {
+        itemName: itemName,
+        quantity: quantity
+      });
+      const data = response.data;
+      console.log(data);
+    } catch (error) {
+      console.error("Error restocking item:", error);
+    }
+
     navigate('/ManageStock');
   };
 
@@ -91,36 +125,28 @@ export function Restock({ isAuthorized, setIsAuthorized }) {
                     className="form-select"
                     required
                   >
-                    <option value="" disabled>Item Name</option>
-                    <option value="Wireless Mouse">Wireless Mouse</option>
-                    <option value="Mechanical Keyboard">Mechanical Keyboard</option>
-                    <option value="USB-C Hub">USB-C Hub</option>
-                    <option value='27" LED Monitor'>27" LED Monitor</option>
-                    <option value="Noise Cancelling Headphones">Noise Cancelling Headphones</option>
+                    <option value="" disabled>Select an Item</option>
+                    {items.map((item) => {
+                      console.log(item);
+                      return <option key={item._id} value={item.itemName}>{item.itemName}</option>
+                    })}
                   </select>
                 </div>
               </div>
 
               <div className="form-group">
                 <label htmlFor="quantity" className="form-label">Quantity*</label>
-                <div className="select-wrapper">
-                  <select
-                    id="quantity"
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
-                    className="form-select"
-                    required
-                  >
-                    <option value="" disabled>Quantity</option>
-                    {Array.from({ length: 200 }, (_, i) => i + 1).map((num) => (
-                      <option key={num} value={num}>{num}</option>
-                    ))}
-                  </select>
-                </div>
+                <input
+                  type='number'
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  className='form-select'
+                  required
+                />
               </div>
 
               <button type="submit" className="btn-submit-item">
-                <PlusIcon /> Add Item
+                <ImLoop2 /> Restock Item
               </button>
             </form>
           </div>

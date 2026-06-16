@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import './AddNewItem.css';
@@ -6,9 +6,11 @@ import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
 
 export function AddNewItem({ isAuthorized, setIsAuthorized }) {
-  setIsAuthorized(true);
-  const navigate = useNavigate();
+  useEffect(() => {
+    setIsAuthorized(true);
+  }, []);
 
+  const navigate = useNavigate();
   const [itemName, setItemName] = useState('');
   const [quantity, setQuantity] = useState('1');
   const [threshold, setThreshold] = useState('1');
