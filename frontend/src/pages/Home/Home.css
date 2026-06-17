@@ -191,7 +191,7 @@
 
 /* CTA Highlight Banner Card */
 .home-cta-banner-section {
-    width: 1120px;
+    width: 90%;
     margin: 0 auto;
     padding: 60px 20px;
 }
@@ -396,5 +396,9 @@
     .footer-links-column {
         align-items: center;
         text-align: center;
+    }
+
+    .home-cta-banner-section {
+        width: 80%;
     }
 }
