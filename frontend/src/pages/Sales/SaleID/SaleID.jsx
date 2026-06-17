@@ -1,25 +1,46 @@
+import { useState, useEffect } from 'react';
+import axios from "axios";
 import { useParams, Link } from 'react-router';
 import './SaleID.css';
 import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
 
 export function SaleID({ isAuthorized, setIsAuthorized }) {
-  setIsAuthorized(true);
+  useEffect(() => {
+    setIsAuthorized(true);
+  }, []);
+
+  const [saleItems, setSaleItems] = useState([]);
   const { saleID } = useParams();
 
+  async function getSaleItems() {
+    try {
+      const response = await axios.get(`/api/sales/${saleID}`);
+      const data = response.data.sale.items;
+      console.log(data);
+      setSaleItems(data);
+    } catch (error) {
+      console.error('Error fetching sale items:', error);
+    }
+  }
+
+  useEffect(() => {
+    getSaleItems();
+  }, []);
+
   // Mock items for the sale conforming to the Figma mockup
-  const saleItems = Array.from({ length: 5 }, (_, i) => ({
-    id: i + 1,
-    name: `Item #${i + 1}`,
-    quantity: `Quantity ${i + 1}`,
-    dateTime: new Date().toLocaleString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }),
-  }));
+  // const saleItems = Array.from({ length: 5 }, (_, i) => ({
+  //   id: i + 1,
+  //   name: `Item #${i + 1}`,
+  //   quantity: `Quantity ${i + 1}`,
+  //   dateTime: new Date().toLocaleString('en-US', {
+  //     year: 'numeric',
+  //     month: 'short',
+  //     day: 'numeric',
+  //     hour: '2-digit',
+  //     minute: '2-digit',
+  //   }),
+  // }));
 
   // SVG Icons
   const ImageIcon = ({ className }) => (
