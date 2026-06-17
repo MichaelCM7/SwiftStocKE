@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link, NavLink } from 'react-router'; // Ensure this is imported
 import { FiImage } from "react-icons/fi";
 import './Header.css';
 
@@ -15,10 +15,11 @@ export function Header({ isAuthorized }) {
 
       {isAuthorized && (
         <nav className="header-nav">
-          <Link to="/Analytics" className="nav-item">Analytics</Link>
-          <Link to="/Sales" className="nav-item">Sales</Link>
-          <Link to="/ManageStock" className="nav-item">Manage Stock</Link>
-          <Link to="/History" className="nav-item">History</Link>
+          {/* React Router automatically turns this into class="nav-item active" when active */}
+          <NavLink to="/Analytics" className="nav-item">Analytics</NavLink>
+          <NavLink to="/Sales" className="nav-item">Sales</NavLink>
+          <NavLink to="/ManageStock" className="nav-item">Manage Stock</NavLink>
+          <NavLink to="/History" className="nav-item">History</NavLink>
         </nav>
       )}
 
