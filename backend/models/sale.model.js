@@ -18,8 +18,8 @@ const saleSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        maxLength: 17,
-        minLength: 17
+        maxLength: 19,
+        minLength: 19
     },
     items: {
         type: Array({

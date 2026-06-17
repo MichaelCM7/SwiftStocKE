@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
+import axios from "axios";
 import './Sales.css';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
@@ -11,14 +12,28 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
   }, [setIsAuthorized]);
 
   // Sample data conforming to the Figma mockup (10 sales)
-  const initialSales = Array.from({ length: 10 }, (_, i) => ({
-    id: i + 1,
-    name: `Sale #${i + 1}`,
-    dateTime: 'Sale Date and Time',
-  }));
+  // const initialSales = Array.from({ length: 10 }, (_, i) => ({
+  //   id: i + 1,
+  //   name: `Sale #${i + 1}`,
+  //   dateTime: 'Sale Date and Time',
+  // }));
 
-  const [sales, setSales] = useState(initialSales);
+  const [sales, setSales] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
+  async function getSales() {
+    try {
+      const response = await axios.get(`/api/sales`);
+      const data = await response.data;
+      setSales(data);
+    } catch (error) {
+      console.error('Error fetching sales:', error);
+    }
+  }
+
+  useEffect(() => {
+    getSales();
+  }, []);
 
   // Helper function to toggle empty state for design verification
   const toggleEmptyState = () => {
@@ -76,48 +91,39 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
           </Link>
         </div>
 
-        {sales.length > 0 ? (
-          <div className="sales-content-wrapper">
-            <div className="table-responsive">
-              <table className="sales-table">
-                <thead>
-                  <tr>
-                    <th>Sale Name</th>
-                    <th>Sale Date and Time</th>
-                    <th className="actions-header">Actions</th>
+        <div className="sales-content-wrapper">
+          <div className="table-responsive">
+            <table className="sales-table">
+              <thead>
+                <tr>
+                  <th>Sale Name</th>
+                  <th>Sale Date and Time</th>
+                  <th className="actions-header">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sales.map((sale) => (
+                  <tr key={sale.id}>
+                    <td className="sale-name">{sale.name}</td>
+                    <td className="sale-time">{sale.dateTime}</td>
+                    <td className="sale-actions">
+                      <Link to={`/SaleID/${sale.id}`} className="btn-view-details">
+                        <EyeIcon /> View Details
+                      </Link>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {sales.map((sale) => (
-                    <tr key={sale.id}>
-                      <td className="sale-name">{sale.name}</td>
-                      <td className="sale-time">{sale.dateTime}</td>
-                      <td className="sale-actions">
-                        <Link to={`/SaleID/${sale.id}`} className="btn-view-details">
-                          <EyeIcon /> View Details
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-            <Pagination
-              currentPage={currentPage}
-              totalPages={5}
-              onPageChange={setCurrentPage}
-            />
-          </div>
-        ) : (
-          /* Empty State */
-          <div className="sales-empty-state">
-            <h2 className="empty-state-title">No Sales Yet</h2>
-            <p className="empty-state-subtitle">
-              Create A Sale to See The Power of &lt;WebsiteName&gt;
-            </p>
-          </div>
-        )}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={5}
+            onPageChange={setCurrentPage}
+          />
+        </div>
+
       </main>
 
       {/* Footer */}

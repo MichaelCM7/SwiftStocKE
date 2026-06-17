@@ -1,4 +1,5 @@
 import Sale from "../models/sale.model.js";
+import mongoose from "mongoose";
 import dayjs from "dayjs";
 
 export async function recordNewSale(req, res, next) {
