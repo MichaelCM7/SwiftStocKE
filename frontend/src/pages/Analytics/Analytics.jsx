@@ -167,10 +167,9 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
           </div>
         </div>
 
-        {/* Demand Goods Row */}
         <div className="analytics-demand-row">
           <div className="analytics-card">
-            <h2 className="analytics-card-title">High Demand Goods</h2>
+            <h2 className="analytics-card-title">High Demand Items</h2>
             <ol className="analytics-demand-list">
               {highDemandGoods.map((item, i) => (
                 <li key={i}>{item}</li>
@@ -179,7 +178,7 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
           </div>
 
           <div className="analytics-card">
-            <h2 className="analytics-card-title">Low Demand Goods</h2>
+            <h2 className="analytics-card-title">Low Demand Items</h2>
             <ol className="analytics-demand-list">
               {lowDemandGoods.map((item, i) => (
                 <li key={i}>{item}</li>
@@ -190,7 +189,7 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
 
         {/* Restocking Table */}
         <section className="analytics-restock-section">
-          <h2 className="analytics-restock-title">Goods That Need Restocking</h2>
+          <h2 className="analytics-restock-title">Items That Need Restocking</h2>
 
           <div className="analytics-table-wrapper">
             <div className="table-responsive">
