@@ -24,7 +24,8 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
   async function getSales() {
     try {
       const response = await axios.get(`/api/sales`);
-      const data = await response.data;
+      const data = await response.data.sales;
+      console.log(data);
       setSales(data);
     } catch (error) {
       console.error('Error fetching sales:', error);
@@ -103,11 +104,11 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
               </thead>
               <tbody>
                 {sales.map((sale) => (
-                  <tr key={sale.id}>
-                    <td className="sale-name">{sale.name}</td>
+                  <tr key={sale._id}>
+                    <td className="sale-name">{sale.saleName}</td>
                     <td className="sale-time">{sale.dateTime}</td>
                     <td className="sale-actions">
-                      <Link to={`/SaleID/${sale.id}`} className="btn-view-details">
+                      <Link to={`/SaleID/${sale._id}`} className="btn-view-details">
                         <EyeIcon /> View Details
                       </Link>
                     </td>
