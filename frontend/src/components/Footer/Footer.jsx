@@ -22,7 +22,6 @@ export function Footer({ isAuthorized }) {
                 <Link to="/Sales">Sales</Link>
                 <Link to="/ManageStock">Manage Stock</Link>
                 <Link to="/History">History</Link>
-                <Link to="/SignIn">Log Out</Link>
               </>
             )}
           </div>
