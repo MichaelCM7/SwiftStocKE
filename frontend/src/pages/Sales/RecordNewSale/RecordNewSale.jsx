@@ -152,22 +152,14 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
 
                 <div className="form-group">
                   <label htmlFor="quantity" className="form-label">Quantity</label>
-                  <div className="select-wrapper">
-                    <select
-                      id="quantity"
-                      value={selectedQuantity}
-                      onChange={(event) => setSelectedQuantity(event.target.value)}
-                      className="form-select"
-                      required
-                    >
-                      <option value="" disabled>Quantity</option>
-                      {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
-                        <option key={num} value={num}>
-                          {num}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <input
+                    type="number"
+                    id="quantity"
+                    value={selectedQuantity}
+                    onChange={(event) => setSelectedQuantity(event.target.value)}
+                    className="form-select"
+                    required
+                  />
                 </div>
 
                 <button type="submit" className="btn-add-item">
