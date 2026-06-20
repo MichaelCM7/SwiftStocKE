@@ -11,13 +11,6 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
     setIsAuthorized(true);
   }, [setIsAuthorized]);
 
-  // Sample data conforming to the Figma mockup (10 sales)
-  // const initialSales = Array.from({ length: 10 }, (_, i) => ({
-  //   id: i + 1,
-  //   name: `Sale #${i + 1}`,
-  //   dateTime: 'Sale Date and Time',
-  // }));
-
   const [sales, setSales] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -25,7 +18,7 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
     try {
       const response = await axios.get(`/api/sales`);
       const data = await response.data.sales;
-      console.log(data);
+      // console.log(data);
       setSales(data);
     } catch (error) {
       console.error('Error fetching sales:', error);
