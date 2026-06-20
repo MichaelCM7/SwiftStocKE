@@ -108,7 +108,7 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
                     <td className="sale-name">{sale.saleName}</td>
                     <td className="sale-time">{sale.dateTime}</td>
                     <td className="sale-actions">
-                      <Link to={`/SaleID/${sale._id}`} className="btn-view-details">
+                      <Link to={`/Sales/${sale._id}`} className="btn-view-details">
                         <EyeIcon /> View Details
                       </Link>
                     </td>

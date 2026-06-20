@@ -11,14 +11,22 @@ export function SaleID({ isAuthorized, setIsAuthorized }) {
   }, []);
 
   const [saleItems, setSaleItems] = useState([]);
+  const [dateTime, setDateTime] = useState('');
+  const [saleName, setSaleName] = useState('');
   const { saleID } = useParams();
 
   async function getSaleItems() {
     try {
       const response = await axios.get(`/api/sales/${saleID}`);
       const data = response.data.sale.items;
-      console.log(data);
+      const saleName = response.data.sale.saleName;
+      const dateTime = response.data.sale.dateTime;
       setSaleItems(data);
+      setDateTime(dateTime);
+      setSaleName(saleName);
+      // console.log(data);
+      // console.log(dateTime);
+      // console.log(saleName);
     } catch (error) {
       console.error('Error fetching sale items:', error);
     }
@@ -27,20 +35,6 @@ export function SaleID({ isAuthorized, setIsAuthorized }) {
   useEffect(() => {
     getSaleItems();
   }, []);
-
-  // Mock items for the sale conforming to the Figma mockup
-  // const saleItems = Array.from({ length: 5 }, (_, i) => ({
-  //   id: i + 1,
-  //   name: `Item #${i + 1}`,
-  //   quantity: `Quantity ${i + 1}`,
-  //   dateTime: new Date().toLocaleString('en-US', {
-  //     year: 'numeric',
-  //     month: 'short',
-  //     day: 'numeric',
-  //     hour: '2-digit',
-  //     minute: '2-digit',
-  //   }),
-  // }));
 
   // SVG Icons
   const ImageIcon = ({ className }) => (
@@ -86,7 +80,7 @@ export function SaleID({ isAuthorized, setIsAuthorized }) {
             <ArrowLeftIcon /> Back To Sales
           </Link>
           <div className="sales-id-header">
-            <h1 className="sales-heading">Sale details: #{saleID}</h1>
+            <h1 className="sales-heading">Sale details: {saleName}</h1>
           </div>
         </div>
 
@@ -103,10 +97,10 @@ export function SaleID({ isAuthorized, setIsAuthorized }) {
               </thead>
               <tbody>
                 {saleItems.map((item) => (
-                  <tr key={item.id} className="table-row-animate">
-                    <td className="sale-name">{item.name}</td>
+                  <tr key={item.itemId} className="table-row-animate">
+                    <td className="sale-name">{item.itemName}</td>
                     <td className="sale-quantity">{item.quantity}</td>
-                    <td className="sale-time">{item.dateTime}</td>
+                    <td className="sale-time">{dateTime}</td>
                   </tr>
                 ))}
               </tbody>
