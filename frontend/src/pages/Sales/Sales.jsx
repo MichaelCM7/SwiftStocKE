@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import axios from "axios";
 import './Sales.css';
+import { FaPlus } from "react-icons/fa";
+import { FiEye } from "react-icons/fi";
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
 import { Pagination } from '../../components/Pagination/Pagination';
@@ -54,21 +56,6 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
     </svg>
   );
 
-  const PlusIcon = () => (
-    <svg
-      className="btn-icon-plus"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="12" y1="5" x2="12" y2="19" />
-      <line x1="5" y1="12" x2="19" y2="12" />
-    </svg>
-  );
-
   return (
     <div className="sales-page-container">
       {/* Header */}
@@ -81,7 +68,7 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
             <h1 className="sales-heading">Sales</h1>
           </div>
           <Link to="/RecordNewSale" className="btn-record-sale">
-            <PlusIcon /> Record New Sale
+            <FaPlus /> Record New Sale
           </Link>
         </div>
 
@@ -102,7 +89,7 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
                     <td className="sale-time">{sale.dateTime}</td>
                     <td className="sale-actions">
                       <Link to={`/Sales/${sale._id}`} className="btn-view-details">
-                        <EyeIcon /> View Details
+                        <FiEye /> View Details
                       </Link>
                     </td>
                   </tr>

@@ -94,7 +94,7 @@ export function AddNewItem({ isAuthorized, setIsAuthorized }) {
                 </div>
 
                 <button type="submit" className="btn-submit-item">
-                  Add Item
+                  <FaPlus /> Add Item
                 </button>
               </form>
             </div>

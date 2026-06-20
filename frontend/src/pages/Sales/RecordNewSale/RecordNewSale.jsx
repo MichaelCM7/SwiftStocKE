@@ -4,6 +4,8 @@ import axios from 'axios';
 import './RecordNewSale.css';
 import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
+import { FaRegTrashAlt, FaPlus } from "react-icons/fa";
+import { IoMdArrowBack } from "react-icons/io";
 
 export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
   useEffect(() => {
@@ -11,15 +13,6 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
   }, [setIsAuthorized]);
 
   const navigate = useNavigate();
-
-  // const stockItems = [
-  //   { id: 'item-1', name: 'Wireless Mouse', price: 25 },
-  //   { id: 'item-2', name: 'Mechanical Keyboard', price: 75 },
-  //   { id: 'item-3', name: 'USB-C Hub', price: 40 },
-  //   { id: 'item-4', name: '27" LED Monitor', price: 250 },
-  //   { id: 'item-5', name: 'Noise Cancelling Headphones', price: 150 },
-  // ];
-
   const [stockItems, setStockItems] = useState([]);
   const [selectedItemName, setSelectedItemName] = useState('');
   const [selectedQuantity, setSelectedQuantity] = useState('1');
@@ -66,53 +59,6 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
     navigate('/Sales');
   };
 
-  const ArrowLeftIcon = () => (
-    <svg
-      className="btn-icon-back"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="19" y1="12" x2="5" y2="12" />
-      <polyline points="12 19 5 12 12 5" />
-    </svg>
-  );
-
-  const PlusIcon = () => (
-    <svg
-      className="btn-icon-plus"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="12" y1="5" x2="12" y2="19" />
-      <line x1="5" y1="12" x2="19" y2="12" />
-    </svg>
-  );
-
-  const TrashIcon = () => (
-    <svg
-      className="btn-icon-trash"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="3 6 5 6 21 6" />
-      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-      <line x1="10" y1="11" x2="10" y2="17" />
-      <line x1="14" y1="11" x2="14" y2="17" />
-    </svg>
-  );
-
   return (
     <div className="sales-page-container">
       <Header isAuthorized={isAuthorized} />
@@ -121,7 +67,7 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
         <main className="sales-main">
           <div className="sales-title-bar-id">
             <Link to="/Sales" className="btn-back-sales">
-              <ArrowLeftIcon /> Back To Sales
+              <IoMdArrowBack /> Back To Sales
             </Link>
           </div>
 
@@ -163,7 +109,7 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
                 </div>
 
                 <button type="submit" className="btn-add-item">
-                  Add Item
+                  <FaPlus /> Add Item
                 </button>
               </form>
             </div>
@@ -184,7 +130,7 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
                           className="btn-delete-item"
                           title="Remove item"
                         >
-                          <TrashIcon />
+                          <FaRegTrashAlt />
                         </button>
                       </div>
                     ))}
