@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
+import axios from 'axios';
 import './RecordNewSale.css';
 import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
@@ -11,20 +12,36 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
 
   const navigate = useNavigate();
 
-  const stockItems = [
-    { id: 'item-1', name: 'Wireless Mouse', price: 25 },
-    { id: 'item-2', name: 'Mechanical Keyboard', price: 75 },
-    { id: 'item-3', name: 'USB-C Hub', price: 40 },
-    { id: 'item-4', name: '27" LED Monitor', price: 250 },
-    { id: 'item-5', name: 'Noise Cancelling Headphones', price: 150 },
-  ];
+  // const stockItems = [
+  //   { id: 'item-1', name: 'Wireless Mouse', price: 25 },
+  //   { id: 'item-2', name: 'Mechanical Keyboard', price: 75 },
+  //   { id: 'item-3', name: 'USB-C Hub', price: 40 },
+  //   { id: 'item-4', name: '27" LED Monitor', price: 250 },
+  //   { id: 'item-5', name: 'Noise Cancelling Headphones', price: 150 },
+  // ];
 
+  const [stockItems, setStockItems] = useState([]);
   const [selectedItemName, setSelectedItemName] = useState('');
   const [selectedQuantity, setSelectedQuantity] = useState('1');
   const [soldItems, setSoldItems] = useState([
     { id: 'init-1', name: 'Item #1', quantity: 'Quantity' },
     { id: 'init-2', name: 'Item #2', quantity: 'Quantity' },
   ]);
+
+  async function getStockItems() {
+    try {
+      const response = await axios.get('/api/products/get-items');
+      const data = await response.data.products;
+      console.log(data);
+      setStockItems(data);
+    } catch (error) {
+      console.error('Error fetching stock items:', error);
+    }
+  }
+
+  useEffect(() => {
+    getStockItems();
+  }, []);
 
   const handleAddItem = (e) => {
     e.preventDefault();
@@ -114,19 +131,19 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
               <h2 className="panel-title">Record New Sale</h2>
               <form onSubmit={handleAddItem} className="record-form">
                 <div className="form-group">
-                  <label htmlFor="itemName" className="form-label">Item Name</label>
+                  <label htmlFor="itemName" className="form-label">Item</label>
                   <div className="select-wrapper">
                     <select
                       id="itemName"
                       value={selectedItemName}
-                      onChange={(e) => setSelectedItemName(e.target.value)}
+                      onChange={(event) => setSelectedItemName(event.target.value)}
                       className="form-select"
                       required
                     >
-                      <option value="" disabled>Item Name</option>
+                      <option value="" disabled>Select Item</option>
                       {stockItems.map((item) => (
-                        <option key={item.id} value={item.name}>
-                          {item.name} (${item.price})
+                        <option key={item._id} value={item.itemName}>
+                          {item.itemName} ({item.quantity})
                         </option>
                       ))}
                     </select>
@@ -139,7 +156,7 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
                     <select
                       id="quantity"
                       value={selectedQuantity}
-                      onChange={(e) => setSelectedQuantity(e.target.value)}
+                      onChange={(event) => setSelectedQuantity(event.target.value)}
                       className="form-select"
                       required
                     >
