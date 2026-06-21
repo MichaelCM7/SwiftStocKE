@@ -56,7 +56,7 @@ export async function signup(req, res, next) {
       httpOnly: true, 
       secure: true, 
       sameSite: "strict", 
-      maxAge: 15 * 60 * 1000, // 15 minutes for now 24 hours actually 24 * 60 * 60 * 1000 
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
     const otp = otpGenerator();
