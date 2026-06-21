@@ -1,4 +1,5 @@
 import Sale from "../models/sale.model.js";
+import Product from "../models/product.model.js";
 import mongoose from "mongoose";
 import dayjs from "dayjs";
 
@@ -30,6 +31,36 @@ export async function recordNewSale(req, res, next) {
       let counter = sales.length + 1;
       return `Sale #${counter}`;
     }
+
+    const products = await Product.find({
+      retailer: retailerID
+    });
+
+    if (products.length === 0) {
+      const error = new Error("No Products Found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    items.map(async (item) => {
+      const product = await Product.findById(item.itemId);
+      // console.log(product);
+
+      if (!product) {
+        const error = new Error("Product Not Found");
+        error.statusCode = 404;
+        throw error;
+      }
+
+      if (product.quantity < item.quantity) {
+        const error = new Error("Insufficient Quantity");
+        error.statusCode = 400;
+        throw error;
+      }
+
+      product.quantity -= item.quantity;
+      await product.save();
+    })
 
     // fix items if it breaks
     const sale = await Sale.create({
