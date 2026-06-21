@@ -3,7 +3,7 @@ import { addHistory, getHistoryByRetailerID } from "../controllers/history.contr
 
 const historyRoutes = express.Router();
 
-historyRoutes.post("/add", addHistory);
+// historyRoutes.post("/add", addHistory);
 
 historyRoutes.get("/", getHistoryByRetailerID);
 
