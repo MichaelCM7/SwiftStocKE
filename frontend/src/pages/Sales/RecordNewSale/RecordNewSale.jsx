@@ -15,17 +15,15 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
   const navigate = useNavigate();
   const [stockItems, setStockItems] = useState([]);
   const [selectedItemName, setSelectedItemName] = useState('');
+  const [selectedItemID, setSelectedItemID] = useState('');
   const [selectedQuantity, setSelectedQuantity] = useState('1');
-  const [soldItems, setSoldItems] = useState([
-    { id: 'init-1', name: 'Item #1', quantity: 'Quantity' },
-    { id: 'init-2', name: 'Item #2', quantity: 'Quantity' },
-  ]);
+  const [soldItems, setSoldItems] = useState([]);
 
   async function getStockItems() {
     try {
       const response = await axios.get('/api/products/get-items');
       const data = await response.data.products;
-      console.log(data);
+      // console.log(data);
       setStockItems(data);
     } catch (error) {
       console.error('Error fetching stock items:', error);
@@ -36,20 +34,30 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
     getStockItems();
   }, []);
 
-  const handleAddItem = (e) => {
-    e.preventDefault();
-    if (!selectedItemName) return;
+  const handleAddItem = (event) => {
+    event.preventDefault();
+
+    if (!selectedItemName) {
+      return;
+    }
 
     const newItem = {
-      id: Date.now().toString(),
-      name: selectedItemName,
-      quantity: `${selectedQuantity}`,
+      itemId: selectedItemID,
+      itemName: selectedItemName,
+      quantity: selectedQuantity,
     };
 
     setSoldItems([...soldItems, newItem]);
+
     setSelectedItemName('');
     setSelectedQuantity('1');
   };
+
+  function getSelectedItem(event) {
+    setSelectedItemName(event.target.value);
+    const item = stockItems.find((item) => item.itemName === event.target.value);
+    setSelectedItemID(item._id);
+  }
 
   const handleRemoveItem = (id) => {
     setSoldItems(soldItems.filter(item => item.id !== id));
@@ -58,6 +66,8 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
   const handleFinishSale = () => {
     navigate('/Sales');
   };
+
+
 
   return (
     <div className="sales-page-container">
@@ -82,7 +92,7 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
                     <select
                       id="itemName"
                       value={selectedItemName}
-                      onChange={(event) => setSelectedItemName(event.target.value)}
+                      onChange={getSelectedItem}
                       className="form-select"
                       required
                     >
@@ -121,12 +131,12 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
                 {soldItems.length > 0 ? (
                   <div className="sold-items-list">
                     {soldItems.map((item) => (
-                      <div key={item.id} className="sold-item-row">
-                        <span className="sold-item-name">{item.name}</span>
+                      <div key={item.itemId} className="sold-item-row">
+                        <span className="sold-item-name">{item.itemName}</span>
                         <span className="sold-item-quantity">{item.quantity}</span>
                         <button
                           type="button"
-                          onClick={() => handleRemoveItem(item.id)}
+                          onClick={() => handleRemoveItem(item.itemId)}
                           className="btn-delete-item"
                           title="Remove item"
                         >
