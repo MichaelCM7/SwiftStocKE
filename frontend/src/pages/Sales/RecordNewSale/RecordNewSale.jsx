@@ -69,12 +69,23 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
     setSelectedItemID(item._id);
   }
 
-  const handleRemoveItem = (id) => {
-    setSoldItems(soldItems.filter(item => item.id !== id));
+  const handleRemoveItem = (itemId) => {
+    setSoldItems(soldItems.filter(item => item.itemId !== itemId));
   };
 
-  const handleFinishSale = () => {
-    navigate('/Sales');
+  const handleFinishSale = async () => {
+    try {
+      const response = await axios.post('/api/sales/record', { items: soldItems });
+      const data = response.data;
+      if (data.success) {
+        navigate('/Sales');
+      } else {
+        console.error('Error recording sale:', data.error);
+      }
+    } catch (error) {
+      console.error('Error recording sale:', error);
+    }
+
   };
 
 
