@@ -1,4 +1,6 @@
 import Product from "../models/product.model.js";
+import History from "../models/history.model.js";
+import dayjs from "dayjs";
 import mongoose from "mongoose";
 
 export async function addItem(req, res, next) {
@@ -7,6 +9,7 @@ export async function addItem(req, res, next) {
   try {
     const {itemName, quantity, lowStockThreshold} = req.body;
     const retailerID = req.retailer._id;
+    const dateTime = dayjs().format('DD-MM-YYYY HH:mm:ss');
 
     console.log(`ItemNam: ${itemName}, Quantity: ${quantity}, LowStock: ${lowStockThreshold}`)
     console.log(`RetailerID: ${retailerID}`)
@@ -35,14 +38,25 @@ export async function addItem(req, res, next) {
       throw error;
     }
 
-    const product = new Product({
+    const product = await Product.create([{
       itemName,
       quantity,
       lowStockThreshold,
       retailer: retailerID
-    });
+    }], {session});
 
-    await product.save();
+    const history = await History.create([{
+      retailer: retailerID,
+      itemName: itemName,
+      change: `Added new item (+${quantity})`,
+      dateTime: dateTime
+    }], {session});
+
+    if (!history) {
+      const error = new Error("Failed to log history");
+      error.statusCode = 500;
+      throw error;
+    }
 
     await session.commitTransaction();
     await session.endSession();
@@ -132,6 +146,7 @@ export async function editItem(req, res, next) {
     const { productID } = req.params;
     const { itemName, quantity, lowStockThreshold } = req.body;
     const retailerID = req.retailer._id;
+    const dateTime = dayjs().format('DD-MM-YYYY HH:mm:ss');
 
     if (!productID) {
       const error = new Error("No item selected.");
@@ -174,8 +189,6 @@ export async function editItem(req, res, next) {
       throw error;
     }
 
-    await existingProduct.save();
-
     const updatedProduct = await Product.findOneAndUpdate(
       {_id: productID},
       {itemName, quantity, lowStockThreshold},
@@ -184,6 +197,39 @@ export async function editItem(req, res, next) {
 
     if (!updatedProduct) {
       const error = new Error("Failed to update item.");
+      error.statusCode = 500;
+      throw error;
+    }
+
+    let message = "";
+    const diffQuantity = quantity - existingProduct.quantity;
+    const diffLowThreshold = lowStockThreshold - existingProduct.lowStockThreshold;
+
+    if (existingProduct.itemName !== itemName && existingProduct.lowStockThreshold !== lowStockThreshold && existingProduct.quantity !== quantity) {
+      message = "Name, Quantity, and Low Stock Threshold Updated";
+    } else if (existingProduct.lowStockThreshold !== lowStockThreshold && existingProduct.quantity !== quantity) {
+      message = "Low Stock Threshold and Quantity Updated";
+    } else if (existingProduct.itemName !== itemName && existingProduct.quantity !== quantity) {
+      message = "Name and Quantity Updated";
+    } else if (existingProduct.itemName !== itemName && existingProduct.lowStockThreshold !== lowStockThreshold) {
+      message = "Name and Low Stock Threshold Updated";
+    } else if (existingProduct.itemName !== itemName) {
+      message = `Name changed to ${itemName}`;
+    } else if (existingProduct.quantity !== quantity) {
+      message = `Stock Updated (${diffQuantity >= 0 ? "+" : ""}${diffQuantity})`;
+    } else if (existingProduct.lowStockThreshold !== lowStockThreshold) {
+      message = `Low Stock Threshold Updated (${diffLowThreshold >= 0 ? "+" : ""}${diffLowThreshold})`;
+    }
+
+    const history = await History.create([{
+      retailer: retailerID,
+      itemName: existingProduct.itemName,
+      change: message,
+      dateTime: dateTime
+    }], {session});
+
+    if (!history) {
+      const error = new Error("Failed to log history");
       error.statusCode = 500;
       throw error;
     }
@@ -211,6 +257,7 @@ export async function deleteItem(req, res, next) {
   try {
     const { productID } = req.params;
     const retailerID = req.retailer._id;
+    const dateTime = dayjs().format('DD-MM-YYYY HH:mm:ss');
 
     if (!productID) {
       const error = new Error("No item selected.");
@@ -246,6 +293,19 @@ export async function deleteItem(req, res, next) {
       throw error;
     }
 
+    const history = await History.create([{
+      retailer: retailerID,
+      itemName: existingProduct.itemName,
+      change: `Deleted item (-${existingProduct.quantity})`,
+      dateTime: dateTime
+    }], {session});
+
+    if (!history) {
+      const error = new Error("Failed to log history");
+      error.statusCode = 500;
+      throw error;
+    }
+
     await session.commitTransaction();
     await session.endSession();
 
@@ -268,6 +328,7 @@ export async function restockItem(req, res, next) {
   try {
     const retailerID = req.retailer._id;
     const { itemName, quantity } = req.body;
+    const dateTime = dayjs().format('DD-MM-YYYY HH:mm:ss');
 
     if (!itemName) {
       const error = new Error("Item name is required");
@@ -306,7 +367,18 @@ export async function restockItem(req, res, next) {
       throw error;
     }
 
-    await updatedProduct.save();
+    const history = await History.create([{
+      retailer: retailerID,
+      itemName: existingProduct.itemName,
+      change: `Restocked item (+${quantity})`,
+      dateTime: dateTime
+    }], {session});
+
+    if (!history) {
+      const error = new Error("Failed to log history");
+      error.statusCode = 500;
+      throw error;
+    }
 
     await session.commitTransaction();
     await session.endSession();

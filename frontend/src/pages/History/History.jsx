@@ -1,32 +1,47 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
+import axios from 'axios';
 import './History.css';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
 import { Pagination } from '../../components/Pagination/Pagination';
 
 export function History({ isAuthorized, setIsAuthorized }) {
-  // Wrapped in a useEffect hook to cleanly manage status authorization state modifications safely
   useEffect(() => {
     setIsAuthorized(true);
   }, [setIsAuthorized]);
 
   // 10 mock history items conforming to the mockup layout
-  const mockHistoryData = Array.from({ length: 10 }, (_, i) => ({
-    id: i + 1,
-    itemName: `Item #${i + 1}`,
-    changeType: i % 2 === 0 ? 'Stock Increased (+15)' : 'Stock Decreased (-5)',
-    dateTime: new Date(Date.now() - i * 3600000).toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }),
-  }));
+  // const mockHistoryData = Array.from({ length: 10 }, (_, i) => ({
+  //   id: i + 1,
+  //   itemName: `Item #${i + 1}`,
+  //   changeType: i % 2 === 0 ? 'Stock Increased (+15)' : 'Stock Decreased (-5)',
+  //   dateTime: new Date(Date.now() - i * 3600000).toLocaleString('en-US', {
+  //     month: 'short',
+  //     day: 'numeric',
+  //     year: 'numeric',
+  //     hour: '2-digit',
+  //     minute: '2-digit',
+  //   }),
+  // }));
 
-  const [historyItems, setHistoryItems] = useState(mockHistoryData);
+  const [historyItems, setHistoryItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const getHistory = async () => {
+    try {
+      const response = await axios.get('/api/history/');
+      const data = response.data.history;
+      console.log(data);
+      setHistoryItems(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getHistory();
+  }, []);
 
   return (
     <div className="history-page-container">
@@ -54,9 +69,9 @@ export function History({ isAuthorized, setIsAuthorized }) {
               </thead>
               <tbody>
                 {historyItems.map((item) => (
-                  <tr key={item.id}> {/* <-- Completely removed 'table-row-animate' */}
+                  <tr key={item._id}>
                     <td className="history-item-name">{item.itemName}</td>
-                    <td className="history-change-type">{item.changeType}</td>
+                    <td className="history-change-type">{item.change}</td>
                     <td className="history-time">{item.dateTime}</td>
                   </tr>
                 ))}

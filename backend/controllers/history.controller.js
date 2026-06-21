@@ -43,7 +43,7 @@ export async function addHistory() {
   }
 }
 
-export async function getHistoryByRetailerID() {
+export async function getHistoryByRetailerID(req, res, next) {
   try {
     const retailerID = req.retailer._id;
 
@@ -53,7 +53,7 @@ export async function getHistoryByRetailerID() {
       throw error;
     }
 
-    const history = await History.find({retailerID});
+    const history = await History.find({retailer: retailerID});
 
     if (!history && history.length === 0) {
       const error = new Error("No Sales History Found");
