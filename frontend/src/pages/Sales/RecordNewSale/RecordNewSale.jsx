@@ -41,6 +41,16 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
       return;
     }
 
+    const itemExists = soldItems.find((item) => item.itemId === selectedItemID);
+
+    if (itemExists) {
+      const newQuantity = parseInt(itemExists.quantity) + parseInt(selectedQuantity);
+
+      setSoldItems(soldItems.map(item => item.itemId === selectedItemID ? { ...item, quantity: newQuantity } : item));
+
+      return;
+    }
+
     const newItem = {
       itemId: selectedItemID,
       itemName: selectedItemName,
