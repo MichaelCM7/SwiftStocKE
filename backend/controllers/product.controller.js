@@ -358,7 +358,7 @@ export async function restockItem(req, res, next) {
     const updatedProduct = await Product.findOneAndUpdate(
       {_id: existingProduct._id,
       retailer: retailerID},
-      {quantity: newQuantity}, 
+      {quantity: newQuantity, restocks: existingProduct.restocks + 1}, 
       {returnDocument: "after", runValidators: true});
 
     if (!updatedProduct) {
