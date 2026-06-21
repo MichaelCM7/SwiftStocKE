@@ -11,22 +11,20 @@ export function History({ isAuthorized, setIsAuthorized }) {
     setIsAuthorized(true);
   }, [setIsAuthorized]);
 
-  // 10 mock history items conforming to the mockup layout
-  // const mockHistoryData = Array.from({ length: 10 }, (_, i) => ({
-  //   id: i + 1,
-  //   itemName: `Item #${i + 1}`,
-  //   changeType: i % 2 === 0 ? 'Stock Increased (+15)' : 'Stock Decreased (-5)',
-  //   dateTime: new Date(Date.now() - i * 3600000).toLocaleString('en-US', {
-  //     month: 'short',
-  //     day: 'numeric',
-  //     year: 'numeric',
-  //     hour: '2-digit',
-  //     minute: '2-digit',
-  //   }),
-  // }));
-
   const [historyItems, setHistoryItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const [startIndex, setStartIndex] = useState(itemsPerPage * (currentPage - 1));
+  const [endIndex, setEndIndex] = useState(itemsPerPage * currentPage);
+
+  useEffect(() => {
+    const newStartIndex = itemsPerPage * (currentPage - 1);
+    const newEndIndex = itemsPerPage * currentPage;
+    setStartIndex(newStartIndex);
+    setEndIndex(newEndIndex);
+  }, [currentPage]);
+
+  const currentHistory = historyItems.slice(startIndex, endIndex);
 
   const getHistory = async () => {
     try {
@@ -68,7 +66,7 @@ export function History({ isAuthorized, setIsAuthorized }) {
                 </tr>
               </thead>
               <tbody>
-                {historyItems.map((item) => (
+                {currentHistory.map((item) => (
                   <tr key={item._id}>
                     <td className="history-item-name">{item.itemName}</td>
                     <td className="history-change-type">{item.change}</td>
@@ -80,9 +78,10 @@ export function History({ isAuthorized, setIsAuthorized }) {
           </div>
 
           <Pagination
+            data={historyItems}
+            itemsPerPage={itemsPerPage}
             currentPage={currentPage}
-            totalPages={5}
-            onPageChange={setCurrentPage}
+            setCurrentPage={setCurrentPage}
           />
         </div>
       </main>

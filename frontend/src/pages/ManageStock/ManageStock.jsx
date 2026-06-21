@@ -15,6 +15,18 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
 
   const [stock, setStock] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const [startIndex, setStartIndex] = useState(itemsPerPage * (currentPage - 1));
+  const [endIndex, setEndIndex] = useState(itemsPerPage * currentPage);
+
+  useEffect(() => {
+    const newStartIndex = itemsPerPage * (currentPage - 1);
+    const newEndIndex = itemsPerPage * currentPage;
+    setStartIndex(newStartIndex);
+    setEndIndex(newEndIndex);
+  }, [currentPage]);
+
+  const currentStock = stock.slice(startIndex, endIndex);
 
   const fetchStockItems = async () => {
     try {
@@ -81,7 +93,7 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
                 </thead>
                 <tbody>
                   {stock.length > 0 ? (
-                    stock.map((item) => (
+                    currentStock.map((item) => (
                       <tr key={item._id}>
                         <td className="manage-stock-item-name">{item.itemName}</td>
                         <td className="manage-stock-qty">{item.quantity}</td>
@@ -118,9 +130,10 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
             </div>
 
             <Pagination
+              data={stock}
+              itemsPerPage={itemsPerPage}
               currentPage={currentPage}
-              totalPages={5}
-              onPageChange={setCurrentPage}
+              setCurrentPage={setCurrentPage}
             />
           </div>
         </main>

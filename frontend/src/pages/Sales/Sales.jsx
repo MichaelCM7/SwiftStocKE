@@ -15,6 +15,18 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
 
   const [sales, setSales] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const [startIndex, setStartIndex] = useState(itemsPerPage * (currentPage - 1));
+  const [endIndex, setEndIndex] = useState(itemsPerPage * currentPage);
+
+  useEffect(() => {
+    const newStartIndex = itemsPerPage * (currentPage - 1);
+    const newEndIndex = itemsPerPage * currentPage;
+    setStartIndex(newStartIndex);
+    setEndIndex(newEndIndex);
+  }, [currentPage]);
+
+  const currentSales = sales.slice(startIndex, endIndex);
 
   async function getSales() {
     try {
@@ -83,7 +95,7 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
                 </tr>
               </thead>
               <tbody>
-                {sales.map((sale) => (
+                {currentSales.map((sale) => (
                   <tr key={sale._id}>
                     <td className="sale-name">{sale.saleName}</td>
                     <td className="sale-time">{sale.dateTime}</td>
@@ -99,9 +111,10 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
           </div>
 
           <Pagination
+            data={sales}
+            itemsPerPage={itemsPerPage}
             currentPage={currentPage}
-            totalPages={5}
-            onPageChange={setCurrentPage}
+            setCurrentPage={setCurrentPage}
           />
         </div>
 
