@@ -59,6 +59,10 @@ export async function recordNewSale(req, res, next) {
       }
 
       product.quantity -= item.quantity;
+
+      // Add update Sales Count
+      product.salesCount += item.quantity;
+
       await product.save();
     })
 

@@ -38,6 +38,12 @@ const productSchema = new mongoose.Schema({
         default: 0,
         trim: true,
         min: 0
+    },
+    salesCount: {
+        type: Number,
+        default: 0,
+        trim: true,
+        min: 0
     }
 }, { timestamps: true });
 
