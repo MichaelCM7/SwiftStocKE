@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import { Pagination } from '../../components/Pagination/Pagination';
 import './Analytics.css';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
@@ -121,18 +122,64 @@ function LineChart() {
 
 // --- Main Component ---
 export function Analytics({ isAuthorized, setIsAuthorized }) {
+  const [highDemandGoods, setHighDemandGoods] = useState([]);
+  const [lowDemandGoods, setLowDemandGoods] = useState([]);
+  const [restockingItems, setRestockingItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const [startIndex, setStartIndex] = useState(itemsPerPage * (currentPage - 1));
+  const [endIndex, setEndIndex] = useState(itemsPerPage * currentPage);
+
+  useEffect(() => {
+    const newStartIndex = itemsPerPage * (currentPage - 1);
+    const newEndIndex = itemsPerPage * currentPage;
+    setStartIndex(newStartIndex);
+    setEndIndex(newEndIndex);
+  }, [currentPage]);
+
+  const currentRestockingItems = restockingItems.slice(startIndex, endIndex);
+
   useEffect(() => {
     setIsAuthorized(true);
+
+    async function fetchAnalytics() {
+      try {
+        const response = await fetch('/api/products/get-items');
+        const data = await response.json();
+
+        if (data.success && data.products) {
+          const allProducts = data.products;
+
+          // High Demand: Sorted by salesCount descending
+          const sortedHigh = [...allProducts]
+            .sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0))
+            .slice(0, 5);
+
+          // Low Demand: Sorted by salesCount ascending
+          const sortedLow = [...allProducts]
+            .sort((a, b) => (a.salesCount || 0) - (b.salesCount || 0))
+            .slice(0, 5);
+
+          // Restocking Items: Filtered by low/out-of-stock statuses
+          const needsRestock = allProducts.filter(
+            (item) => item.status === 'Low Stock' || item.status === 'Out of Stock'
+          );
+
+          setHighDemandGoods(sortedHigh);
+          setLowDemandGoods(sortedLow);
+          setRestockingItems(needsRestock);
+        }
+      } catch (error) {
+        console.error("Error communicating with data servers:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchAnalytics();
   }, [setIsAuthorized]);
-
-  const highDemandGoods = ['Item 1', 'Item 2', 'Item 3'];
-  const lowDemandGoods = ['Item 1', 'Item 2', 'Item 3'];
-
-  const restockingItems = [
-    { name: 'Soap Bar', quantity: 18, status: 'Low Stock' },
-    { name: 'Toothbrush', quantity: 12, status: 'Moderate Stock' },
-    { name: 'Hair Brush', quantity: 5, status: 'Low Stock' },
-  ];
 
   const statusClass = {
     "Low Stock": "analytics-status-badge--low",
@@ -140,6 +187,10 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
     "Moderate Stock": "analytics-status-badge--moderate",
     "Good Stock": "analytics-status-badge--good",
   };
+
+  if (loading) {
+    return <div style={{ padding: '40px', textAlign: 'center' }}>Loading insights...</div>;
+  }
 
   return (
     <div className="analytics-page-container">
@@ -167,12 +218,15 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
           </div>
         </div>
 
+        {/* Demand Row */}
         <div className="analytics-demand-row">
           <div className="analytics-card">
             <h2 className="analytics-card-title">High Demand Items</h2>
             <ol className="analytics-demand-list">
-              {highDemandGoods.map((item, i) => (
-                <li key={i}>{item}</li>
+              {highDemandGoods.map((item) => (
+                <li key={item._id}>
+                  {item.itemName} <strong style={{ float: 'right', color: '#2563eb' }}>{item.salesCount} sold</strong>
+                </li>
               ))}
             </ol>
           </div>
@@ -180,8 +234,10 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
           <div className="analytics-card">
             <h2 className="analytics-card-title">Low Demand Items</h2>
             <ol className="analytics-demand-list">
-              {lowDemandGoods.map((item, i) => (
-                <li key={i}>{item}</li>
+              {lowDemandGoods.map((item) => (
+                <li key={item._id}>
+                  {item.itemName} <span style={{ float: 'right', color: '#94a3b8' }}>{item.salesCount} sold</span>
+                </li>
               ))}
             </ol>
           </div>
@@ -202,20 +258,33 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {restockingItems.map((item, i) => (
-                    <tr key={i}>
-                      <td>{item.name}</td>
-                      <td>{item.quantity}</td>
-                      <td>
-                        <span className={`analytics-status-badge ${statusClass[item.status] || 'analytics-status-badge--good'}`}>
-                          {item.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                  {restockingItems.length === 0 ? (
+                    <tr><td colSpan="3" style={{ textAlign: 'center' }}>All stock levels healthy!</td></tr>
+                  ) : (
+                    currentRestockingItems.map((item) => (
+                      <tr key={item._id}>
+                        <td>{item.itemName}</td>
+                        <td>{item.quantity}</td>
+                        <td>
+                          <span className={`analytics-status-badge ${statusClass[item.status] || 'analytics-status-badge--good'}`}>
+                            {item.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
+
+            {restockingItems.length > 0 && (
+              <Pagination
+                data={restockingItems}
+                itemsPerPage={itemsPerPage}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            )}
           </div>
         </section>
       </main>

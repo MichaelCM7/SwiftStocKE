@@ -42,9 +42,8 @@ export async function recordNewSale(req, res, next) {
       throw error;
     }
 
-    items.map(async (item) => {
-      const product = await Product.findById(item.itemId);
-      // console.log(product);
+    for (const item of items) {
+      const product = await Product.findById(item.itemId).session(session);
 
       if (!product) {
         const error = new Error("Product Not Found");
@@ -61,32 +60,47 @@ export async function recordNewSale(req, res, next) {
       product.quantity -= item.quantity;
 
       // Add update Sales Count
-      product.salesCount += item.quantity;
+      product.salesCount += Number(item.quantity);
 
-      await product.save();
-    })
+      // Update status dynamically based on new quantity
+      if (product.quantity === 0) {
+        product.status = 'Out of Stock';
+      } else if (product.quantity <= product.lowStockThreshold) {
+        product.status = 'Low Stock';
+      } else if (product.quantity <= product.lowStockThreshold * 2) {
+        product.status = 'Moderate Stock';
+      } else {
+        product.status = 'Good Stock';
+      }
+
+      await product.save({ session });
+    }
 
     // fix items if it breaks
-    const sale = await Sale.create({
+    const sale = await Sale.create([{
       retailer: retailerID,
       saleName: saleNameCounter(),
       items: items,
       dateTime: dateTime
-    });
+    }], { session });
 
     await session.commitTransaction();
+    session.endSession();
 
     res.status(201).json({
       success: true,
       message: "Sale Recorded Successfully",
-      sale: sale
+      sale: sale[0]
     });
 
   }
   catch (error) {
+    await session.abortTransaction();
+    session.endSession();
     next(error);
   }
 }
+
 
 export async function getSalesByRetailerID(req, res, next) {
   try {

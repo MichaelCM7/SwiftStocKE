@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema({
         required: true,
         trim: true,
         max: 1000,
-        min: 1
+        min: 0
     },
     status: {
         type: String,

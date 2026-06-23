@@ -11,11 +11,11 @@ import { urlencoded } from "express";
 // API Routes
 import authRoutes from "./routes/auth.routes.js";
 import productRoutes from "./routes/product.routes.js";
+import salesRoutes from "./routes/sale.routes.js";
+import historyRoutes from "./routes/history.routes.js";
 // API Middlewares
 import authorize from "./middlewares/authorization.middleware.js";
 import errorHandler from "./middlewares/error.middleware.js";
-import salesRoutes from "./routes/sale.routes.js";
-import historyRoutes from "./routes/history.routes.js";
 
 const app = express();
 
@@ -26,9 +26,9 @@ app.use(cookieParser());
 
 // API Routes
 app.use('/api/auth/', authRoutes);
-app.use('/api/products/', authorize ,productRoutes);
-app.use('/api/sales/', authorize ,salesRoutes);
-app.use('/api/history/', authorize ,historyRoutes);
+app.use('/api/products/', authorize, productRoutes);
+app.use('/api/sales/', authorize, salesRoutes);
+app.use('/api/history/', authorize, historyRoutes);
 
 // API Middlewares
 app.use(errorHandler);
