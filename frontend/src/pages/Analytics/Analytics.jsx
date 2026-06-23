@@ -4,61 +4,44 @@ import './Analytics.css';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
 import { useEffect, useState } from 'react';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
 
-// --- Inline SVG Charts ---
+ChartJS.register(ArcElement, Tooltip, Legend);
 
-// Donut Chart for Stock Distribution
-function DonutChart() {
-  const segments = [
-    { value: 40, color: '#2563eb' }, // Synced chart accents to branding blue
-    { value: 25, color: '#475569' },
-    { value: 20, color: '#94a3b8' },
-    { value: 15, color: '#cbd5e1' },
-  ];
+function DynamicDonutChart({ products }) {
+  // 1. Group items by their stock status from your database
+  const lowStockCount = products.filter(p => p.status === 'Low Stock').length;
+  const outOfStockCount = products.filter(p => p.status === 'Out of Stock').length;
+  const moderateStockCount = products.filter(p => p.status === 'Moderate Stock').length;
+  const goodStockCount = products.filter(p => p.status === 'Good Stock').length;
 
-  const total = segments.reduce((s, seg) => s + seg.value, 0);
-  const cx = 60, cy = 60, r = 48, innerR = 28;
-  let cumulativeAngle = -90;
+  // 2. Wrap counts into the expected Chart.js structural object
+  const chartData = {
+    labels: ['Good Stock', 'Moderate Stock', 'Low Stock', 'Out of Stock'],
+    datasets: [
+      {
+        data: [goodStockCount, moderateStockCount, lowStockCount, outOfStockCount],
+        backgroundColor: ['#0eb94cff', '#ffa601ff', '#face86ff', '#ef4444'], // Custom alert colors
+        borderWidth: 2,
+      },
+    ],
+  };
 
-  function polarToCartesian(cx, cy, r, angleDeg) {
-    const rad = (angleDeg * Math.PI) / 180;
-    return {
-      x: cx + r * Math.cos(rad),
-      y: cy + r * Math.sin(rad),
-    };
-  }
-
-  function describeSlice(cx, cy, r, innerR, startAngle, endAngle) {
-    const p1 = polarToCartesian(cx, cy, r, startAngle);
-    const p2 = polarToCartesian(cx, cy, r, endAngle);
-    const p3 = polarToCartesian(cx, cy, innerR, endAngle);
-    const p4 = polarToCartesian(cx, cy, innerR, startAngle);
-    const largeArc = endAngle - startAngle > 180 ? 1 : 0;
-    return [
-      `M ${p1.x} ${p1.y}`,
-      `A ${r} ${r} 0 ${largeArc} 1 ${p2.x} ${p2.y}`,
-      `L ${p3.x} ${p3.y}`,
-      `A ${innerR} ${innerR} 0 ${largeArc} 0 ${p4.x} ${p4.y}`,
-      `Z`,
-    ].join(' ');
-  }
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom', // Positions labels underneath the donut
+      },
+    },
+  };
 
   return (
-    <svg viewBox="0 0 120 120" className="donut-chart-svg">
-      {segments.map((seg, i) => {
-        const sliceAngle = (seg.value / total) * 360;
-        const startAngle = cumulativeAngle;
-        const endAngle = cumulativeAngle + sliceAngle - 1.5;
-        cumulativeAngle += sliceAngle;
-        return (
-          <path
-            key={i}
-            d={describeSlice(cx, cy, r, innerR, startAngle, endAngle)}
-            fill={seg.color}
-          />
-        );
-      })}
-    </svg>
+    <div style={{ height: '220px', width: '100%' }}>
+      <Doughnut data={chartData} options={options} />
+    </div>
   );
 }
 
@@ -122,6 +105,7 @@ function LineChart() {
 
 // --- Main Component ---
 export function Analytics({ isAuthorized, setIsAuthorized }) {
+  const [rawProducts, setRawProducts] = useState([]);
   const [highDemandGoods, setHighDemandGoods] = useState([]);
   const [lowDemandGoods, setLowDemandGoods] = useState([]);
   const [restockingItems, setRestockingItems] = useState([]);
@@ -151,6 +135,7 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
 
         if (data.success && data.products) {
           const allProducts = data.products;
+          setRawProducts(allProducts);
 
           // High Demand: Sorted by salesCount descending
           const sortedHigh = [...allProducts]
@@ -206,7 +191,8 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
           <div className="analytics-card">
             <h2 className="analytics-card-title">Stock Distribution</h2>
             <div className="analytics-chart-wrapper">
-              <DonutChart />
+              {/* SWAPPED: Passing our live product state into our new component */}
+              <DynamicDonutChart products={rawProducts} />
             </div>
           </div>
 
