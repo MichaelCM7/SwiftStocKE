@@ -13,6 +13,7 @@ import authRoutes from "./routes/auth.routes.js";
 import productRoutes from "./routes/product.routes.js";
 import salesRoutes from "./routes/sale.routes.js";
 import historyRoutes from "./routes/history.routes.js";
+import analyticsRoutes from "./routes/analytics.routes.js";
 // API Middlewares
 import authorize from "./middlewares/authorization.middleware.js";
 import errorHandler from "./middlewares/error.middleware.js";
@@ -29,6 +30,7 @@ app.use('/api/auth/', authRoutes);
 app.use('/api/products/', authorize, productRoutes);
 app.use('/api/sales/', authorize, salesRoutes);
 app.use('/api/history/', authorize, historyRoutes);
+app.use('/api/analytics/', authorize, analyticsRoutes);
 
 // API Middlewares
 app.use(errorHandler);

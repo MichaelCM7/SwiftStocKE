@@ -31,9 +31,9 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
   const fetchStockItems = async () => {
     try {
       const response = await axios.get('/api/products/get-items');
-      if (response.data?.products) {
-        setStock(response.data.products);
-      }
+      const data = response.data.products;
+      console.log(data);
+      setStock(data);
     } catch (error) {
       console.error("Error loading stock registry database records:", error);
     }

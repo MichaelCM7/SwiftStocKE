@@ -1,13 +1,15 @@
 import { Link } from 'react-router';
 import { Pagination } from '../../components/Pagination/Pagination';
 import './Analytics.css';
+import dayjs from 'dayjs';
+import axios from 'axios';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
 import { useEffect, useState } from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut, Line } from 'react-chartjs-2';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 function DynamicDonutChart({ products }) {
   // 1. Group items by their stock status from your database
@@ -45,71 +47,80 @@ function DynamicDonutChart({ products }) {
   );
 }
 
-// Line Chart for Stock Levels
-function LineChart() {
-  const data = [320, 280, 310, 260, 290, 340, 310, 360, 330, 380, 350, 370];
-  const labels = ['Jan', 'April', 'July', 'October'];
-  const yLabels = [400, 300, 200];
-  const width = 340;
-  const height = 130;
-  const padL = 36, padR = 16, padT = 12, padB = 28;
-  const chartW = width - padL - padR;
-  const chartH = height - padT - padB;
-  const minVal = 200, maxVal = 400;
+function LineChart({ data, labels }) {
+  const formattedLabels = labels.map((isoString) =>
+    dayjs(isoString).format('DD/MM HH:mm')
+  );
 
-  function xPos(i) {
-    return padL + (i / (data.length - 1)) * chartW;
-  }
-  function yPos(val) {
-    return padT + chartH - ((val - minVal) / (maxVal - minVal)) * chartH;
-  }
+  const chartData = {
+    labels: formattedLabels, // Uses the freshly formatted dates on X-axis
+    datasets: [
+      {
+        label: 'Total Stock',
+        data: data,           // Map your raw primitive numbers [682, 680] here
+        borderColor: '#2563eb',
+        backgroundColor: '#2563eb',
+        borderWidth: 2,
+        pointRadius: 3,
+        pointHoverRadius: 6,
+        tension: 0.15,        // Elegant, minimal curve
+      },
+    ],
+  };
 
-  const points = data.map((v, i) => `${xPos(i)},${yPos(v)}`).join(' ');
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false, // Allows fill-to-fit inside .analytics-chart-wrapper
+    plugins: {
+      legend: {
+        display: false,        // Hides generic dataset box for a cleaner dashboard look
+      },
+      tooltip: {
+        mode: 'index',
+        intersect: false,
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,      // Clean dashboard; no vertical bars
+        },
+        ticks: {
+          color: '#94a3b8',
+          font: { size: 10 },
+        },
+      },
+      y: {
+        beginAtZero: false,    // Set to false if you want the chart to zoom in closer to fluctuations (e.g., between 680 and 682)
+        grid: {
+          color: '#e2e8f0',    // Your standard subtle border divider style
+        },
+        ticks: {
+          color: '#94a3b8',
+          font: { size: 10 },
+        },
+      },
+    },
+  };
 
   return (
-    <svg viewBox={`0 0 ${width} ${height}`} className="line-chart-svg">
-      {yLabels.map((y) => (
-        <g key={y}>
-          <line
-            x1={padL} y1={yPos(y)}
-            x2={width - padR} y2={yPos(y)}
-            stroke="#e2e8f0" strokeWidth="1"
-          />
-          <text x={padL - 6} y={yPos(y) + 4} textAnchor="end" fontSize="9" fill="#94a3b8">
-            {y}
-          </text>
-        </g>
-      ))}
-      {labels.map((label, i) => {
-        const xi = Math.round((i / (labels.length - 1)) * (data.length - 1));
-        return (
-          <text key={label} x={xPos(xi)} y={height - 6} textAnchor="middle" fontSize="9" fill="#94a3b8">
-            {label}
-          </text>
-        );
-      })}
-      <polyline
-        points={points}
-        fill="none"
-        stroke="#2563eb"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-      {data.map((v, i) => (
-        <circle key={i} cx={xPos(i)} cy={yPos(v)} r="2.5" fill="#2563eb" />
-      ))}
-    </svg>
+    // Component drops perfectly into your CSS flex framework grid
+    <div style={{ width: '100%', height: '100%', minHeight: '130px' }}>
+      <Line data={chartData} options={options} />
+    </div>
   );
 }
 
-// --- Main Component ---
 export function Analytics({ isAuthorized, setIsAuthorized }) {
   const [rawProducts, setRawProducts] = useState([]);
   const [highDemandGoods, setHighDemandGoods] = useState([]);
   const [lowDemandGoods, setLowDemandGoods] = useState([]);
   const [restockingItems, setRestockingItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [graphData, setGraphData] = useState([]);
+  const graphValues = [];
+  const graphLabels = [];
+
+  // const [loading, setLoading] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -125,46 +136,65 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
 
   const currentRestockingItems = restockingItems.slice(startIndex, endIndex);
 
+  async function fetchPieChartData() {
+    try {
+      const response = await axios.get('/api/products/get-items');
+      const data = response.data.products;
+
+      if (data) {
+        const allProducts = data;
+        setRawProducts(allProducts);
+
+        // High Demand: Sorted by salesCount descending
+        const sortedHigh = [...allProducts]
+          .sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0))
+          .slice(0, 5);
+
+        // Low Demand: Sorted by salesCount ascending
+        const sortedLow = [...allProducts]
+          .sort((a, b) => (a.salesCount || 0) - (b.salesCount || 0))
+          .slice(0, 5);
+
+        // Restocking Items: Filtered by low/out-of-stock statuses
+        const needsRestock = allProducts.filter(
+          (item) => item.status === 'Low Stock' || item.status === 'Out of Stock'
+        );
+
+        setHighDemandGoods(sortedHigh);
+        setLowDemandGoods(sortedLow);
+        setRestockingItems(needsRestock);
+      }
+    } catch (error) {
+      console.error("Error communicating with data servers:", error);
+    } // finally {
+    //   setLoading(false);
+    // }
+  }
+
+  async function fetchLineChartData() {
+    try {
+      const response = await axios.get('/api/analytics/');
+      const data = response.data.analytics[0].data;
+      console.log(data);
+      setGraphData(data);
+    } catch (error) {
+      console.error("Error communicating with data servers:", error);
+    }
+  }
+
   useEffect(() => {
     setIsAuthorized(true);
-
-    async function fetchAnalytics() {
-      try {
-        const response = await fetch('/api/products/get-items');
-        const data = await response.json();
-
-        if (data.success && data.products) {
-          const allProducts = data.products;
-          setRawProducts(allProducts);
-
-          // High Demand: Sorted by salesCount descending
-          const sortedHigh = [...allProducts]
-            .sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0))
-            .slice(0, 5);
-
-          // Low Demand: Sorted by salesCount ascending
-          const sortedLow = [...allProducts]
-            .sort((a, b) => (a.salesCount || 0) - (b.salesCount || 0))
-            .slice(0, 5);
-
-          // Restocking Items: Filtered by low/out-of-stock statuses
-          const needsRestock = allProducts.filter(
-            (item) => item.status === 'Low Stock' || item.status === 'Out of Stock'
-          );
-
-          setHighDemandGoods(sortedHigh);
-          setLowDemandGoods(sortedLow);
-          setRestockingItems(needsRestock);
-        }
-      } catch (error) {
-        console.error("Error communicating with data servers:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchAnalytics();
+    fetchPieChartData();
+    fetchLineChartData();
   }, [setIsAuthorized]);
+
+  graphData.forEach(item => {
+    graphValues.push(item.totalQuantity);
+    graphLabels.push(item.dateTime);
+  });
+
+  // console.log(graphValues);
+  // console.log(graphLabels);
 
   const statusClass = {
     "Low Stock": "analytics-status-badge--low",
@@ -173,9 +203,14 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
     "Good Stock": "analytics-status-badge--good",
   };
 
-  if (loading) {
-    return <div style={{ padding: '40px', textAlign: 'center' }}>Loading insights...</div>;
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="loading-container">
+  //       <span className="loader"></span>
+  //       <span>Loading insights...</span>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="analytics-page-container">
@@ -199,7 +234,7 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
           <div className="analytics-card">
             <h2 className="analytics-card-title">Stock Levels</h2>
             <div className="analytics-chart-wrapper analytics-chart-wrapper--line">
-              <LineChart />
+              <LineChart data={graphValues} labels={graphLabels} />
             </div>
           </div>
         </div>
