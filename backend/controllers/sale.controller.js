@@ -1,5 +1,6 @@
 import Sale from "../models/sale.model.js";
 import Product from "../models/product.model.js";
+import Analytics from "../models/analytics.model.js";
 import mongoose from "mongoose";
 import dayjs from "dayjs";
 
@@ -17,7 +18,7 @@ export async function recordNewSale(req, res, next) {
       throw error;
     }
 
-    if (!items && items.length === 0) {
+    if (!items || items.length === 0) {
       const error = new Error("No items");
       error.statusCode = 400;
       throw error;
@@ -25,7 +26,7 @@ export async function recordNewSale(req, res, next) {
 
     const sales = await Sale.find({
       retailer: retailerID
-    });
+    }).session(session);
 
     const saleNameCounter = () => {
       let counter = sales.length + 1;
@@ -34,7 +35,7 @@ export async function recordNewSale(req, res, next) {
 
     const products = await Product.find({
       retailer: retailerID
-    });
+    }).session(session);
 
     if (products.length === 0) {
       const error = new Error("No Products Found");
@@ -76,13 +77,36 @@ export async function recordNewSale(req, res, next) {
       await product.save({ session });
     }
 
-    // fix items if it breaks
     const sale = await Sale.create([{
       retailer: retailerID,
       saleName: saleNameCounter(),
       items: items,
       dateTime: dateTime
     }], { session });
+
+    const productsList = await Product.find({ retailer: retailerID }).session(session);
+    let totalQuantity = 0;
+    productsList.forEach((product) => {
+      totalQuantity += product.quantity;
+    });
+
+    const timeNow = new Date();
+
+    await Analytics.findOneAndUpdate(
+      { retailer: retailerID },
+      {
+        $push: {
+          data: {
+            $each: [{ totalQuantity: totalQuantity, dateTime: timeNow }],
+            $sort: { dateTime: 1 },
+            $slice: -30
+          }
+        }
+      },
+      { returnDocument: "after", runValidators: true, session }
+    );
+
+    // console.log(analytics);
 
     await session.commitTransaction();
     session.endSession();
@@ -100,7 +124,6 @@ export async function recordNewSale(req, res, next) {
     next(error);
   }
 }
-
 
 export async function getSalesByRetailerID(req, res, next) {
   try {

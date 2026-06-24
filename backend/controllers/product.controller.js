@@ -1,5 +1,6 @@
 import Product from "../models/product.model.js";
 import History from "../models/history.model.js";
+import Analytics from "../models/analytics.model.js";
 import dayjs from "dayjs";
 import mongoose from "mongoose";
 
@@ -11,8 +12,8 @@ export async function addItem(req, res, next) {
     const retailerID = req.retailer._id;
     const dateTime = dayjs().format('DD-MM-YYYY HH:mm:ss');
 
-    console.log(`ItemNam: ${itemName}, Quantity: ${quantity}, LowStock: ${lowStockThreshold}`)
-    console.log(`RetailerID: ${retailerID}`)
+    // console.log(`ItemNam: ${itemName}, Quantity: ${quantity}, LowStock: ${lowStockThreshold}`)
+    // console.log(`RetailerID: ${retailerID}`)
 
     if (!itemName) {
       const error = new Error('Item name is required.');
@@ -57,6 +58,50 @@ export async function addItem(req, res, next) {
       error.statusCode = 500;
       throw error;
     }
+
+    const productsList = await Product.find({ retailer: retailerID }).session(session);
+    let totalQuantity = 0;
+    productsList.forEach((product) => {
+      totalQuantity += product.quantity;
+    });
+
+    const timeNow = new Date();
+    const analytics = await Analytics.findOne({ retailer: retailerID }).session(session);
+
+    if (!analytics) {
+      await Analytics.create([
+        {
+          retailer: retailerID,
+          data: [
+            { 
+              totalQuantity: totalQuantity, 
+              dateTime: timeNow 
+            }
+          ]
+        }
+      ], {session});
+    } else {
+      await Analytics.findOneAndUpdate(
+        { retailer: retailerID },
+        {
+          $push: {
+            data: {
+              $each: [
+                {
+                  totalQuantity: totalQuantity, 
+                  dateTime: timeNow 
+                }
+              ],
+              $sort: { dateTime: 1 },
+              $slice: -30
+            }
+          }
+        },
+        { returnDocument: "after", runValidators: true, session }
+      );
+    }
+
+    // console.log(analytics);
 
     await session.commitTransaction();
     await session.endSession();
@@ -181,7 +226,7 @@ export async function editItem(req, res, next) {
     const existingProduct = await Product.findOne({
       _id: productID,
       retailer: retailerID
-    });
+    }).session(session);
 
     if (!existingProduct) {
       const error = new Error("Item not found");
@@ -234,6 +279,28 @@ export async function editItem(req, res, next) {
       throw error;
     }
 
+    const productsList = await Product.find({ retailer: retailerID }).session(session);
+    let totalQuantity = 0;
+    productsList.forEach((product) => {
+      totalQuantity += product.quantity;
+    });
+
+    const timeNow = new Date();
+
+    const analytics = await Analytics.findOneAndUpdate(
+      { retailer: retailerID },
+      {
+        $push: {
+          data: {
+            $each: [{ totalQuantity: totalQuantity, dateTime: timeNow }],
+            $sort: { dateTime: 1 },
+            $slice: -30
+          }
+        }
+      }, {returnDocument: "after", runValidators: true, session});
+
+    // console.log(analytics);
+
     await session.commitTransaction();
     await session.endSession();
 
@@ -274,7 +341,7 @@ export async function deleteItem(req, res, next) {
     const existingProduct = await Product.findOne({
       _id: productID,
       retailer: retailerID
-    });
+    }).session(session);
 
     if (!existingProduct) {
       const error = new Error("Item not found.");
@@ -305,6 +372,29 @@ export async function deleteItem(req, res, next) {
       error.statusCode = 500;
       throw error;
     }
+
+    const productsList = await Product.find({ retailer: retailerID }).session(session);
+    let totalQuantity = 0;
+
+    productsList.forEach((product) => {
+      totalQuantity += product.quantity;
+    });
+
+    const timeNow = new Date();
+
+    const analytics = await Analytics.findOneAndUpdate(
+      { retailer: retailerID },
+      {
+        $push: {
+          data: {
+            $each: [{ totalQuantity: totalQuantity, dateTime: timeNow }],
+            $sort: { dateTime: 1 },
+            $slice: -30
+          }
+        }
+      }, {returnDocument: "after", runValidators: true, session});
+
+    // console.log(analytics);
 
     await session.commitTransaction();
     await session.endSession();
@@ -345,7 +435,7 @@ export async function restockItem(req, res, next) {
     const existingProduct = await Product.findOne({
       itemName: itemName,
       retailer: retailerID
-    });
+    }).session(session);
 
     if (!existingProduct) {
       const error = new Error("Item not found.");
@@ -359,7 +449,7 @@ export async function restockItem(req, res, next) {
       {_id: existingProduct._id,
       retailer: retailerID},
       {quantity: newQuantity, restocks: existingProduct.restocks + 1}, 
-      {returnDocument: "after", runValidators: true});
+      {returnDocument: "after", runValidators: true, session});
 
     if (!updatedProduct) {
       const error = new Error("Failed to restock item");
@@ -379,6 +469,28 @@ export async function restockItem(req, res, next) {
       error.statusCode = 500;
       throw error;
     }
+
+    const productsList = await Product.find({ retailer: retailerID }).session(session);
+    let totalQuantity = 0;
+    productsList.forEach((product) => {
+      totalQuantity += product.quantity;
+    });
+
+    const timeNow = new Date();
+
+    const analytics = await Analytics.findOneAndUpdate(
+      { retailer: retailerID },
+      {
+        $push: {
+          data: {
+            $each: [{ totalQuantity: totalQuantity, dateTime: timeNow }],
+            $sort: { dateTime: 1 },
+            $slice: -30
+          }
+        }
+      }, {returnDocument: "after", runValidators: true, session});
+
+    // console.log(analytics);
 
     await session.commitTransaction();
     await session.endSession();
