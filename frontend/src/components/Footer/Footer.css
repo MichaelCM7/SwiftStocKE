@@ -18,9 +18,17 @@
 
 .footer-brand {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
   gap: 10px;
+  text-decoration: none;
+}
+
+.footer-brand .logo-image {
+  height: 36px;
+  width: 36px;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
 .footer-logo-icon {

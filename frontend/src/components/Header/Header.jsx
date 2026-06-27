@@ -1,6 +1,7 @@
 import { Link, NavLink } from 'react-router'; // Ensure this is imported
 import { FiImage } from "react-icons/fi";
 import './Header.css';
+import logo from '../../assets/logo.png';
 
 export function Header({ isAuthorized }) {
   function handleLogOut() {
@@ -10,6 +11,11 @@ export function Header({ isAuthorized }) {
   return (
     <header className="header">
       <Link to={isAuthorized ? "/Analytics" : "/"} className="header-logo-container">
+        <img
+          className="logo-image"
+          src={logo}
+          alt="logo"
+        />
         <span className="project-name">SwiftStock</span>
       </Link>
 

@@ -1,13 +1,15 @@
 import './Footer.css';
 import { Link } from 'react-router';
+import logo from '../../assets/logo.png';
 
 export function Footer({ isAuthorized }) {
   return (
     <footer className="footer">
       <div className="footer-top">
-        <div className="footer-brand">
+        <Link to={isAuthorized ? "/Analytics" : "/"} className="footer-brand">
+          <img className="logo-image" src={logo} alt="logo" />
           <span className="footer-website-name">SwiftStock</span>
-        </div>
+        </Link>
         <div className="footer-links-container">
           <div className="footer-links-column">
             {!isAuthorized && (
