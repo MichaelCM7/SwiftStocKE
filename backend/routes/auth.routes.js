@@ -1,18 +1,20 @@
 import express from "express";
-import { signup, signin, signout, forgotPassword, resetPassword, verifyOtp } from "../controllers/auth.controller.js";
+import { signup, signin, signout, forgotPassword, resetPassword, verifyOtp, resendOTP } from "../controllers/auth.controller.js";
 
-const authRouter = express.Router();
+const authRoutes = express.Router();
 
-authRouter.post('/signup', signup);
+authRoutes.post('/signup', signup);
 
-authRouter.post('/signin', signin);
+authRoutes.post('/signin', signin);
 
-authRouter.post('/signout', signout);
+authRoutes.post('/signout', signout);
 
-authRouter.post('/forgot-password', forgotPassword);
+authRoutes.post('/forgot-password', forgotPassword);
 
-authRouter.post('/reset-password', resetPassword);
+authRoutes.post('/reset-password', resetPassword);
 
-authRouter.post('/verify-otp', verifyOtp);
+authRoutes.post('/verify-otp', verifyOtp);
 
-export default authRouter;
+authRoutes.post('/resend-otp', resendOTP);
+
+export default authRoutes;

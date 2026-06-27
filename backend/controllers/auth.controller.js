@@ -97,6 +97,15 @@ export async function signup(req, res, next) {
       maxAge: 10 * 60 * 1000, // 10 minutes
     });
 
+    const resendToken = jwt.sign({email: email}, EMAIL_TOKEN_SECRET, {expiresIn: OTP_EXPIRES_IN});
+
+    res.cookie("resendToken", resendToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 10 * 60 * 1000, // 10 minute
+    });
+
     await session.commitTransaction();
     await session.endSession();
     
@@ -240,6 +249,15 @@ export async function forgotPassword(req, res, next) {
     const otpToken = jwt.sign({email: email}, combinedKey, {expiresIn: OTP_EXPIRES_IN});
 
     res.cookie("otpToken", otpToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 10 * 60 * 1000, // 10 minute
+    });
+
+    const resendToken = jwt.sign({email: email}, EMAIL_TOKEN_SECRET, {expiresIn: OTP_EXPIRES_IN});
+
+    res.cookie("resendToken", resendToken, {
       httpOnly: true,
       secure: true,
       sameSite: "strict",
@@ -414,7 +432,74 @@ export async function resetPassword(req, res, next) {
 
 export async function resendOTP(req, res, next) {
   try{
+    const {resendToken} = req.cookies;
+
+    if (!resendToken) {
+      const error = new Error("Resend Token is required. Unauthorized action");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const decodedResendToken = jwt.verify(resendToken, EMAIL_TOKEN_SECRET);
+    const email = decodedResendToken.email;
+
+    if (!email) {
+      const error = new Error("Email is required. Unauthorized action");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const retailer = await Retailer.findOne({
+      email: email
+    });
+
+    if (!retailer) {
+      const error = new Error("Retailer Account Doesn't exist");
+      error.statusCode = 400;
+      throw error;
+    }    
+
+    const otp = otpGenerator();
+    console.log(`Resent OTP: ${otp}`);
+
+    const mailOptions = {
+      from: 'SwiftStock@noreply.com',
+      to: email,
+      subject: "Account Password Reset Verification",
+      text: `Hello ${email},
+      Your verification code is: 
+      ${otp}
+      This code will expire in 10 minutes.
+      If you did not request this verification code, please ignore this email.
+      Thank you`,
+      html: `
+      <p>Hello ${email},</p>
+      <p>Your verification code is:</p>
+      <p><b>${otp}</b></p>
+      <p>This code will expire in 10 minutes.</p>
+      <p>If you did not request this verification code, please ignore this email.</p>
+      <p>Thank you</p>
+      `,
+    };
     
+    await transporter.sendMail(mailOptions);
+    
+    const combinedKey = OTP_SECRET + otp;
+
+    const otpToken = jwt.sign({email: email}, combinedKey, {expiresIn: OTP_EXPIRES_IN});
+
+    res.cookie("otpToken", otpToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 10 * 60 * 1000, // 10 minute
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "OTP resent successfully",
+      otp: otp
+    });
   }
   catch(error) {
     next(error);
