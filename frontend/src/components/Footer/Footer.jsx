@@ -26,8 +26,8 @@ export function Footer({ isAuthorized }) {
             )}
           </div>
           <div className="footer-links-column">
-            <a href="#terms">Terms and Conditions</a>
-            <a href="#privacy">Privacy Policy</a>
+            <Link to="/Terms">Terms and Conditions</Link>
+            <Link to="/Privacy">Privacy Policy</Link>
             <a href="#cookies">Manage Cookies</a>
           </div>
         </div>
