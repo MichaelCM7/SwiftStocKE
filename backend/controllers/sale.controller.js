@@ -1,6 +1,8 @@
 import Sale from "../models/sale.model.js";
 import Product from "../models/product.model.js";
 import Analytics from "../models/analytics.model.js";
+import Retailer from "../models/retailer.model.js";
+import transporter from "../config/mailer.js";
 import mongoose from "mongoose";
 import dayjs from "dayjs";
 
@@ -11,6 +13,13 @@ export async function recordNewSale(req, res, next) {
     const retailerID = req.retailer._id;
     const { items } = req.body;
     const dateTime = dayjs().format('DD-MM-YYYY HH:mm:ss');
+    const retailer = await Retailer.findById(retailerID).session(session);
+
+    if (!retailer) {
+      const error = new Error('Retailer not found.');
+      error.status = 404;
+      throw error;
+    }
 
     if (!retailerID) {
       const error = new Error("Unauthorized");
@@ -63,11 +72,52 @@ export async function recordNewSale(req, res, next) {
       // Add update Sales Count
       product.salesCount += Number(item.quantity);
 
-      // Update status dynamically based on new quantity
+      
+
+      let mailOptions;
+
       if (product.quantity === 0) {
         product.status = 'Out of Stock';
+
+        mailOptions = {
+          from: 'SwiftStock@noreply.com',
+          to: retailer.email,
+          subject: `Inventory Alert: Product ${product.itemName} is now Out of Stock.`,
+          text: `Hello Retailer,
+          Your product ${product.itemName} is now Out of Stock.
+          Please restock your product as soon as possible.
+          Thank you`,
+          html: `
+          <p>Hello Retailer,</p>
+          <p>Your product ${product.itemName} is now Out of Stock.</p>
+          <p>Please restock your product as soon as possible.</p>
+          <p>Thank you</p>
+        `
+        };
+
+        await transporter.sendMail(mailOptions);
+
       } else if (product.quantity <= product.lowStockThreshold) {
         product.status = 'Low Stock';
+
+        mailOptions = {
+          from: 'SwiftStock@noreply.com',
+          to: retailer.email,
+          subject: `Inventory Alert: Product ${product.itemName} is Low on Stock.`,
+          text: `Hello Retailer,
+          Your product ${product.itemName} is Low on Stock.
+          Please restock your product as soon as possible.
+          Thank you`,
+          html: `
+          <p>Hello Retailer,</p>
+          <p>Your product ${product.itemName} is Low on Stock.</p>
+          <p>Please restock your product as soon as possible.</p>
+          <p>Thank you</p>
+        `
+        };
+
+        await transporter.sendMail(mailOptions);
+
       } else if (product.quantity <= product.lowStockThreshold * 4) {
         product.status = 'Moderate Stock';
       } else {
