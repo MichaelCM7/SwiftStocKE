@@ -24,6 +24,7 @@ import { PageNotFound } from "./pages/Error/PageNotFound"
 // Policy pages
 import { Terms } from "./pages/Terms/Terms"
 import { Privacy } from "./pages/Privacy/Privacy"
+import { Cookies } from "./pages/Cookies/Cookies"
 
 function App() {
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -35,6 +36,7 @@ function App() {
       <Route path="/" element={<Home isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
       <Route path="/Terms" element={<Terms isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
       <Route path="/Privacy" element={<Privacy isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
+      <Route path="/Cookies" element={<Cookies isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />
 
       {/* Main App Function Pages */}
       <Route path="/Analytics" element={<Analytics isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} />} />

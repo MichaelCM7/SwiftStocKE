@@ -30,7 +30,7 @@ export function Footer({ isAuthorized }) {
           <div className="footer-links-column">
             <Link to="/Terms">Terms and Conditions</Link>
             <Link to="/Privacy">Privacy Policy</Link>
-            <a href="#cookies">Manage Cookies</a>
+            <Link to="/Cookies">Cookie Policy</Link>
           </div>
         </div>
       </div>
