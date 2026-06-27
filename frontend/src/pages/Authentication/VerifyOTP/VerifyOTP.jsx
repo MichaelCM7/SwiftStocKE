@@ -55,8 +55,10 @@ export function VerifyOTP({ isAuthorized, setIsAuthorized, purpose }) {
     setError('');
     setSuccess('');
     try {
-      await axios.post('/api/auth/resend-otp');
-      setSuccess('A new OTP has been sent to your email.');
+      const response = await axios.post('/api/auth/resend-otp');
+      if (response.status === 200) {
+        setSuccess('A new OTP has been sent to your email.');
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to resend OTP. Please try again later.');
     }
@@ -96,7 +98,7 @@ export function VerifyOTP({ isAuthorized, setIsAuthorized, purpose }) {
 
               <div className="resend-redirect">
                 Didn't receive an email?{' '}
-                <a href="#resend" onClick={handleResendOtp} className="resend-inline-link">
+                <a href="" onClick={handleResendOtp} className="resend-inline-link">
                   Resend OTP
                 </a>
               </div>
