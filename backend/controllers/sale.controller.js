@@ -68,7 +68,7 @@ export async function recordNewSale(req, res, next) {
         product.status = 'Out of Stock';
       } else if (product.quantity <= product.lowStockThreshold) {
         product.status = 'Low Stock';
-      } else if (product.quantity <= product.lowStockThreshold * 2) {
+      } else if (product.quantity <= product.lowStockThreshold * 4) {
         product.status = 'Moderate Stock';
       } else {
         product.status = 'Good Stock';

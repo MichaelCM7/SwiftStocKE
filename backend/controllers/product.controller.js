@@ -39,9 +39,22 @@ export async function addItem(req, res, next) {
       throw error;
     }
 
+    let productStatus;
+
+    if (quantity === 0) {
+      productStatus = "Out of Stock"
+    } else if (quantity <= lowStockThreshold) {
+      productStatus = "Low Stock"
+    } else if (quantity <= lowStockThreshold * 4) {
+      productStatus = "Moderate Stock"
+    } else {
+      productStatus = "Good Stock"
+    }
+
     const product = await Product.create([{
       itemName,
       quantity,
+      status: productStatus,
       lowStockThreshold,
       retailer: retailerID
     }], {session});
@@ -234,9 +247,21 @@ export async function editItem(req, res, next) {
       throw error;
     }
 
+    let productStatus;
+
+    if (quantity === 0) {
+      productStatus = "Out of Stock"
+    } else if (quantity <= lowStockThreshold) {
+      productStatus = "Low Stock"
+    } else if (quantity <= lowStockThreshold * 4) {
+      productStatus = "Moderate Stock"
+    } else {
+      productStatus = "Good Stock"
+    }
+
     const updatedProduct = await Product.findOneAndUpdate(
       {_id: productID},
-      {itemName, quantity, lowStockThreshold},
+      {itemName, quantity, status: productStatus, lowStockThreshold},
       {returnDocument: "after", runValidators: true, session}
     );
 
@@ -444,11 +469,22 @@ export async function restockItem(req, res, next) {
     }
 
     const newQuantity = Number(existingProduct.quantity) + Number(quantity);
+    let productStatus;
+
+    if (newQuantity === 0) {
+      productStatus = "Out of Stock"
+    } else if (newQuantity <= existingProduct.lowStockThreshold) {
+      productStatus = "Low Stock"
+    } else if (newQuantity <= existingProduct.lowStockThreshold * 4) {
+      productStatus = "Moderate Stock"
+    } else {
+      productStatus = "Good Stock"
+    }
 
     const updatedProduct = await Product.findOneAndUpdate(
       {_id: existingProduct._id,
       retailer: retailerID},
-      {quantity: newQuantity, restocks: existingProduct.restocks + 1}, 
+      {quantity: newQuantity, status: productStatus, restocks: existingProduct.restocks + 1}, 
       {returnDocument: "after", runValidators: true, session});
 
     if (!updatedProduct) {
