@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
+import analyticsImg from '../../assets/graph.png';
 import './Home.css';
 
 export function Home({ isAuthorized, setIsAuthorized }) {
@@ -115,8 +116,8 @@ export function Home({ isAuthorized, setIsAuthorized }) {
         <div className="details-container">
           <img
             className="details-image"
-            src="/images/inventory-dashboard.jpg"
-            alt="Inventory dashboard"
+            src={analyticsImg}
+            alt="Analytics Image"
           />
           <div className="details-text-content">
             <h2 className="details-title">Track. Analyse. Replenish.</h2>
