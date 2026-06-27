@@ -4,7 +4,7 @@ export async function getAnalyticsByRetailerID(req, res, next) {
   try {
     const retailerID = req.retailer._id;
 
-    if (!retailerID){
+    if (!retailerID) {
       const error = new Error("Unauthorized");
       error.statusCode = 403;
       throw error;
@@ -12,7 +12,7 @@ export async function getAnalyticsByRetailerID(req, res, next) {
 
     const analytics = await Analytics.find({ retailer: retailerID });
 
-    if (!analytics && analytics.length === 0){
+    if (!analytics && analytics.length === 0) {
       const error = new Error("No Analytics Found");
       error.statusCode = 404;
       throw error;
@@ -23,7 +23,7 @@ export async function getAnalyticsByRetailerID(req, res, next) {
       message: "Analytics Found Successfully",
       analytics: analytics
     });
-    
+
   } catch (error) {
     next(error);
   }
