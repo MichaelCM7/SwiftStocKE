@@ -5,7 +5,7 @@ import './SignUp.css';
 import { Header } from '../../../components/Header/Header';
 import { Footer } from '../../../components/Footer/Footer';
 
-export function SignUp({ isAuthorized, setIsAuthorized, purpose, setPurpose }) {
+export function SignUp({ isAuthorized, setIsAuthorized, setPurpose }) {
   useEffect(() => {
     setIsAuthorized(false);
     setPurpose('signup');
@@ -14,24 +14,20 @@ export function SignUp({ isAuthorized, setIsAuthorized, purpose, setPurpose }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  function handleEmailInput(event) {
-    setEmail(event.target.value)
-  }
-
-  function handlePasswordInput(event) {
-    setPassword(event.target.value);
-  }
-
-  function handleConfirmPasswordInput(event) {
-    setConfirmPassword(event.target.value);
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+    setSuccess('');
 
     if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      setIsLoading(false);
       return;
     }
 
@@ -65,8 +61,8 @@ export function SignUp({ isAuthorized, setIsAuthorized, purpose, setPurpose }) {
           <h2 className="signup-title">Sign Up</h2>
 
           <form onSubmit={handleSubmit} className="signup-form">
-            {/* {error && <div className="alert-message error-message">{error}</div>} */}
-            {/* {success && <div className="alert-message success-message">{success}</div>} */}
+            {error && <div className="alert-message error-message">{error}</div>}
+            {success && <div className="alert-message success-message">{success}</div>}
 
             <div className="input-group">
               <label htmlFor="email">Email</label>
@@ -75,8 +71,9 @@ export function SignUp({ isAuthorized, setIsAuthorized, purpose, setPurpose }) {
                 type="email"
                 placeholder="Email"
                 value={email}
-                onChange={handleEmailInput}
+                onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={isLoading}
               />
             </div>
 
@@ -87,8 +84,9 @@ export function SignUp({ isAuthorized, setIsAuthorized, purpose, setPurpose }) {
                 type="password"
                 placeholder="Password"
                 value={password}
-                onChange={handlePasswordInput}
+                onChange={(e) => setPassword(e.target.value)}
                 required
+                disabled={isLoading}
               />
             </div>
 
@@ -99,8 +97,9 @@ export function SignUp({ isAuthorized, setIsAuthorized, purpose, setPurpose }) {
                 type="password"
                 placeholder="Confirm Password"
                 value={confirmPassword}
-                onChange={handleConfirmPasswordInput}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                disabled={isLoading}
               />
             </div>
 
@@ -108,8 +107,8 @@ export function SignUp({ isAuthorized, setIsAuthorized, purpose, setPurpose }) {
               Already have an account? <Link to="/SignIn" className="signin-inline-link">Sign In</Link>
             </div>
 
-            <button type="submit" className="btn-signup-submit" >
-              Sign Up
+            <button type="submit" className="btn-signup-submit" disabled={isLoading}>
+              {isLoading ? 'Signing up...' : 'Sign Up'}
             </button>
           </form>
         </div>

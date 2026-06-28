@@ -26,21 +26,23 @@ export function VerifyOTP({ isAuthorized, setIsAuthorized, purpose }) {
     setSuccess('');
 
     try {
-      // Validate dynamic configuration paths depending on process state
       const targetPurpose = purpose === 'forgotpassword' ? 'forgotpassword' : 'signup';
       const result = await axios.post('/api/auth/verify-otp', {
         otp: otp.trim(),
         purpose: targetPurpose
       });
+      const data = result.data
 
-      setSuccess('OTP verified successfully! Redirecting...');
+      if (data.success) {
+        setSuccess('OTP verified successfully! Redirecting...');
 
-      // Delay navigation fractionally if you want users to notice the success block text updates
-      if (targetPurpose === 'signup') {
-        navigate('/Analytics');
-      } else {
-        navigate('/ResetPassword');
+        if (data.purpose === 'signup') {
+          navigate('/Analytics');
+        } else {
+          navigate('/ResetPassword');
+        }
       }
+
     } catch (err) {
       setError(err.response?.data?.message || 'Invalid OTP code. Please try again.');
     } finally {
@@ -52,8 +54,10 @@ export function VerifyOTP({ isAuthorized, setIsAuthorized, purpose }) {
     e.preventDefault();
     if (isLoading) return;
 
+    setIsLoading(true);
     setError('');
     setSuccess('');
+
     try {
       const response = await axios.post('/api/auth/resend-otp');
       if (response.status === 200) {
@@ -61,6 +65,8 @@ export function VerifyOTP({ isAuthorized, setIsAuthorized, purpose }) {
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to resend OTP. Please try again later.');
+    } finally {
+      setIsLoading(false);
     }
   };
 

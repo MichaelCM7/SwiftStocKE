@@ -32,7 +32,7 @@ export function ResetPassword({ isAuthorized, setIsAuthorized }) {
     }
 
     try {
-      const result = await axios.post('/api/auth/reset-password', { email, password });
+      const result = await axios.post('/api/auth/reset-password', { password });
       const data = result.data;
 
       if (data.success) {

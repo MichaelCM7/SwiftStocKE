@@ -4,7 +4,8 @@ const productSchema = new mongoose.Schema({
     retailer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Retailer',
-        required: true
+        required: true,
+        index: true
     },
     itemName: {
         type: String,

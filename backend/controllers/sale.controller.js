@@ -72,8 +72,6 @@ export async function recordNewSale(req, res, next) {
       // Add update Sales Count
       product.salesCount += Number(item.quantity);
 
-      
-
       let mailOptions;
 
       if (product.quantity === 0) {
@@ -189,7 +187,7 @@ export async function getSalesByRetailerID(req, res, next) {
       retailer: retailerID
     });
 
-    if (!sales && sales.length === 0) {
+    if (sales.length === 0) {
       const error = new Error("No Sales Found");
       error.statusCode = 404;
       throw error;
