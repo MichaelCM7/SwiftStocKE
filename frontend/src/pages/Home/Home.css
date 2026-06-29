@@ -14,7 +14,11 @@
 
 /* Hero Section */
 .home-hero-section {
-    background: linear-gradient(180deg, #f0f5ff 0%, #ffffff 100%);
+    /* background: linear-gradient(180deg, #f0f5ff 0%, #ffffff 100%); */
+    background-image: url('../../assets/storage.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 120px 20px;
     text-align: center;
     border-bottom: 1px solid #e2e8f0;
@@ -28,15 +32,18 @@
 .hero-title {
     font-size: 48px;
     font-weight: 800;
-    color: #0f172a;
-    margin-bottom: 32px;
+    color: #87CEFA;
+    /* background-color: rgba(239, 246, 255, 0.85); */
+    margin-bottom: 24px;
     letter-spacing: -1.2px;
+    /* padding-bottom: 10px; */
+    /* border-radius: 10px; */
 }
 
 .hero-subtitle {
-    font-size: 24px;
+    font-size: 36px;
     font-weight: 400;
-    color: #475569;
+    color: #ffffff;
     margin-bottom: 32px;
 }
 
