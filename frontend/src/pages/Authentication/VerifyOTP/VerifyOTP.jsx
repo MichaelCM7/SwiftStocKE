@@ -77,7 +77,7 @@ export function VerifyOTP({ isAuthorized, setIsAuthorized, purpose }) {
       <div className="verifyotp-main-wrapper">
         <main className="verifyotp-main-content">
           <div className="verifyotp-form-card">
-            <h2 className="verifyotp-title">Verify OTP</h2>
+            <h2 className="verifyotp-title" data-testid="verifyotp-title">Verify OTP</h2>
             <p className="verifyotp-subtitle">A One Time Password has been sent to your email</p>
 
             <form onSubmit={handleSubmit} className="verifyotp-form">

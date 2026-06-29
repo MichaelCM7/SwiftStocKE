@@ -48,7 +48,7 @@ export function SignIn({ isAuthorized, setIsAuthorized }) {
       <main className="signin-main-content">
         <div className="signin-form-card">
           {/* Add Image Icon */}
-          <h2 className="signin-title">Sign In</h2>
+          <h2 className="signin-title" data-testid="signin-title">Sign In</h2>
 
           <form onSubmit={handleSubmit} className="signin-form">
             {error && <div className="alert-message error-message">{error}</div>}

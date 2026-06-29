@@ -64,7 +64,7 @@ export function SignUp({ isAuthorized, setIsAuthorized, setPurpose }) {
 
           <h2 className="signup-title" data-testid="signup-title">Sign Up</h2>
 
-          <form onSubmit={handleSubmit} className="signup-form">
+          <form onSubmit={handleSubmit} className="signup-form" data-testid="signup-form">
             {error && <div className="alert-message error-message">{error}</div>}
             {success && <div className="alert-message success-message">{success}</div>}
 
@@ -75,6 +75,7 @@ export function SignUp({ isAuthorized, setIsAuthorized, setPurpose }) {
                 type="email"
                 placeholder="Email"
                 value={email}
+                data-testid="email-input"
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isLoading}
@@ -88,6 +89,7 @@ export function SignUp({ isAuthorized, setIsAuthorized, setPurpose }) {
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Password"
+                  data-testid="password-input"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -117,6 +119,7 @@ export function SignUp({ isAuthorized, setIsAuthorized, setPurpose }) {
                   type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Confirm Password"
                   value={confirmPassword}
+                  data-testid="confirm-password-input"
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                   disabled={isLoading}
@@ -141,7 +144,7 @@ export function SignUp({ isAuthorized, setIsAuthorized, setPurpose }) {
               Already have an account? <Link to="/SignIn" className="signin-inline-link">Sign In</Link>
             </div>
 
-            <button type="submit" className="btn-signup-submit" disabled={isLoading}>
+            <button type="submit" className="btn-signup-submit" disabled={isLoading} data-testid="signup-btn">
               {isLoading ? 'Signing up...' : 'Sign Up'}
             </button>
           </form>
