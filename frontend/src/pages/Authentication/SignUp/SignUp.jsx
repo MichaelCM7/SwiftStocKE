@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
+import { FiEyeOff } from "react-icons/fi";
+import { FiEye } from "react-icons/fi";
 import axios from 'axios';
 import './SignUp.css';
 import { Header } from '../../../components/Header/Header';
@@ -14,6 +16,8 @@ export function SignUp({ isAuthorized, setIsAuthorized, setPurpose }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -79,28 +83,58 @@ export function SignUp({ isAuthorized, setIsAuthorized, setPurpose }) {
 
             <div className="input-group">
               <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={isLoading}
-              />
+              <div className="password-input-wrapper">
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  disabled={isLoading}
+                >
+                  {showPassword ? (
+                    <FiEyeOff />
+                  ) : (
+                    <FiEye />
+                  )}
+                </button>
+              </div>
             </div>
 
             <div className="input-group">
               <label htmlFor="confirmPassword">Confirm Password</label>
-              <input
-                id="confirmPassword"
-                type="password"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                disabled={isLoading}
-              />
+              <div className="password-input-wrapper">
+                <input
+                  id="confirmPassword"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+                  disabled={isLoading}
+                >
+                  {showConfirmPassword ? (
+                    <FiEyeOff />
+                  ) : (
+                    <FiEye />
+                  )}
+                </button>
+              </div>
             </div>
 
             <div className="signin-redirect">

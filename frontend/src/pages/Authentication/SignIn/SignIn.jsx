@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
+import { FiEye } from "react-icons/fi";
+import { FiEyeOff } from "react-icons/fi";
 import axios from 'axios';
 import './SignIn.css';
 import { Header } from '../../../components/Header/Header';
@@ -12,6 +14,7 @@ export function SignIn({ isAuthorized, setIsAuthorized }) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -69,15 +72,30 @@ export function SignIn({ isAuthorized, setIsAuthorized }) {
                 <label htmlFor="password">Password</label>
                 <Link to="/ForgotPassword" className="forgot-password-link">Forgot Password?</Link>
               </div>
-              <input
-                id="password"
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={isLoading}
-              />
+              <div className="password-input-wrapper">
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  disabled={isLoading}
+                >
+                  {showPassword ? (
+                    <FiEyeOff />
+                  ) : (
+                    <FiEye />
+                  )}
+                </button>
+              </div>
             </div>
 
             <div className="signup-redirect">
