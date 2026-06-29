@@ -1,41 +1,18 @@
 import { Link } from 'react-router';
 import { Header } from '../../components/Header/Header';
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { FiClock } from "react-icons/fi";
+import { FiPieChart } from "react-icons/fi";
+import { FiBarChart2 } from "react-icons/fi";
 import { Footer } from '../../components/Footer/Footer';
 import analyticsImg from '../../assets/graph.png';
+import { useEffect } from 'react';
 import './Home.css';
 
 export function Home({ isAuthorized, setIsAuthorized }) {
-  setIsAuthorized(false);
-
-  // SVG Icons for Feature Cards
-  const MonitoringIcon = () => (
-    <svg className="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-      <path d="M22 12A10 10 0 0 0 12 2v10z" />
-    </svg>
-  );
-
-  const AnalyticsIcon = () => (
-    <svg className="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="18" y1="20" x2="18" y2="10" />
-      <line x1="12" y1="20" x2="12" y2="4" />
-      <line x1="6" y1="20" x2="6" y2="14" />
-    </svg>
-  );
-
-  const NotificationsIcon = () => (
-    <svg className="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-    </svg>
-  );
-
-  const HistoryIcon = () => (
-    <svg className="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10" />
-      <polyline points="12 6 12 12 16 14" />
-    </svg>
-  );
+  useEffect(() => {
+    setIsAuthorized(false);
+  }, []);
 
   return (
     <div className="home-page-container">
@@ -63,7 +40,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon-wrapper">
-              <MonitoringIcon />
+              <FiPieChart size={40} />
             </div>
             <h3 className="feature-card-title">Real Time Monitoring</h3>
             <p className="feature-card-desc">Monitor exact quantities of goods to maintain total inventory visibility</p>
@@ -71,7 +48,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
 
           <div className="feature-card">
             <div className="feature-icon-wrapper">
-              <AnalyticsIcon />
+              <FiBarChart2 size={40} />
             </div>
             <h3 className="feature-card-title">Performance Analytics</h3>
             <p className="feature-card-desc">Identify high and low demand goods to prevent dead stock</p>
@@ -79,7 +56,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
 
           <div className="feature-card">
             <div className="feature-icon-wrapper">
-              <NotificationsIcon />
+              <IoMdNotificationsOutline size={40} />
             </div>
             <h3 className="feature-card-title">Restock Notifications</h3>
             <p className="feature-card-desc">Receive alerts when stock is low to ensure timely replenishment</p>
@@ -87,7 +64,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
 
           <div className="feature-card">
             <div className="feature-icon-wrapper">
-              <HistoryIcon />
+              <FiClock size={40} />
             </div>
             <h3 className="feature-card-title">Stock History</h3>
             <p className="feature-card-desc">Track all items sold or taken up throughout the day</p>
@@ -107,7 +84,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
             <h2 className="details-title">Track. Analyse. Replenish.</h2>
             <p className="details-lead">Manage inventory that matches your demand</p>
             <p className="details-desc">
-              Transform your daily operations with a stock tracking system built specifically for the modern retailer. Move away from the guesswork of manual tracking that leads to capital wastage and business hindrances. Whether you are monitoring stock levels or tracking costs, we make managing your retail business effortless
+              Transform your daily operations with a stock tracking system built specifically for the modern retailer. Move away from the guesswork of manual tracking that leads to capital wastage and business hindrances. Whether you are monitoring stock levels or tracking demand, we make managing your retail business effortless
             </p>
           </div>
         </div>
