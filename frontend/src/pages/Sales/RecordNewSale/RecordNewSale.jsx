@@ -88,8 +88,6 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
 
   };
 
-
-
   return (
     <div className="sales-page-container">
       <Header isAuthorized={isAuthorized} />
