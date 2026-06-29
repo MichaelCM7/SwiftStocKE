@@ -62,7 +62,7 @@ export function SignUp({ isAuthorized, setIsAuthorized, setPurpose }) {
       <main className="signup-main-content">
         <div className="signup-form-card">
 
-          <h2 className="signup-title">Sign Up</h2>
+          <h2 className="signup-title" data-testid="signup-title">Sign Up</h2>
 
           <form onSubmit={handleSubmit} className="signup-form">
             {error && <div className="alert-message error-message">{error}</div>}

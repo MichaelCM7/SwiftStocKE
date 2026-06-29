@@ -1,16 +1,19 @@
-import { it, expect, describe, beforeEach } from 'vitest';
+import { it, expect, describe, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter, Routes, Route } from 'react-router';
 import { Home } from './Home';
+import { SignUp } from '../Authentication/SignUp/SignUp';
 
 describe('Home Page', () => {
   let user;
   let setIsAuthorized;
+  let setPurpose;
 
   beforeEach(() => {
     user = userEvent.setup();
     setIsAuthorized = vi.fn();
+    setPurpose = vi.fn();
   })
 
   it('renders the home page', () => {
@@ -29,5 +32,22 @@ describe('Home Page', () => {
     expect(screen.getByTestId('bottom-cta-title')).toHaveTextContent('Get Your Inventory on Point');
   });
 
+  it('navigates to sign up page on CTA button click', async () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <Routes>
+          <Route path="/" element={<Home isAuthorized={true} setIsAuthorized={setIsAuthorized} />} />
+          <Route path="/SignUp" element={<SignUp isAuthorized={true} setIsAuthorized={setIsAuthorized} setPurpose={setPurpose} />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    const callToActionBtn = screen.getByTestId('get-started-btn');
+    await user.click(callToActionBtn);
+
+    expect(screen.getByTestId('signup-title')).toHaveTextContent('Sign Up');
+    expect(setIsAuthorized).toHaveBeenCalledTimes(2);
+    expect(setPurpose).toHaveBeenCalledWith('signup');
+  });
 
 });
