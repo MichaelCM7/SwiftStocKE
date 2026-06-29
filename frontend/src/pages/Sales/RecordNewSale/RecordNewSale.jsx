@@ -147,7 +147,7 @@ export function RecordNewSale({ isAuthorized, setIsAuthorized }) {
 
             {/* Right Items Panel */}
             <div className="record-panel">
-              <h2 className="panel-title">Items Sold</h2>
+              <h2 className="panel-title">Items Issued</h2>
               <div className="sold-items-list-container">
                 {soldItems.length > 0 ? (
                   <div className="sold-items-list">
