@@ -53,7 +53,7 @@ export function ResetPassword({ isAuthorized, setIsAuthorized }) {
       <div className="resetpassword-main-wrapper">
         <main className="resetpassword-main-content">
           <div className="resetpassword-form-card">
-            <h2 className="resetpassword-title">Reset Password</h2>
+            <h2 className="resetpassword-title" data-testid="resetpassword-title">Reset Password</h2>
 
             <form onSubmit={handleSubmit} className="resetpassword-form">
               {error && <div className="alert-message error-message">{error}</div>}
@@ -66,6 +66,7 @@ export function ResetPassword({ isAuthorized, setIsAuthorized }) {
                   type="password"
                   placeholder="New Password"
                   value={password}
+                  data-testid="resetpassword-password-input"
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={isLoading}
@@ -79,13 +80,14 @@ export function ResetPassword({ isAuthorized, setIsAuthorized }) {
                   type="password"
                   placeholder="Verify Password"
                   value={confirmPassword}
+                  data-testid="resetpassword-confirm-password-input"
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                   disabled={isLoading}
                 />
               </div>
 
-              <button type="submit" className="btn-reset-submit" disabled={isLoading}>
+              <button type="submit" className="btn-reset-submit" disabled={isLoading} data-testid="resetpassword-submit">
                 {isLoading ? 'Resetting Password...' : 'Reset Password'}
               </button>
             </form>

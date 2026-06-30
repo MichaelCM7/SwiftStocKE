@@ -61,6 +61,7 @@ export function SignIn({ isAuthorized, setIsAuthorized }) {
                 type="email"
                 placeholder="Email"
                 value={email}
+                data-testid="signin-email"
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isLoading}
@@ -78,6 +79,7 @@ export function SignIn({ isAuthorized, setIsAuthorized }) {
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Password"
                   value={password}
+                  data-testid="signin-password"
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={isLoading}
@@ -102,7 +104,7 @@ export function SignIn({ isAuthorized, setIsAuthorized }) {
               Don't have an account? <Link to="/SignUp" className="signup-inline-link">Sign Up</Link>
             </div>
 
-            <button type="submit" className="btn-signin-submit" disabled={isLoading}>
+            <button type="submit" className="btn-signin-submit" disabled={isLoading} data-testid="signin-submit">
               {isLoading ? 'Signing In...' : 'Sign In'}
             </button>
           </form>

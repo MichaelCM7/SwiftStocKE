@@ -91,6 +91,7 @@ export function VerifyOTP({ isAuthorized, setIsAuthorized, purpose }) {
                   type="text"
                   placeholder="Enter OTP"
                   value={otp}
+                  data-testid="verifyotp-input"
                   onChange={(e) => setOtp(e.target.value)}
                   required
                   disabled={isLoading}
@@ -98,7 +99,7 @@ export function VerifyOTP({ isAuthorized, setIsAuthorized, purpose }) {
                 />
               </div>
 
-              <button type="submit" className="btn-verifyotp-submit" disabled={isLoading}>
+              <button type="submit" className="btn-verifyotp-submit" disabled={isLoading} data-testid="verifyotp-submit">
                 {isLoading ? 'Verifying...' : 'Verify OTP'}
               </button>
 
