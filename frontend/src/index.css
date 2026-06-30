@@ -1,22 +1,4 @@
 :root {
-  /* ── Colors ── */
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #ffffff;
-  --border: #e5e4e7;
-
-  --code-bg: #f4f3ec;
-
-  --accent: #2563eb;
-  --accent-bg: rgba(37, 99, 235, 0.1);
-  --accent-border: rgba(37, 99, 235, 0.3);
-
-  --social-bg: rgba(244, 243, 236, 0.5);
-
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px,
-    rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
   /* ── Fonts ── */
   --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --heading: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
@@ -82,22 +64,6 @@ h2 {
 p {
   margin: 0;
   line-height: 1.6;
-}
-
-/* ── Code styling ── */
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 1.35;
-  padding: 4px 8px;
-  background: var(--code-bg);
 }
 
 /* ── Global Status Level Badges ── */
