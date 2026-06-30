@@ -19,12 +19,12 @@ export function Terms({ isAuthorized, setIsAuthorized }) {
                     <h1 className="terms-title">Terms and Conditions</h1>
 
                     <div className="terms-section">
-                        <p>Welcome to SwiftStock. By accessing or using our stock tracking application, you agree to be bound by these terms</p>
+                        <p>Welcome to SwiftStocKE. By accessing or using our stock tracking application, you agree to be bound by these terms</p>
                     </div>
 
                     <div className="terms-section">
                         <h2>1. Purpose of Service</h2>
-                        <p>SwiftStock provides inventory tracking, sales logging, and performance analytics tools. It is designed to emulate professional inventory management standards.</p>
+                        <p>SwiftStocKE provides inventory tracking, sales logging, and performance analytics tools. It is designed to emulate professional inventory management standards.</p>
                     </div>
 
                     <div className="terms-section">
@@ -44,7 +44,7 @@ export function Terms({ isAuthorized, setIsAuthorized }) {
 
                     <div className="terms-section">
                         <h2>5. Limitation of Liability</h2>
-                        <p>To the maximum extent permitted by law, SwiftStock and its creators shall not be held liable for any data loss, inventory discrepancies, or business interruptions arising from the use or inability to use this system.</p>
+                        <p>To the maximum extent permitted by law, SwiftStocKE and its creators shall not be held liable for any data loss, inventory discrepancies, or business interruptions arising from the use or inability to use this system.</p>
                     </div>
                 </div>
             </main>

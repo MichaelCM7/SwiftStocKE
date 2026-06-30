@@ -20,7 +20,7 @@ export function Cookies({ isAuthorized, setIsAuthorized }) {
 
                     <div className="cookies-section">
                         <p>
-                            This Cookie Policy explains how SwiftStock uses cookies, why they are
+                            This Cookie Policy explains how SwiftStocKE uses cookies, why they are
                             necessary, and how they help keep your account secure and the application
                             functioning properly.
                         </p>
@@ -39,7 +39,7 @@ export function Cookies({ isAuthorized, setIsAuthorized }) {
                     <div className="cookies-section">
                         <h2>2. Cookies We Use</h2>
                         <p>
-                            SwiftStock uses only essential cookies that are required for the application
+                            SwiftStocKE uses only essential cookies that are required for the application
                             to function correctly. These include:
                         </p>
 
@@ -62,7 +62,7 @@ export function Cookies({ isAuthorized, setIsAuthorized }) {
                         <h2>3. Cookies We Do Not Use</h2>
 
                         <p>
-                            SwiftStock respects your privacy and does not use cookies for advertising,
+                            SwiftStocKE respects your privacy and does not use cookies for advertising,
                             analytics, or tracking purposes.
                         </p>
 
@@ -81,7 +81,7 @@ export function Cookies({ isAuthorized, setIsAuthorized }) {
                         <h2>4. Cookie Duration</h2>
 
                         <p>
-                            SwiftStock uses session cookies only. These cookies are temporary and are
+                            SwiftStocKE uses session cookies only. These cookies are temporary and are
                             automatically removed when you sign out or close your browser.
                         </p>
 
@@ -95,14 +95,14 @@ export function Cookies({ isAuthorized, setIsAuthorized }) {
                         <h2>5. Managing Cookies</h2>
 
                         <p>
-                            Because SwiftStock relies only on essential cookies, they cannot be
+                            Because SwiftStocKE relies only on essential cookies, they cannot be
                             disabled within the application.
                         </p>
 
                         <p>
                             You may choose to disable cookies through your browser settings. However,
                             doing so may prevent you from signing in or using certain features of
-                            SwiftStock.
+                            SwiftStocKE.
                         </p>
                     </div>
 

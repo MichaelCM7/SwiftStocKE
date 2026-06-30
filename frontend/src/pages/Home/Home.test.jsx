@@ -26,7 +26,7 @@ describe('Home Page', () => {
     expect(screen.getByTestId('hero-title')).toHaveTextContent('Master Your Supply Chain');
     expect(screen.getByTestId('hero-subtitle')).toHaveTextContent('Because Precision Matters');
     expect(screen.getByTestId('get-started-btn')).toHaveTextContent('Get Started');
-    expect(screen.getByTestId('intro')).toHaveTextContent('What is SwiftStock?');
+    expect(screen.getByTestId('intro')).toHaveTextContent('What is SwiftStocKE?');
     expect(screen.getByTestId('feature-card')).toHaveTextContent('Real Time Monitoring');
     expect(screen.getByTestId('details-title')).toHaveTextContent('Track. Analyse. Replenish.');
     expect(screen.getByTestId('bottom-cta-title')).toHaveTextContent('Get Your Inventory on Point');

@@ -64,7 +64,7 @@ export async function signup(req, res, next) {
     console.log('OTP: ', otp);
     
     const mailOptions = {
-      from: 'SwiftStock@noreply.com',
+      from: 'SwiftStocKE@noreply.com',
       to: email,
       subject: "Account Verification",
       text: `Hello ${email},
@@ -223,7 +223,7 @@ export async function forgotPassword(req, res, next) {
     console.log('OTP: ', otp);
 
     const mailOptions = {
-      from: 'SwiftStock@noreply.com',
+      from: 'SwiftStocKE@noreply.com',
       to: email,
       subject: "Account Password Reset Verification",
       text: `Hello ${email},
@@ -463,7 +463,7 @@ export async function resendOTP(req, res, next) {
     console.log(`Resent OTP: ${otp}`);
 
     const mailOptions = {
-      from: 'SwiftStock@noreply.com',
+      from: 'SwiftStocKE@noreply.com',
       to: email,
       subject: "Account Password Reset Verification",
       text: `Hello ${email},

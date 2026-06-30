@@ -16,7 +16,7 @@ export function Header({ isAuthorized }) {
           src={logo}
           alt="logo"
         />
-        <span className="project-name">SwiftStock</span>
+        <span className="project-name">SwiftStocKE</span>
       </Link>
 
       {isAuthorized && (

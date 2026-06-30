@@ -8,7 +8,7 @@ export function Footer({ isAuthorized }) {
       <div className="footer-top">
         <Link to={isAuthorized ? "/Analytics" : "/"} className="footer-brand">
           <img className="logo-image" src={logo} alt="logo" />
-          <span className="footer-website-name">SwiftStock</span>
+          <span className="footer-website-name">SwiftStocKE</span>
         </Link>
         <div className="footer-links-container">
           <div className="footer-links-column">
@@ -35,7 +35,7 @@ export function Footer({ isAuthorized }) {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>© 2026 SwiftStock</p>
+        <p>© 2026 SwiftStocKE</p>
       </div>
     </footer>
   )

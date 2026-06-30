@@ -19,7 +19,7 @@ export function Privacy({ isAuthorized, setIsAuthorized }) {
                     <h1 className="privacy-title">Privacy Policy</h1>
 
                     <div className="privacy-section">
-                        <p>This Privacy Policy outlines how we collect, process, and protect your information when utilizing SwiftStock.</p>
+                        <p>This Privacy Policy outlines how we collect, process, and protect your information when utilizing SwiftStocKE.</p>
                     </div>
 
                     <div className="privacy-section">

@@ -31,9 +31,9 @@ export function Home({ isAuthorized, setIsAuthorized }) {
 
       {/* Intro Section */}
       <section className="home-intro-section">
-        <h2 className="section-title" data-testid="intro">What is SwiftStock?</h2>
+        <h2 className="section-title" data-testid="intro">What is SwiftStocKE?</h2>
         <p className="section-description">
-          Transform your daily operations with SwiftStock, a stock tracking system built specifically for the modern retailer. This platform empowers shop owners to move away from the guesswork of manual tracking that leads to capital wastage and business hindrances. By providing a centralised, web-based platform to monitor your goods, simplifies management and enhances your productivity, allowing you to focus on delivering better service to your customers. Experience the peace of mind that comes with total visibility over your stock
+          Transform your daily operations with SwiftStocKE, a stock tracking system built specifically for the modern retailer. This platform empowers shop owners to move away from the guesswork of manual tracking that leads to capital wastage and business hindrances. By providing a centralised, web-based platform to monitor your goods, simplifies management and enhances your productivity, allowing you to focus on delivering better service to your customers. Experience the peace of mind that comes with total visibility over your stock
         </p>
 
         {/* Feature Cards Grid */}
@@ -101,7 +101,7 @@ export function Home({ isAuthorized, setIsAuthorized }) {
 
       {/* How it Works Section */}
       <section className="home-how-it-works-section">
-        <h2 className="section-title">How SwiftStock Works</h2>
+        <h2 className="section-title">How SwiftStocKE Works</h2>
         <p className="section-subtitle-small">Experience Total Control in 3 Simple Steps</p>
 
         <div className="steps-container">
