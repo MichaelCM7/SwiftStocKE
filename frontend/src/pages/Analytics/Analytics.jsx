@@ -13,10 +13,10 @@ ChartJS.register(ArcElement, CategoryScale, LinearScale, PointElement, LineEleme
 
 function DynamicDonutChart({ products }) {
   // 1. Group items by their stock status from your database
-  const lowStockCount = products.filter(p => p.status === 'Low Stock').length;
-  const outOfStockCount = products.filter(p => p.status === 'Out of Stock').length;
-  const moderateStockCount = products.filter(p => p.status === 'Moderate Stock').length;
-  const goodStockCount = products.filter(p => p.status === 'Good Stock').length;
+  const lowStockCount = products.filter(product => product.status === 'Low Stock').length;
+  const outOfStockCount = products.filter(product => product.status === 'Out of Stock').length;
+  const moderateStockCount = products.filter(product => product.status === 'Moderate Stock').length;
+  const goodStockCount = products.filter(product => product.status === 'Good Stock').length;
 
   // 2. Wrap counts into the expected Chart.js structural object
   const chartData = {
