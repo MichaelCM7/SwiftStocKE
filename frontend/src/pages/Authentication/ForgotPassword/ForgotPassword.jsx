@@ -47,7 +47,7 @@ export function ForgotPassword({ isAuthorized, setIsAuthorized, setPurpose }) {
       <main className="forgotpassword-main-content">
         <div className="forgotpassword-form-card">
 
-          <h2 className="forgotpassword-title">Forgot Password</h2>
+          <h2 className="forgotpassword-title" data-testid="forgot-title">Forgot Password</h2>
 
           <form onSubmit={handleSubmit} className="forgotpassword-form">
             {error && <div className="alert-message error-message">{error}</div>}
@@ -60,13 +60,14 @@ export function ForgotPassword({ isAuthorized, setIsAuthorized, setPurpose }) {
                 type="email"
                 placeholder="Email"
                 value={email}
+                data-testid="forgot-email"
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isLoading}
               />
             </div>
 
-            <button type="submit" className="btn-forgot-submit" disabled={isLoading}>
+            <button type="submit" className="btn-forgot-submit" disabled={isLoading} data-testid="forgot-submit">
               {isLoading ? 'Sending Request...' : 'Send Password Reset Request'}
             </button>
 
