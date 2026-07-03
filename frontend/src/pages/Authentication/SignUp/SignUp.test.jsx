@@ -34,7 +34,6 @@ describe('Sign Up Page', () => {
   });
 
   it('allows typing and submitting the form', async () => {
-    const user = userEvent.setup();
     render(
       <MemoryRouter>
         <SignUp isAuthorized={true} setIsAuthorized={setIsAuthorized} setPurpose={setPurpose} />
