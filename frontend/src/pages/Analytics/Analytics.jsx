@@ -120,8 +120,6 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
   const graphValues = [];
   const graphLabels = [];
 
-  // const [loading, setLoading] = useState(true);
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const [startIndex, setStartIndex] = useState(itemsPerPage * (currentPage - 1));
@@ -145,17 +143,14 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
         const allProducts = data;
         setRawProducts(allProducts);
 
-        // High Demand: Sorted by salesCount descending
         const sortedHigh = [...allProducts]
           .sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0))
           .slice(0, 5);
 
-        // Low Demand: Sorted by salesCount ascending
         const sortedLow = [...allProducts]
           .sort((a, b) => (a.salesCount || 0) - (b.salesCount || 0))
           .slice(0, 5);
 
-        // Restocking Items: Filtered by low/out-of-stock statuses
         const needsRestock = allProducts.filter(
           (item) => item.status === 'Low Stock' || item.status === 'Out of Stock'
         );
@@ -166,16 +161,13 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
       }
     } catch (error) {
       console.error("Error communicating with data servers:", error);
-    } // finally {
-    //   setLoading(false);
-    // }
+    }
   }
 
   async function fetchLineChartData() {
     try {
       const response = await axios.get('/api/analytics/');
       const data = response.data.analytics[0].data;
-      console.log(data);
       setGraphData(data);
     } catch (error) {
       console.error("Error communicating with data servers:", error);
@@ -193,9 +185,6 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
     graphLabels.push(item.dateTime);
   });
 
-  // console.log(graphValues);
-  // console.log(graphLabels);
-
   const statusClass = {
     "Low Stock": "analytics-status-badge--low",
     "Out of Stock": "analytics-status-badge--out",
@@ -203,36 +192,26 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
     "Good Stock": "analytics-status-badge--good",
   };
 
-  // if (loading) {
-  //   return (
-  //     <div className="loading-container">
-  //       <span className="loader"></span>
-  //       <span>Loading insights...</span>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="analytics-page-container">
       <Header isAuthorized={isAuthorized} />
 
       <main className="analytics-main">
         <div className="analytics-page-title">
-          <h1 className="analytics-title">Analytics</h1>
+          <h1 className="analytics-title" data-testid="analytics-title">Analytics</h1>
         </div>
 
         {/* Charts Row */}
         <div className="analytics-charts-row">
           <div className="analytics-card">
-            <h2 className="analytics-card-title">Stock Distribution</h2>
+            <h2 className="analytics-card-title" data-testid="distribution-title">Stock Distribution</h2>
             <div className="analytics-chart-wrapper">
-              {/* SWAPPED: Passing our live product state into our new component */}
               <DynamicDonutChart products={rawProducts} />
             </div>
           </div>
 
           <div className="analytics-card">
-            <h2 className="analytics-card-title">Stock Levels</h2>
+            <h2 className="analytics-card-title" data-testid="levels-title">Stock Levels</h2>
             <div className="analytics-chart-wrapper analytics-chart-wrapper--line">
               <LineChart data={graphValues} labels={graphLabels} />
             </div>
@@ -242,7 +221,7 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
         {/* Demand Row */}
         <div className="analytics-demand-row">
           <div className="analytics-card">
-            <h2 className="analytics-card-title">High Demand Items</h2>
+            <h2 className="analytics-card-title" data-testid="high-demand-title">High Demand Items</h2>
             <ol className="analytics-demand-list">
               {highDemandGoods.map((item) => (
                 <li key={item._id}>
@@ -253,7 +232,7 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
           </div>
 
           <div className="analytics-card">
-            <h2 className="analytics-card-title">Low Demand Items</h2>
+            <h2 className="analytics-card-title" data-testid="low-demand-title">Low Demand Items</h2>
             <ol className="analytics-demand-list">
               {lowDemandGoods.map((item) => (
                 <li key={item._id}>
@@ -266,7 +245,7 @@ export function Analytics({ isAuthorized, setIsAuthorized }) {
 
         {/* Restocking Table */}
         <section className="analytics-restock-section">
-          <h2 className="analytics-restock-title">Items That Need Restocking</h2>
+          <h2 className="analytics-restock-title" data-testid="restock-title">Items That Need Restocking</h2>
 
           <div className="analytics-table-wrapper">
             <div className="table-responsive">
