@@ -52,9 +52,9 @@ export function Sales({ isAuthorized, setIsAuthorized }) {
       <main className="sales-main">
         <div className="sales-title-bar">
           <div className="sales-title-text">
-            <h1 className="sales-heading">Sales</h1>
+            <h1 className="sales-heading" data-testid="sales-title">Sales</h1>
           </div>
-          <Link to="/RecordNewSale" className="btn-record-sale">
+          <Link to="/RecordNewSale" className="btn-record-sale" data-testid="record-sale-btn">
             <FaPlus /> Record New Sale
           </Link>
         </div>
