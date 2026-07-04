@@ -50,7 +50,7 @@ export function History({ isAuthorized, setIsAuthorized }) {
       <main className="history-main">
         <div className="history-title-bar">
           <div className="history-title-text">
-            <h1 className="history-heading">History</h1>
+            <h1 className="history-heading" data-testid="history-title">History</h1>
           </div>
         </div>
 
