@@ -68,13 +68,13 @@ export function ManageStock({ isAuthorized, setIsAuthorized }) {
         <main className="manage-stock-main">
           <div className="manage-stock-title-bar">
             <div className="manage-stock-title-text">
-              <h1 className="manage-stock-heading">Manage Stock</h1>
+              <h1 className="manage-stock-heading" data-testid="stock-title">Manage Stock</h1>
             </div>
             <div className="manage-stock-actions">
-              <Link to="/Restock" className="btn-manage-stock-action">
+              <Link to="/Restock" className="btn-manage-stock-action" data-testid="restock-btn">
                 <ImLoop2 size={13} /> Restock
               </Link>
-              <Link to="/AddNewItem" className="btn-manage-stock-action">
+              <Link to="/AddNewItem" className="btn-manage-stock-action" data-testid="add-item-btn">
                 <FaPlus size={12} /> Add New Item
               </Link>
             </div>
