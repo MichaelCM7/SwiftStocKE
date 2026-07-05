@@ -30,7 +30,7 @@ export function History({ isAuthorized, setIsAuthorized }) {
     try {
       const response = await axios.get('/api/history/');
       const data = response.data.history;
-      console.log(data);
+      // console.log(data);
       setHistoryItems(data);
     } catch (error) {
       console.log(error);
