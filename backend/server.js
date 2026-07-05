@@ -19,6 +19,7 @@ import authorize from "./middlewares/authorization.middleware.js";
 import errorHandler from "./middlewares/error.middleware.js";
 // Deployment
 import path from 'path';
+import cors from 'cors';
 import { fileURLToPath } from 'url';
 
 const app = express();
@@ -27,6 +28,7 @@ const app = express();
 app.use(express.json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
 
 // API Routes
 app.use('/api/auth/', authRoutes);
