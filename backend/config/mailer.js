@@ -6,7 +6,7 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false, // use STARTTLS (upgrade connection to TLS after connecting)
   // In case of issues with nodemailer uncomment the line below
-  // family: 4, 
+  family: 4, 
   auth: {
     user: SMTP_USER,
     pass: SMTP_PASS,
