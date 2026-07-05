@@ -185,7 +185,7 @@ export async function getSalesByRetailerID(req, res, next) {
 
     const sales = await Sale.find({
       retailer: retailerID
-    });
+    }).sort({ createdAt: -1 });
 
     if (sales.length === 0) {
       const error = new Error("No Sales Found");

@@ -144,7 +144,9 @@ export async function getItemsByRetailerID(req, res, next) {
       throw error;
     }
 
-    const products = await Product.find({ retailer: retailerId });
+    const products = await Product.find({ 
+      retailer: retailerId 
+    }).sort({ createdAt: -1 });
 
     if (!products) {
       const error = new Error('No products found.');

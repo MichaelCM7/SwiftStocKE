@@ -10,7 +10,9 @@ export async function getHistoryByRetailerID(req, res, next) {
       throw error;
     }
 
-    const history = await History.find({retailer: retailerID});
+    const history = await History.find({
+      retailer: retailerID
+    }).sort({ createdAt: -1 });
 
     if (!history && history.length === 0) {
       const error = new Error("No Sales History Found");
