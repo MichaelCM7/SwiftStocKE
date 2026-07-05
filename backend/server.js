@@ -1,10 +1,10 @@
 import express from "express";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import { PORT } from "./config/env.js";
 // Database
 import connectDB from "./database/dbconnection.js";
 // Nodemailer
-import transporter from "./config/mailer.js";
+// import transporter from "./config/mailer.js";
 // External middlewares
 import cookieParser from "cookie-parser";
 import { urlencoded } from "express";
@@ -17,6 +17,9 @@ import analyticsRoutes from "./routes/analytics.routes.js";
 // API Middlewares
 import authorize from "./middlewares/authorization.middleware.js";
 import errorHandler from "./middlewares/error.middleware.js";
+// Deployment
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
 
@@ -35,6 +38,17 @@ app.use('/api/analytics/', authorize, analyticsRoutes);
 // API Middlewares
 app.use(errorHandler);
 
+// Deployment
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
+
+// Server Start
 app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
   await connectDB();
