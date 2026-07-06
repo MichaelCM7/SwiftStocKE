@@ -1,10 +1,13 @@
 import nodemailer from 'nodemailer';
+import dns from 'dns';
 // import {SMTP_USER, SMTP_PASS} from '../config/env.js'
+
+dns.setDefaultResultOrder('ipv4first');
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465, // 587 // 465
-  secure: true, // use STARTTLS (upgrade connection to TLS after connecting)
+  port: 587, // 587 // 465
+  secure: false, // use STARTTLS (upgrade connection to TLS after connecting)
   // In case of issues with nodemailer uncomment the line below
   family: 4, 
   auth: {
