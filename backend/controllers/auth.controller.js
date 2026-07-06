@@ -62,28 +62,6 @@ export async function signup(req, res, next) {
     const otp = otpGenerator();
 
     console.log('OTP: ', otp);
-    
-    const mailOptions = {
-      from: 'SwiftStocKE@noreply.com',
-      to: email,
-      subject: "Account Verification",
-      text: `Hello ${email},
-      Your verification code is: 
-      ${otp}
-      This code will expire in 10 minutes.
-      If you did not request this verification code, please ignore this email.
-      Thank you`,
-      html: `
-      <p>Hello ${email},</p>
-      <p>Your verification code is:</p>
-      <p><b>${otp}</b></p>
-      <p>This code will expire in 10 minutes.</p>
-      <p>If you did not request this verification code, please ignore this email.</p>
-      <p>Thank you</p>
-      `,
-    }
-    
-    await transporter.sendMail(mailOptions);
 
     const combinedKey = OTP_SECRET + otp;
     const otpToken = jwt.sign({email: email}, combinedKey, {expiresIn: OTP_EXPIRES_IN});
@@ -108,6 +86,28 @@ export async function signup(req, res, next) {
 
     await session.commitTransaction();
     await session.endSession();
+
+    const mailOptions = {
+      from: 'SwiftStocKE@noreply.com',
+      to: email,
+      subject: "Account Verification",
+      text: `Hello ${email},
+      Your verification code is: 
+      ${otp}
+      This code will expire in 10 minutes.
+      If you did not request this verification code, please ignore this email.
+      Thank you`,
+      html: `
+      <p>Hello ${email},</p>
+      <p>Your verification code is:</p>
+      <p><b>${otp}</b></p>
+      <p>This code will expire in 10 minutes.</p>
+      <p>If you did not request this verification code, please ignore this email.</p>
+      <p>Thank you</p>
+      `,
+    }
+    
+    await transporter.sendMail(mailOptions);
     
     res.status(200).json({
       success: true,
