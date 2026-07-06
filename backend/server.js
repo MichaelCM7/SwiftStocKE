@@ -1,5 +1,6 @@
 import express from "express";
 // import dayjs from "dayjs";
+import './config/env.js';
 import { PORT } from "./config/env.js";
 // Database
 import connectDB from "./database/dbconnection.js";
