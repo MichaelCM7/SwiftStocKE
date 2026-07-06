@@ -91,7 +91,7 @@ export async function signup(req, res, next) {
       from: 'SwiftStocKE@noreply.com',
       to: email,
       subject: "Account Verification",
-      text: `Hello ${email},
+      text: `Hello,
       Your verification code is: 
       ${otp}
       This code will expire in 10 minutes.
@@ -117,8 +117,18 @@ export async function signup(req, res, next) {
     });
 
   } catch (error) {
-    await session.abortTransaction();
-    await session.endSession();
+    try {
+      if (session.inTransaction()) {
+        await session.abortTransaction();
+      }
+    } catch (abortError) {
+      console.error("Could not abort transaction:", abortError.message);
+    } finally {
+      await session.endSession();
+    }
+
+    // await session.abortTransaction();
+    // await session.endSession();
     next(error);
   }
 }
