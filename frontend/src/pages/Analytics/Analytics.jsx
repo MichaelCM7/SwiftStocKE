@@ -12,19 +12,19 @@ import { Doughnut, Line } from 'react-chartjs-2';
 ChartJS.register(ArcElement, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 function DynamicDonutChart({ products }) {
-  // 1. Group items by their stock status from your database
+  // Group items by their stock status from your database
   const lowStockCount = products.filter(product => product.status === 'Low Stock').length;
   const outOfStockCount = products.filter(product => product.status === 'Out of Stock').length;
   const moderateStockCount = products.filter(product => product.status === 'Moderate Stock').length;
   const goodStockCount = products.filter(product => product.status === 'Good Stock').length;
 
-  // 2. Wrap counts into the expected Chart.js structural object
+  // Wrap counts into the Chart.js structural object
   const chartData = {
     labels: ['Good Stock', 'Moderate Stock', 'Low Stock', 'Out of Stock'],
     datasets: [
       {
         data: [goodStockCount, moderateStockCount, lowStockCount, outOfStockCount],
-        backgroundColor: ['#0eb94cff', '#ffa601ff', '#face86ff', '#ef4444'], // Custom alert colors
+        backgroundColor: ['#0eb94cff', '#ffa601ff', '#face86ff', '#ef4444'],
         borderWidth: 2,
       },
     ],
@@ -35,7 +35,7 @@ function DynamicDonutChart({ products }) {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'bottom', // Positions labels underneath the donut
+        position: 'bottom', // Put labels under donut
       },
     },
   };
@@ -53,27 +53,27 @@ function LineChart({ data, labels }) {
   );
 
   const chartData = {
-    labels: formattedLabels, // Uses the freshly formatted dates on X-axis
+    labels: formattedLabels, // Uses labels from API
     datasets: [
       {
         label: 'Total Stock',
-        data: data,           // Map your raw primitive numbers [682, 680] here
+        data: data,           // Map your raw numbers
         borderColor: '#2563eb',
         backgroundColor: '#2563eb',
         borderWidth: 2,
         pointRadius: 3,
         pointHoverRadius: 6,
-        tension: 0.15,        // Elegant, minimal curve
+        tension: 0.15,        // Adjusts curve
       },
     ],
   };
 
   const options = {
     responsive: true,
-    maintainAspectRatio: false, // Allows fill-to-fit inside .analytics-chart-wrapper
+    maintainAspectRatio: false, // Allows chart to fit in wrapper
     plugins: {
       legend: {
-        display: false,        // Hides generic dataset box for a cleaner dashboard look
+        display: false,        // Hides generic dataset box
       },
       tooltip: {
         mode: 'index',
@@ -83,7 +83,7 @@ function LineChart({ data, labels }) {
     scales: {
       x: {
         grid: {
-          display: false,      // Clean dashboard; no vertical bars
+          display: false,      // removes vertical bars
         },
         ticks: {
           color: '#94a3b8',
@@ -91,9 +91,9 @@ function LineChart({ data, labels }) {
         },
       },
       y: {
-        beginAtZero: false,    // Set to false if you want the chart to zoom in closer to fluctuations (e.g., between 680 and 682)
+        beginAtZero: false,    //zooms in closer to fluctuations
         grid: {
-          color: '#e2e8f0',    // Your standard subtle border divider style
+          color: '#e2e8f0',    // border divider style
         },
         ticks: {
           color: '#94a3b8',
